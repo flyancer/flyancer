@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResumeAI – Build Your AI-Friendly Resume</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0D0D0F;
+    --surface: #18181B;
+    --surface2: #1E1E23;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --accent: #7C6FF7;
+    --accent2: #A89DF9;
+    --text: #F4F3FF;
+    --muted: #8B8A9B;
+    --green: #22D3A5;
+    --font: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    border-bottom: 0.5px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 600; font-size: 17px; letter-spacing: -0.3px;
+  }
+  .logo-dot {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .header-badge {
+    font-size: 12px; padding: 4px 12px;
+    border: 0.5px solid var(--border2);
+    border-radius: 20px; color: var(--muted);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 1.2rem; font-weight: 500;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -1.5px; margin-bottom: 1.2rem;
+  }
+  .hero h1 span {
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem;
+  }
+  .steps {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted);
+  }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--surface2);
+    border: 0.5px solid var(--border2);
+    font-size: 11px; font-weight: 600; color: var(--accent2);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── CHAT CONTAINER ── */
+  .chat-wrap {
+    max-width: 720px;
+    margin: 0 auto 4rem;
+    width: 100%;
+    padding: 0 1.5rem;
+  }
+  .chat-box {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .chat-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .chat-status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted);
+  }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .chat-actions { display: flex; gap: 8px; }
+  .btn-sm {
+    font-size: 12px; padding: 5px 12px;
+    border: 0.5px solid var(--border2);
+    border-radius: 8px; background: transparent;
+    color: var(--muted); cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-sm:hover { background: var(--surface2); color: var(--text); }
+
+  /* Messages */
+  #messages {
+    min-height: 340px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scroll-behavior: smooth;
+  }
+  #messages::-webkit-scrollbar { width: 4px; }
+  #messages::-webkit-scrollbar-track { background: transparent; }
+  #messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+  .msg {
+    display: flex; gap: 10px; align-items: flex-start;
+    animation: fadeUp .2s ease;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .msg.user { flex-direction: row-reverse; }
+
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 13px; font-weight: 600;
+  }
+  .avatar.ai {
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    color: #fff;
+  }
+  .avatar.user { background: var(--surface2); color: var(--muted); font-size: 11px; }
+
+  .bubble {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px; line-height: 1.65;
+  }
+  .msg.ai .bubble {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    color: var(--text); border-top-left-radius: 4px;
+  }
+  .msg.user .bubble {
+    background: var(--accent);
+    color: #fff; border-top-right-radius: 4px;
+  }
+
+  /* Typing indicator */
+  .typing .bubble { padding: 12px 16px; }
+  .typing-dots { display: flex; gap: 4px; }
+  .typing-dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted);
+    animation: bounce 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: .2s; }
+  .typing-dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+  /* Input area */
+  .input-area {
+    padding: 0.85rem 1rem;
+    border-top: 0.5px solid var(--border);
+    display: flex; gap: 8px; align-items: flex-end;
+  }
+  #userInput {
+    flex: 1;
+    background: var(--surface2);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: var(--font);
+    padding: 10px 14px;
+    resize: none;
+    min-height: 42px;
+    max-height: 120px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  #userInput:focus { border-color: var(--accent); }
+  #userInput::placeholder { color: var(--muted); }
+  #sendBtn {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--accent);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s; flex-shrink: 0;
+  }
+  #sendBtn:hover { background: var(--accent2); }
+  #sendBtn:disabled { opacity: 0.4; cursor: default; }
+  #sendBtn svg { width: 16px; height: 16px; fill: #fff; }
+
+  /* Quick replies */
+  #quickReplies {
+    padding: 0 1rem 0.85rem;
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .qr {
+    font-size: 12px; padding: 5px 12px;
+    border: 0.5px solid var(--border2);
+    border-radius: 20px; background: transparent;
+    color: var(--muted); cursor: pointer;
+    transition: all .15s; white-space: nowrap;
+  }
+  .qr:hover { border-color: var(--accent); color: var(--accent2); }
+
+  /* ── RESUME PREVIEW ── */
+  #resumeSection {
+    display: none;
+    max-width: 720px; margin: 0 auto 4rem;
+    padding: 0 1.5rem; width: 100%;
+  }
+  .resume-header-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .resume-header-bar h2 { font-size: 16px; font-weight: 500; }
+  .btn-primary {
+    font-size: 13px; padding: 8px 18px;
+    background: var(--accent); border: none;
+    border-radius: 8px; color: #fff;
+    cursor: pointer; font-family: var(--font);
+    transition: all .15s;
+  }
+  .btn-primary:hover { background: var(--accent2); }
+
+  #resumeCard {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    color: #1a1a2e;
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+    position: relative;
+  }
+  #resumeCard .r-name { font-size: 26px; font-weight: 700; color: #0d0d1a; margin-bottom: 4px; }
+  #resumeCard .r-contact { font-size: 12px; color: #5a5a7a; margin-bottom: 1.5rem; font-family: sans-serif; }
+  #resumeCard .r-section { margin-bottom: 1.4rem; }
+  #resumeCard .r-section-title {
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #7C6FF7; font-family: sans-serif; font-weight: 600;
+    margin-bottom: 0.5rem; padding-bottom: 4px;
+    border-bottom: 1.5px solid #ededf8;
+  }
+  #resumeCard .r-entry { margin-bottom: 0.75rem; }
+  #resumeCard .r-entry-title { font-weight: 600; font-size: 15px; color: #1a1a2e; }
+  #resumeCard .r-entry-sub { font-size: 12px; color: #888; font-family: sans-serif; margin-bottom: 3px; }
+  #resumeCard ul { padding-left: 1.2rem; font-size: 14px; color: #333; }
+  #resumeCard ul li { margin-bottom: 3px; }
+  #resumeCard .r-skills { display: flex; flex-wrap: wrap; gap: 6px; }
+  #resumeCard .r-skill {
+    font-size: 12px; padding: 3px 10px;
+    background: #f0effe; border-radius: 20px;
+    color: #5040c0; font-family: sans-serif;
+  }
+  #resumeCard .r-summary { font-size: 14px; color: #444; font-style: italic; }
+
+  /* Footer */
+  footer {
+    margin-top: auto;
+    border-top: 0.5px solid var(--border);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px; color: var(--muted);
+  }
+
+  /* ATS Banner */
+  .ats-banner {
+    margin-bottom: 1.5rem;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: rgba(34,211,165,0.08);
+    border: 0.5px solid rgba(34,211,165,0.25);
+    font-size: 13px; color: var(--green);
+    display: flex; align-items: center; gap: 8px;
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot">✦</div>
+    ResumeAI
+  </div>
+  <div class="header-badge">AI-Powered · Free</div>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Trusted by job seekers</div>
+  <h1>Your resume, built by <span>AI in minutes</span></h1>
+  <p>Just chat naturally. Tell our AI about your skills, education, and experience — it builds you an ATS-optimized, AI-friendly resume instantly.</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div> Chat with AI</div>
+    <div class="step" style="color:var(--border2)">—</div>
+    <div class="step"><div class="step-num">2</div> Share your details</div>
+    <div class="step" style="color:var(--border2)">—</div>
+    <div class="step"><div class="step-num">3</div> Download resume</div>
+  </div>
+</section>
+
+<div class="chat-wrap">
+  <div class="chat-box">
+    <div class="chat-header">
+      <div class="chat-status">
+        <div class="status-dot"></div>
+        ResumeAI Assistant
+      </div>
+      <div class="chat-actions">
+        <button class="btn-sm" onclick="resetChat()">Start over</button>
+      </div>
+    </div>
+
+    <div id="messages"></div>
+
+    <div id="quickReplies"></div>
+
+    <div class="input-area">
+      <textarea id="userInput" placeholder="Type your message…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button id="sendBtn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="resumeSection">
+  <div class="resume-header-bar">
+    <h2>Your resume is ready ✦</h2>
+    <button class="btn-primary" onclick="downloadResume()">Download PDF</button>
+  </div>
+  <div class="ats-banner">
+    ✓ ATS-optimized · keyword-rich · clean formatting · no tables or images
+  </div>
+  <div id="resumeCard"></div>
+</div>
+
+<footer>
+  Built with Claude AI · © 2025 ResumeAI · Your data stays in your browser
+</footer>
+
+<script>
+const SYSTEM_PROMPT = `You are ResumeAI, a friendly, conversational resume-building assistant. Your job is to help users build an ATS-optimized, AI-friendly resume by chatting with them.
+
+CONVERSATION FLOW — follow this order:
+1. Greet warmly, ask for their full name.
+2. Ask for their current role or the role they're targeting.
+3. Ask for their email and phone (optional).
+4. Ask for education: college/university name, degree, graduation year.
+5. Ask for work experience: company, title, duration, key responsibilities (do one job at a time; ask if they have more).
+6. Ask for skills (technical + soft).
+7. Ask for any achievements, certifications, or projects they want highlighted.
+8. Once you have enough info (at least name + one of: education or experience + skills), say you're ready to generate the resume.
+
+RULES:
+- Ask ONE thing at a time. Keep messages short and conversational (2-3 sentences max).
+- Be encouraging and positive.
+- When you have enough data, end your message with the exact trigger: [GENERATE_RESUME]
+- Never ask for data you already have.
+- If user says they're done or ready, generate immediately.
+
+RESUME GENERATION:
+When you respond with [GENERATE_RESUME], also include a JSON block like this at the end:
+<RESUME_DATA>
+{
+  "name": "Full Name",
+  "title": "Target Job Title",
+  "contact": "email@example.com | +91 9876543210",
+  "summary": "2-3 sentence professional summary optimized for ATS",
+  "education": [{"degree": "B.Tech Computer Science", "school": "IIT Delhi", "year": "2022"}],
+  "experience": [{"title": "Software Engineer", "company": "TCS", "duration": "2022–2024", "bullets": ["Led team of 5 to build...", "Reduced load time by 40%..."]}],
+  "skills": ["Python", "React", "SQL", "Team Leadership"],
+  "certifications": ["AWS Certified Solutions Architect", "Google Data Analytics"]
+}
+</RESUME_DATA>
+
+Make the summary and bullet points ATS-friendly: use action verbs, include metrics where possible, and include relevant keywords.`;
+
+let conversation = [];
+let isTyping = false;
+let resumeData = null;
+
+function addMessage(role, text, isTypingIndicator = false) {
+  const messages = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role === 'user' ? 'user' : 'ai'}${isTypingIndicator ? ' typing' : ''}`;
+  if (isTypingIndicator) div.id = 'typingMsg';
+
+  const avatar = document.createElement('div');
+  avatar.className = `avatar ${role === 'user' ? 'user' : 'ai'}`;
+  avatar.textContent = role === 'user' ? 'YOU' : '✦';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+
+  if (isTypingIndicator) {
+    bubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  } else {
+    bubble.innerHTML = text.replace(/\n/g, '<br>');
+  }
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+  return div;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingMsg');
+  if (t) t.remove();
+}
+
+function setQuickReplies(replies) {
+  const qr = document.getElementById('quickReplies');
+  qr.innerHTML = '';
+  replies.forEach(r => {
+    const btn = document.createElement('button');
+    btn.className = 'qr';
+    btn.textContent = r;
+    btn.onclick = () => {
+      document.getElementById('userInput').value = r;
+      sendMessage();
+    };
+    qr.appendChild(btn);
+  });
+}
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text || isTyping) return;
+
+  input.value = '';
+  input.style.height = '';
+  document.getElementById('quickReplies').innerHTML = '';
+  addMessage('user', text);
+  conversation.push({ role: 'user', content: text });
+
+  isTyping = true;
+  document.getElementById('sendBtn').disabled = true;
+  addMessage('ai', '', true);
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: conversation
+      })
+    });
+
+    const data = await response.json();
+    const aiText = data.content?.[0]?.text || 'Sorry, something went wrong. Please try again.';
+    removeTyping();
+
+    let displayText = aiText;
+    let parsed = null;
+
+    if (aiText.includes('<RESUME_DATA>')) {
+      const jsonMatch = aiText.match(/<RESUME_DATA>([\s\S]*?)<\/RESUME_DATA>/);
+      if (jsonMatch) {
+        try { parsed = JSON.parse(jsonMatch[1].trim()); } catch(e) {}
+      }
+      displayText = aiText.split('[GENERATE_RESUME]')[0]
+        .replace(/<RESUME_DATA>[\s\S]*?<\/RESUME_DATA>/, '')
+        .replace('[GENERATE_RESUME]', '')
+        .trim();
+    } else if (aiText.includes('[GENERATE_RESUME]')) {
+      displayText = aiText.replace('[GENERATE_RESUME]', '').trim();
+    }
+
+    addMessage('ai', displayText || "Great! Let me build your resume now...");
+    conversation.push({ role: 'assistant', content: aiText });
+
+    if (parsed) {
+      resumeData = parsed;
+      setTimeout(() => renderResume(parsed), 400);
+    }
+
+    // Smart quick replies
+    const lower = aiText.toLowerCase();
+    if (lower.includes('name')) setQuickReplies(['Skip']);
+    else if (lower.includes('experience') && lower.includes('more')) setQuickReplies(['Yes, add more', 'No, I\'m done']);
+    else if (lower.includes('certif') || lower.includes('project')) setQuickReplies(['None', 'I\'m ready to generate']);
+    else if (lower.includes('skill')) setQuickReplies(['I\'m ready to generate']);
+
+  } catch(e) {
+    removeTyping();
+    addMessage('ai', 'There was a connection issue. Please check your internet and try again.');
+  }
+
+  isTyping = false;
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('userInput').focus();
+}
+
+function renderResume(d) {
+  const card = document.getElementById('resumeCard');
+  const section = document.getElementById('resumeSection');
+
+  const expHtml = (d.experience || []).map(e => `
+    <div class="r-entry">
+      <div class="r-entry-title">${e.title}</div>
+      <div class="r-entry-sub">${e.company} · ${e.duration || ''}</div>
+      <ul>${(e.bullets || []).map(b => `<li>${b}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+
+  const eduHtml = (d.education || []).map(e => `
+    <div class="r-entry">
+      <div class="r-entry-title">${e.degree}</div>
+      <div class="r-entry-sub">${e.school} · ${e.year || ''}</div>
+    </div>
+  `).join('');
+
+  const certHtml = d.certifications?.length ? `
+    <div class="r-section">
+      <div class="r-section-title">Certifications</div>
+      <ul>${d.certifications.map(c => `<li>${c}</li>`).join('')}</ul>
+    </div>
+  ` : '';
+
+  card.innerHTML = `
+    <div class="r-name">${d.name || 'Your Name'}</div>
+    <div class="r-contact">${d.title || ''} · ${d.contact || ''}</div>
+    ${d.summary ? `<div class="r-section"><div class="r-section-title">Summary</div><div class="r-summary">${d.summary}</div></div>` : ''}
+    ${d.experience?.length ? `<div class="r-section"><div class="r-section-title">Experience</div>${expHtml}</div>` : ''}
+    ${d.education?.length ? `<div class="r-section"><div class="r-section-title">Education</div>${eduHtml}</div>` : ''}
+    ${d.skills?.length ? `<div class="r-section"><div class="r-section-title">Skills</div><div class="r-skills">${d.skills.map(s => `<span class="r-skill">${s}</span>`).join('')}</div></div>` : ''}
+    ${certHtml}
+  `;
+
+  section.style.display = 'block';
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function downloadResume() {
+  if (!resumeData) return;
+  const d = resumeData;
+
+  const expText = (d.experience || []).map(e =>
+    `${e.title} | ${e.company} | ${e.duration || ''}\n${(e.bullets || []).map(b => `  • ${b}`).join('\n')}`
+  ).join('\n\n');
+
+  const eduText = (d.education || []).map(e => `${e.degree} | ${e.school} | ${e.year || ''}`).join('\n');
+  const certText = (d.certifications || []).join('\n');
+  const skillText = (d.skills || []).join(', ');
+
+  const text = [
+    d.name?.toUpperCase() || '',
+    d.title || '',
+    d.contact || '',
+    '',
+    d.summary ? `SUMMARY\n${d.summary}` : '',
+    expText ? `EXPERIENCE\n${expText}` : '',
+    eduText ? `EDUCATION\n${eduText}` : '',
+    skillText ? `SKILLS\n${skillText}` : '',
+    certText ? `CERTIFICATIONS\n${certText}` : ''
+  ].filter(Boolean).join('\n\n');
+
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${(d.name || 'resume').replace(/\s+/g, '_')}_resume.txt`;
+  a.click();
+
+  addMessage('ai', 'Your resume has been downloaded! ✦\n\nFor the best results, copy the text into Google Docs or Word and format it. ATS scanners prefer clean text — no photos or fancy tables.');
+}
+
+function resetChat() {
+  conversation = [];
+  resumeData = null;
+  document.getElementById('messages').innerHTML = '';
+  document.getElementById('quickReplies').innerHTML = '';
+  document.getElementById('resumeSection').style.display = 'none';
+  init();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+async function init() {
+  isTyping = true;
+  document.getElementById('sendBtn').disabled = true;
+  addMessage('ai', '', true);
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 200,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: 'Start the resume building process.' }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content?.[0]?.text || 'Hi! I\'m ResumeAI. Let\'s build your resume. What\'s your full name?';
+    removeTyping();
+    addMessage('ai', text);
+    conversation.push({ role: 'user', content: 'Start the resume building process.' });
+    conversation.push({ role: 'assistant', content: text });
+  } catch(e) {
+    removeTyping();
+    addMessage('ai', 'Hi! I\'m ResumeAI 👋 I\'ll help you create an ATS-friendly resume in just a few minutes. Let\'s start — what\'s your full name?');
+  }
+
+  isTyping = false;
+  document.getElementById('sendBtn').disabled = false;
+}
+
+init();
+</script>
+</body>
+</html>
