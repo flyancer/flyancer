@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flyancer – Jobs AI Platform</title>
+  <meta name="description" content="Flyancer is the AI platform that helps anyone land a job in seconds. Resume builder, upgrade tool, and FitScore™ — coming soon." />
+  <meta property="og:title" content="Flyancer – Jobs AI Platform" />
+  <meta property="og:description" content="AI-powered resume builder that works in seconds. Helping job seekers, refugees, students and everyone find their next opportunity." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <img src="assets/logo-transparent.png" alt="Flyancer" class="logo-img">
+        <span class="logo-text">Flyancer</span>
+      </a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#for-good">For Good</a>
+        <a href="#waitlist" class="btn-nav">Get Early Access</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="container hero-grid">
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Coming Soon · Be the First to Know
+        </div>
+        <h1 class="hero-headline">
+          Land your next job<br/>
+          <span class="gradient-text">in seconds, not weeks.</span>
+        </h1>
+        <p class="hero-sub">
+          Flyancer is the AI jobs platform that builds your perfect resume, upgrades what you have,
+          and scores you against any job description — instantly. No fluff. Just results.
+        </p>
+        <div class="hero-timer">
+          <div class="timer-label">Traditional resume writing</div>
+          <div class="timer-vs">
+            <div class="timer-block timer-slow">
+              <span class="timer-num">3–4</span>
+              <span class="timer-unit">hours</span>
+            </div>
+            <div class="timer-arrow">→</div>
+            <div class="timer-block timer-fast">
+              <span class="timer-num" id="secCounter">0</span>
+              <span class="timer-unit">seconds</span>
+              <span class="timer-tag">with Flyancer</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-cta">
+          <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
+          <a href="#services" class="btn-ghost">See What's Coming →</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong>3</strong> AI-powered tools</div>
+          <div class="stat-div"></div>
+          <div class="stat"><strong>4</strong> communities we serve</div>
+          <div class="stat-div"></div>
+          <div class="stat"><strong>1</strong> mission: get you hired</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <img src="assets/ai-hand-sphere.svg" alt="AI illustration of a circuit-patterned hand reaching toward a glowing orbiting data sphere" class="hand-sphere-img" />
+        <div class="visual-caption">
+          <span class="vc-dot"></span>
+          AI analyzing 1,000+ resumes per minute
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-eyebrow">What Flyancer Does</div>
+      <h2 class="section-title">Three tools. One mission.</h2>
+      <p class="section-sub">Everything a job seeker needs — from zero to interview-ready — powered by AI.</p>
+
+      <div class="services-grid">
+
+        <!-- Service 1: Resume Builder -->
+        <div class="service-card service-card--primary">
+          <div class="sc-icon">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="56" height="56" rx="16" fill="url(#g1)"/>
+              <path d="M18 16h20v4H18zM18 23h12v3H18zM18 30h20v3H18zM18 37h8v3H18z" fill="white" opacity="0.9"/>
+              <circle cx="42" cy="40" r="8" fill="#F59E0B"/>
+              <path d="M39 40l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#2563FF"/>
+                  <stop offset="1" stop-color="#7C3AED"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="sc-coming">Coming Soon</div>
+          <h3 class="sc-title">AI Resume Builder</h3>
+          <p class="sc-desc">Chat with our AI, share your background, and get a polished, ATS-friendly resume in under 30 seconds. No templates, no guesswork — tailored to you.</p>
+          <ul class="sc-features">
+            <li>Conversational chatbot collects your info</li>
+            <li>ATS-optimized with action verbs + keywords</li>
+            <li>Download-ready in seconds</li>
+          </ul>
+          <div class="sc-badge">⚡ Built in &lt;30 seconds</div>
+        </div>
+
+        <!-- Service 2: Resume Upgrade -->
+        <div class="service-card">
+          <div class="sc-icon">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="56" height="56" rx="16" fill="url(#g2)"/>
+              <path d="M28 38V20M21 27l7-7 7 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M19 40h18" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+              <defs>
+                <linearGradient id="g2" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#0EA5E9"/>
+                  <stop offset="1" stop-color="#2563FF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="sc-coming">Coming Soon</div>
+          <h3 class="sc-title">Resume Upgrade</h3>
+          <p class="sc-desc">Already have a resume? Upload it and our AI rewrites, strengthens, and modernizes every section — turning an average CV into an interview magnet.</p>
+          <ul class="sc-features">
+            <li>Upload PDF or paste text</li>
+            <li>AI rewrites weak bullet points</li>
+            <li>Adds missing keywords for your industry</li>
+          </ul>
+          <div class="sc-badge">📈 Stronger in seconds</div>
+        </div>
+
+        <!-- Service 3: FitScore -->
+        <div class="service-card">
+          <div class="sc-icon">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="56" height="56" rx="16" fill="url(#g3)"/>
+              <circle cx="28" cy="28" r="12" stroke="white" stroke-width="2" opacity="0.3"/>
+              <path d="M28 28 L28 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="28" cy="28" r="3" fill="white"/>
+              <path d="M18 38 Q28 12 38 38" stroke="#F59E0B" stroke-width="2" fill="none"/>
+              <defs>
+                <linearGradient id="g3" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#059669"/>
+                  <stop offset="1" stop-color="#0EA5E9"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="sc-coming">Coming Soon</div>
+          <h3 class="sc-title">FitScore™</h3>
+          <p class="sc-desc">Paste any job description, upload your resume, and FitScore™ tells you exactly how well you match — with a score, gap analysis, and tips to improve before you apply.</p>
+          <ul class="sc-features">
+            <li>Match score out of 100</li>
+            <li>Keyword gap analysis</li>
+            <li>Actionable tips to close the gap</li>
+          </ul>
+          <div class="sc-badge">🎯 Know before you apply</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR GOOD -->
+  <section class="for-good" id="for-good">
+    <div class="container">
+      <div class="section-eyebrow" style="color:#F59E0B">Flyancer for Good</div>
+      <h2 class="section-title">Jobs belong to everyone.</h2>
+      <p class="section-sub">
+        We believe the job market should work for every person — regardless of background, ability, or circumstance.
+        Flyancer is built to serve the communities that traditional hiring ignores.
+      </p>
+
+      <div class="good-grid">
+
+        <div class="good-card">
+          <div class="good-illustration">
+            <!-- Person with special needs / accessibility -->
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#1E2A4A"/>
+              <!-- wheelchair user -->
+              <circle cx="60" cy="30" r="10" fill="#93C5FD"/>
+              <path d="M60 40 Q55 55 50 65" stroke="#93C5FD" stroke-width="3" stroke-linecap="round"/>
+              <path d="M50 65 Q48 72 52 75" stroke="#93C5FD" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="52" cy="80" r="8" stroke="#60A5FA" stroke-width="2" fill="none"/>
+              <circle cx="70" cy="80" r="8" stroke="#60A5FA" stroke-width="2" fill="none"/>
+              <path d="M60 65 L72 72 L70 80" stroke="#93C5FD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- star/opportunity -->
+              <path d="M88 28 l2 5 5 0 -4 3 2 5 -5-3-5 3 2-5-4-3 5 0z" fill="#F59E0B"/>
+            </svg>
+          </div>
+          <div class="good-tag">Accessibility</div>
+          <h3>People with Special Needs</h3>
+          <p>Flyancer removes barriers in the job application process. Our AI advocates for your skills first — helping people with disabilities present their best professional self with zero friction.</p>
+        </div>
+
+        <div class="good-card">
+          <div class="good-illustration">
+            <!-- Refugee / new country -->
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#1A2A1A"/>
+              <!-- globe -->
+              <circle cx="60" cy="62" r="28" stroke="#4ADE80" stroke-width="1.5" fill="none" opacity="0.4"/>
+              <ellipse cx="60" cy="62" rx="12" ry="28" stroke="#4ADE80" stroke-width="1.5" fill="none" opacity="0.4"/>
+              <path d="M32 62 h56" stroke="#4ADE80" stroke-width="1.5" opacity="0.4"/>
+              <!-- person -->
+              <circle cx="60" cy="30" r="9" fill="#86EFAC"/>
+              <path d="M51 44 Q60 52 69 44" stroke="#86EFAC" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <!-- path/journey arrow -->
+              <path d="M38 75 Q55 68 75 75" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3 2" stroke-linecap="round"/>
+              <path d="M72 72 l3 3 -3 3" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="good-tag">New Beginnings</div>
+          <h3>Refugees & Newcomers</h3>
+          <p>Starting over in a new country is hard. Flyancer understands international experience, translates it for local job markets, and helps newcomers communicate their value — in the language employers understand.</p>
+        </div>
+
+        <div class="good-card">
+          <div class="good-illustration">
+            <!-- Long-term unemployed -->
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#1A1A2E"/>
+              <!-- calendar / time -->
+              <rect x="30" y="38" width="40" height="35" rx="5" stroke="#A78BFA" stroke-width="1.5" fill="none" opacity="0.5"/>
+              <path d="M30 48 h40" stroke="#A78BFA" stroke-width="1.5" opacity="0.5"/>
+              <path d="M43 35 v8 M57 35 v8" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+              <!-- X marks then checkmark -->
+              <path d="M40 57 l4 4 M44 57 l-4 4" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M52 57 l4 4 M56 57 l-4 4" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M62 59 l2 2 4-4" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- rising arrow -->
+              <path d="M35 85 Q50 72 85 60" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+              <path d="M82 57 l3 3 -3 3" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="good-tag">Second Chances</div>
+          <h3>Long-time Unemployed</h3>
+          <p>Gap years shouldn't define you. Flyancer reframes your experience, highlights transferable skills, and gives confidence back to those who've been out of the market — turning a difficult history into a compelling story.</p>
+        </div>
+
+        <div class="good-card">
+          <div class="good-illustration">
+            <!-- Student -->
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="60" fill="#1A1610"/>
+              <!-- graduation cap -->
+              <polygon points="60,28 85,40 60,52 35,40" fill="#FCD34D" opacity="0.85"/>
+              <rect x="75" y="40" width="3" height="16" rx="1.5" fill="#FCD34D" opacity="0.6"/>
+              <circle cx="76.5" cy="57" r="3" fill="#F59E0B"/>
+              <!-- document/resume -->
+              <rect x="42" y="58" width="26" height="34" rx="4" fill="#1F2937" stroke="#FCD34D" stroke-width="1.5"/>
+              <path d="M48 66 h14 M48 72 h10 M48 78 h14 M48 84 h8" stroke="#FCD34D" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+              <!-- sparkle -->
+              <path d="M80 62 l1.5 3.5 3.5 1.5 -3.5 1.5 -1.5 3.5 -1.5-3.5-3.5-1.5 3.5-1.5z" fill="#F59E0B"/>
+            </svg>
+          </div>
+          <div class="good-tag">First Steps</div>
+          <h3>Students & Graduates</h3>
+          <p>No experience? No problem. Flyancer turns coursework, projects, and internships into a professional resume that competes with candidates twice your age. Your career starts here.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY FLYANCER (Time is the Key) -->
+  <section class="why">
+    <div class="container">
+      <div class="why-inner">
+        <div class="why-text">
+          <div class="section-eyebrow">Our Edge</div>
+          <h2 class="section-title">Time is the only thing<br/>that matters.</h2>
+          <p>Every second a job posting is live, hundreds of resumes flood in. The ones that make it past the ATS get reviewed in under 10 seconds. Speed isn't a feature — it's survival.</p>
+          <p style="margin-top:1rem">Flyancer was built around one idea: the faster you can get the right resume to the right employer, the better your odds. We've eliminated every bottleneck between "I need a job" and "I'm interview-ready."</p>
+          <div class="why-stats">
+            <div class="why-stat">
+              <span class="why-num">&lt;30s</span>
+              <span class="why-label">Resume from scratch</span>
+            </div>
+            <div class="why-stat">
+              <span class="why-num">&lt;60s</span>
+              <span class="why-label">Resume upgrade</span>
+            </div>
+            <div class="why-stat">
+              <span class="why-num">&lt;10s</span>
+              <span class="why-label">FitScore™ analysis</span>
+            </div>
+          </div>
+        </div>
+        <div class="why-visual">
+          <div class="comparison-card">
+            <div class="comp-row comp-row--before">
+              <div class="comp-label">Before Flyancer</div>
+              <div class="comp-steps">
+                <div class="comp-step comp-step--bad">Open Word ⏱ 2min</div>
+                <div class="comp-step comp-step--bad">Draft content ⏱ 90min</div>
+                <div class="comp-step comp-step--bad">Format resume ⏱ 45min</div>
+                <div class="comp-step comp-step--bad">ATS check ⏱ 30min</div>
+                <div class="comp-total comp-total--bad">Total: ~3 hours</div>
+              </div>
+            </div>
+            <div class="comp-divider">→</div>
+            <div class="comp-row comp-row--after">
+              <div class="comp-label">With Flyancer</div>
+              <div class="comp-steps">
+                <div class="comp-step comp-step--good">Chat with AI ⚡ 20s</div>
+                <div class="comp-step comp-step--good">Resume generated ⚡ 8s</div>
+                <div class="comp-step comp-step--good">ATS optimized ⚡ instant</div>
+                <div class="comp-step comp-step--good">Download ready ⚡ 2s</div>
+                <div class="comp-total comp-total--good">Total: &lt;30 seconds</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section class="waitlist" id="waitlist">
+    <div class="waitlist-bg">
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="container waitlist-inner">
+      <div class="wl-badge">🚀 Launching Soon</div>
+      <h2>Be the first to use Flyancer.</h2>
+      <p>Join hundreds of job seekers already on the waitlist. Get early access, founding member pricing, and first dibs when we go live.</p>
+      <form class="wl-form" onsubmit="handleWaitlist(event)">
+        <input type="text" placeholder="Your full name" id="wlName" required />
+        <input type="email" placeholder="Your email address" id="wlEmail" required />
+        <button type="submit" class="btn-primary">Reserve My Spot →</button>
+      </form>
+      <div class="wl-success" id="wlSuccess">
+        ✦ You're on the list! We'll be in touch very soon.
+      </div>
+      <div class="wl-trust">
+        <span>🔒 No spam, ever.</span>
+        <span>📧 Early access notification only.</span>
+        <span>🎁 Founding member perks.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="assets/logo-transparent.png" alt="Flyancer" class="logo-img">
+          <span class="logo-text">Flyancer</span>
+        </div>
+        <p>Jobs AI Platform · Making hiring human again, at AI speed.</p>
+      </div>
+      <div class="footer-links">
+        <div class="fl-col">
+          <div class="fl-head">Platform</div>
+          <a href="#services">AI Resume Builder</a>
+          <a href="#services">Resume Upgrade</a>
+          <a href="#services">FitScore™</a>
+        </div>
+        <div class="fl-col">
+          <div class="fl-head">Company</div>
+          <a href="#for-good">Flyancer for Good</a>
+          <a href="#waitlist">Join Waitlist</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Flyancer. All rights reserved.</span>
+      <span>Built with ♥ for every job seeker on Earth.</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
