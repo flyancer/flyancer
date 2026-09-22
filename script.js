@@ -68,11 +68,13 @@ function handleWaitlist(e) {
   e.preventDefault();
   const name = document.getElementById('wlName').value.trim();
   const email = document.getElementById('wlEmail').value.trim();
+  const roleEl = document.getElementById('wlRole');
+  const role = roleEl ? roleEl.value : '';
   if (!name || !email) return;
 
   // Store locally (in real deployment, send to backend / Airtable / Mailchimp)
   const waitlist = JSON.parse(localStorage.getItem('flyancer_waitlist') || '[]');
-  waitlist.push({ name, email, ts: new Date().toISOString() });
+  waitlist.push({ name, email, role, ts: new Date().toISOString() });
   localStorage.setItem('flyancer_waitlist', JSON.stringify(waitlist));
 
   document.querySelector('.wl-form').style.display = 'none';
