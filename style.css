@@ -7,6 +7,8 @@
 :root {
   --bg:       #060B18;
   --bg2:      #0D1525;
+  --bg-t:     rgba(6,11,24,0.86);
+  --bg2-t:    rgba(13,21,37,0.86);
   --surface:  #111827;
   --surface2: #1E2A40;
   --border:   rgba(255,255,255,0.08);
@@ -329,7 +331,7 @@ strong { font-weight: 600; }
 
 .services {
   padding: 6rem 0;
-  background: var(--bg2);
+  background: var(--bg2-t);
 }
 .services-grid {
   display: grid;
@@ -389,7 +391,7 @@ strong { font-weight: 600; }
 /* ── FOR GOOD ── */
 .for-good {
   padding: 6rem 0;
-  background: var(--bg);
+  background: var(--bg-t);
 }
 .good-grid {
   display: grid;
@@ -430,7 +432,7 @@ strong { font-weight: 600; }
 /* ── WHY ── */
 .why {
   padding: 6rem 0;
-  background: var(--bg2);
+  background: var(--bg2-t);
 }
 .why-inner {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -485,7 +487,7 @@ strong { font-weight: 600; }
 .waitlist {
   position: relative;
   padding: 7rem 0;
-  background: var(--bg);
+  background: var(--bg-t);
   overflow: hidden;
   text-align: center;
 }
@@ -535,7 +537,7 @@ strong { font-weight: 600; }
 
 /* ── FOOTER ── */
 .footer {
-  background: var(--bg2);
+  background: var(--bg2-t);
   border-top: 0.5px solid var(--border);
   padding: 3.5rem 0 0;
 }
@@ -664,7 +666,7 @@ strong { font-weight: 600; }
 }
 
 /* ── BROWSE BY COMPANY ── */
-.companies { padding: 6rem 0; background: var(--bg2); text-align: center; }
+.companies { padding: 6rem 0; background: var(--bg2-t); text-align: center; }
 .company-chips {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem;
   margin-top: 2rem; max-width: 720px; margin-left: auto; margin-right: auto;
@@ -868,7 +870,7 @@ strong { font-weight: 600; }
 .ec-badge-icon { width: 18px; height: 18px; flex-shrink: 0; }
 
 /* ── VERIFICATION STEPS STRIP ── */
-.verification-strip { padding: 6rem 0; background: var(--bg); }
+.verification-strip { padding: 6rem 0; background: var(--bg-t); }
 .vsteps {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
   margin-top: 2.5rem;
@@ -903,7 +905,7 @@ strong { font-weight: 600; }
 /* ═══════════════════════════════════════════
    NEW — Flyancer showcase grid
    ═══════════════════════════════════════════ */
-.showcase { padding: 6rem 0; background: var(--bg2); }
+.showcase { padding: 6rem 0; background: var(--bg2-t); }
 .showcase-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
   margin-top: 2.5rem;
@@ -1012,4 +1014,20 @@ body::before {
 
 @media (prefers-reduced-motion: reduce) {
   body::before, .orb-1, .orb-2, .orb-3, .marquee-track { animation: none !important; }
+}
+
+/* ═══════════════════════════════════════════
+   NEW — Whole-page glitter background canvas
+   ═══════════════════════════════════════════ */
+#glitterCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #glitterCanvas { display: none; }
 }
