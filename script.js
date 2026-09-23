@@ -184,3 +184,135 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }
   animate();
 })();
+
+/* ── LOGIN POPUP ── */
+(function initLoginPopup() {
+  const popup = document.getElementById('loginPopup');
+  if (!popup) return;
+
+  const closeBtn = document.getElementById('lpClose');
+  const roleSelect = document.getElementById('lpRoleSelect');
+  const form = document.getElementById('lpForm');
+  const backBtn = document.getElementById('lpBack');
+  const formTitle = document.getElementById('lpFormTitle');
+  const nameInput = document.getElementById('lpName');
+  const emailInput = document.getElementById('lpEmail');
+  const hint = document.getElementById('lpHint');
+  const success = document.getElementById('lpSuccess');
+  const roleBtns = document.querySelectorAll('.lp-role-btn');
+
+  let currentRole = null;
+  let reshowTimer = null;
+
+  // Common free/personal email domains — blocked for the Expert path
+  const FREE_DOMAINS = [
+    'gmail.com', 'yahoo.com', 'yahoo.co.in', 'hotmail.com', 'outlook.com',
+    'live.com', 'icloud.com', 'me.com', 'aol.com', 'protonmail.com',
+    'rediffmail.com', 'zoho.com', 'gmx.com', 'mail.com'
+  ];
+
+  function isLoggedIn() {
+    return !!localStorage.getItem('flyancer_user');
+  }
+
+  function showPopup() {
+    if (isLoggedIn()) return;
+    popup.classList.add('open');
+  }
+
+  function hidePopup() {
+    popup.classList.remove('open');
+  }
+
+  function resetToRoleSelect() {
+    popup.classList.remove('role-selected');
+    form.classList.remove('active');
+    success.classList.remove('active');
+    roleSelect.style.display = 'block';
+    form.reset();
+    hint.textContent = '';
+    hint.classList.remove('error');
+    currentRole = null;
+  }
+
+  function scheduleReshow() {
+    if (reshowTimer) clearInterval(reshowTimer);
+    reshowTimer = setInterval(() => {
+      if (!isLoggedIn() && !popup.classList.contains('open')) {
+        showPopup();
+      }
+    }, 18000);
+  }
+
+  // Don't show anything if already logged in
+  if (isLoggedIn()) {
+    popup.style.display = 'none';
+  } else {
+    // Initial appearance after a short delay
+    setTimeout(showPopup, 4000);
+    scheduleReshow();
+  }
+
+  closeBtn.addEventListener('click', () => {
+    hidePopup();
+    resetToRoleSelect();
+  });
+
+  roleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentRole = btn.getAttribute('data-role');
+      roleSelect.style.display = 'none';
+      form.classList.add('active');
+      if (currentRole === 'expert') {
+        formTitle.textContent = 'Sign up as a Flyancer';
+        emailInput.placeholder = 'Work email (e.g. you@company.com)';
+      } else {
+        formTitle.textContent = 'Sign up as a Candidate';
+        emailInput.placeholder = 'Email address';
+      }
+      hint.textContent = '';
+      hint.classList.remove('error');
+    });
+  });
+
+  backBtn.addEventListener('click', () => {
+    form.classList.remove('active');
+    roleSelect.style.display = 'block';
+    hint.textContent = '';
+    hint.classList.remove('error');
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    if (!name || !email) return;
+
+    if (currentRole === 'expert') {
+      const domain = email.split('@')[1] || '';
+      if (FREE_DOMAINS.includes(domain)) {
+        hint.textContent = 'Please use your official company email — personal addresses (Gmail, Yahoo, etc.) aren\'t accepted for Flyancer accounts.';
+        hint.classList.add('error');
+        return;
+      }
+    }
+
+    // Store login state (in real deployment, this hits a backend / auth provider)
+    localStorage.setItem('flyancer_user', JSON.stringify({ name, email, role: currentRole, ts: new Date().toISOString() }));
+
+    form.classList.remove('active');
+    success.classList.add('active');
+    if (reshowTimer) clearInterval(reshowTimer);
+
+    setTimeout(hidePopup, 2200);
+  });
+})();
+
+// Called by "Free Username" nav CTA and hero CTA
+function openLoginPopup(e) {
+  if (e) e.preventDefault();
+  const popup = document.getElementById('loginPopup');
+  if (!popup) return;
+  if (localStorage.getItem('flyancer_user')) return; // already logged in
+  popup.classList.add('open');
+}
