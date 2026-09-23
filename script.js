@@ -363,3 +363,104 @@ function openLoginPopup(e) {
     });
   });
 })();
+
+/* ── WHOLE-PAGE GLITTER BACKGROUND ── */
+(function initGlitterBackground() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'glitterCanvas';
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  const ctx = canvas.getContext('2d');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  const palette = [
+    'rgba(96,165,250,ALPHA)',   // blue
+    'rgba(37,99,255,ALPHA)',    // blue2
+    'rgba(168,157,249,ALPHA)',  // purple
+    'rgba(34,211,165,ALPHA)',   // green
+    'rgba(255,255,255,ALPHA)'   // white pop
+  ];
+
+  let particles = [];
+  let w = 0, h = 0;
+  let running = true;
+
+  function particleCount() {
+    const area = window.innerWidth * window.innerHeight;
+    // "Noticeable" density, capped for performance on very large screens
+    return Math.max(90, Math.min(260, Math.floor(area / 7000)));
+  }
+
+  function makeParticle() {
+    const isPop = Math.random() < 0.12; // occasional bigger sparkle
+    return {
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: isPop ? 1.8 + Math.random() * 2.2 : 0.6 + Math.random() * 1.4,
+      baseAlpha: isPop ? 0.55 + Math.random() * 0.35 : 0.25 + Math.random() * 0.35,
+      color: palette[Math.floor(Math.random() * palette.length)],
+      vx: (Math.random() - 0.5) * 0.12,
+      vy: (Math.random() - 0.5) * 0.12,
+      twinkleSpeed: 0.015 + Math.random() * 0.035, // livelier twinkle
+      phase: Math.random() * Math.PI * 2
+    };
+  }
+
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * DPR;
+    canvas.height = h * DPR;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    const count = particleCount();
+    if (particles.length < count) {
+      while (particles.length < count) particles.push(makeParticle());
+    } else {
+      particles.length = count;
+    }
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) requestAnimationFrame(draw);
+  });
+
+  function draw() {
+    if (!running) return;
+    ctx.clearRect(0, 0, w, h);
+
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.phase += p.twinkleSpeed;
+
+      // Wrap around edges so particles drift forever
+      if (p.x < -5) p.x = w + 5;
+      if (p.x > w + 5) p.x = -5;
+      if (p.y < -5) p.y = h + 5;
+      if (p.y > h + 5) p.y = -5;
+
+      const twinkle = (Math.sin(p.phase) + 1) / 2; // 0..1
+      const alpha = p.baseAlpha * (0.35 + twinkle * 0.65);
+
+      ctx.beginPath();
+      ctx.fillStyle = p.color.replace('ALPHA', alpha.toFixed(3));
+      ctx.shadowBlur = p.r * 2.5;
+      ctx.shadowColor = p.color.replace('ALPHA', (alpha * 0.6).toFixed(3));
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
