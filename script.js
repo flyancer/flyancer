@@ -316,3 +316,50 @@ function openLoginPopup(e) {
   if (localStorage.getItem('flyancer_user')) return; // already logged in
   popup.classList.add('open');
 }
+
+/* ── ROTATING EXPERT MARQUEE + COMPANY FILTER ── */
+(function initShowcaseMarquee() {
+  const track = document.getElementById('marqueeTrack');
+  if (!track) return;
+
+  const originals = Array.from(track.querySelectorAll('.marquee-original'));
+  const cloneHolder = track.querySelector('.marquee-clone-set');
+
+  // Duplicate the card set for a seamless vertical loop, then discard the placeholder wrapper
+  originals.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.classList.remove('marquee-original');
+    clone.classList.add('marquee-clone');
+    clone.setAttribute('aria-hidden', 'true');
+    track.insertBefore(clone, cloneHolder);
+  });
+  if (cloneHolder) cloneHolder.remove();
+
+  // Company filter chips
+  const chips = document.querySelectorAll('.cf-chip');
+  const marqueeWrap = document.getElementById('marqueeWrap');
+  const filteredGrid = document.getElementById('filteredGrid');
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const filter = chip.getAttribute('data-filter');
+
+      if (filter === 'all') {
+        marqueeWrap.style.display = '';
+        filteredGrid.classList.remove('active');
+        filteredGrid.innerHTML = '';
+      } else {
+        marqueeWrap.style.display = 'none';
+        filteredGrid.classList.add('active');
+        filteredGrid.innerHTML = '';
+        originals.forEach(card => {
+          if (card.getAttribute('data-company') === filter) {
+            filteredGrid.appendChild(card.cloneNode(true));
+          }
+        });
+      }
+    });
+  });
+})();
