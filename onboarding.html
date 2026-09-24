@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Set Up Your Profile – Flyancer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="onboard-page">
+    <div class="onboard-card" id="onboardCard">
+
+      <!-- LOADING STATE -->
+      <div id="obLoading" class="onboard-state">
+        <div class="onboard-spinner"></div>
+        <p>Confirming your login…</p>
+      </div>
+
+      <!-- INVALID / EXPIRED LINK -->
+      <div id="obInvalid" class="onboard-state" style="display:none;">
+        <div class="onboard-icon">✕</div>
+        <h2>This link has expired</h2>
+        <p>Login links are single-use and time-limited. Head back to the homepage and request a new one.</p>
+        <a href="index.html" class="btn-primary">Back to Flyancer</a>
+      </div>
+
+      <!-- ALREADY ONBOARDED -->
+      <div id="obExisting" class="onboard-state" style="display:none;">
+        <div class="onboard-icon">✓</div>
+        <h2>Welcome back!</h2>
+        <p id="obExistingText">Your profile is already set up.</p>
+        <a href="index.html" class="btn-primary">Go to Flyancer</a>
+      </div>
+
+      <!-- PROFILE FORM -->
+      <form id="obForm" class="onboard-form" style="display:none;">
+        <div class="onboard-header">
+          <div class="onboard-eyebrow" id="obRoleLabel">Create Your Profile</div>
+          <h2>You're almost there.</h2>
+          <p id="obEmailLine" class="onboard-sub"></p>
+        </div>
+
+        <label class="onboard-label">Choose a username</label>
+        <div class="onboard-username-row">
+          <span class="onboard-at">flyancer.com/@</span>
+          <input type="text" id="obUsername" placeholder="yourname" required pattern="[a-z0-9_]{3,20}" />
+        </div>
+        <div class="onboard-hint" id="obUsernameHint">Lowercase letters, numbers, underscores only — 3 to 20 characters.</div>
+
+        <label class="onboard-label">Full name</label>
+        <input type="text" id="obFullName" required />
+
+        <div id="obCompanyBlock" style="display:none;">
+          <label class="onboard-label">Company</label>
+          <input type="text" id="obCompany" placeholder="Auto-detected from your work email" />
+          <div class="onboard-hint onboard-verified-hint" id="obVerifiedHint"></div>
+
+          <label class="onboard-label">Job title</label>
+          <input type="text" id="obJobTitle" placeholder="e.g. Software Engineer, HR Manager" />
+        </div>
+
+        <label class="onboard-label">Short bio</label>
+        <textarea id="obBio" rows="3" placeholder="Tell candidates a bit about yourself..."></textarea>
+
+        <div class="onboard-hint onboard-error" id="obFormError"></div>
+
+        <button type="submit" class="btn-primary onboard-submit" id="obSubmitBtn">Create My Profile →</button>
+      </form>
+
+      <!-- SUCCESS -->
+      <div id="obSuccess" class="onboard-state" style="display:none;">
+        <div class="onboard-icon onboard-icon--success">🎉</div>
+        <h2>You're live!</h2>
+        <p>Your Flyancer profile is now <strong id="obSuccessUsername"></strong>.</p>
+        <p class="onboard-sub">(A public profile page at that address is coming very soon — for now, you're fully set up in our system.)</p>
+        <a href="index.html" class="btn-primary">Back to Flyancer</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
+    window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
+  </script>
+  <script src="onboarding.js"></script>
+</body>
+</html>
