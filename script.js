@@ -185,10 +185,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   animate();
 })();
 
-/* ── LOGIN POPUP ── */
+/* ── SUPABASE CLIENT ── */
+const flyancerSupabase = (window.supabase && window.FLYANCER_SUPABASE_URL)
+  ? window.supabase.createClient(window.FLYANCER_SUPABASE_URL, window.FLYANCER_SUPABASE_ANON_KEY)
+  : null;
+
+/* ── LOGIN POPUP (real Supabase auth) ── */
 (function initLoginPopup() {
   const popup = document.getElementById('loginPopup');
-  if (!popup) return;
+  if (!popup || !flyancerSupabase) return;
 
   const closeBtn = document.getElementById('lpClose');
   const roleSelect = document.getElementById('lpRoleSelect');
@@ -203,20 +208,19 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
   let currentRole = null;
   let reshowTimer = null;
+  let loggedIn = false;
 
-  // Common free/personal email domains — blocked for the Expert path
+  // Common free/personal email domains — blocked for the Expert path.
+  // NOTE: this is a client-side convenience check only. Real enforcement
+  // should also live server-side (e.g. a Postgres trigger) before launch.
   const FREE_DOMAINS = [
     'gmail.com', 'yahoo.com', 'yahoo.co.in', 'hotmail.com', 'outlook.com',
     'live.com', 'icloud.com', 'me.com', 'aol.com', 'protonmail.com',
     'rediffmail.com', 'zoho.com', 'gmx.com', 'mail.com'
   ];
 
-  function isLoggedIn() {
-    return !!localStorage.getItem('flyancer_user');
-  }
-
   function showPopup() {
-    if (isLoggedIn()) return;
+    if (loggedIn) return;
     popup.classList.add('open');
   }
 
@@ -238,20 +242,30 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   function scheduleReshow() {
     if (reshowTimer) clearInterval(reshowTimer);
     reshowTimer = setInterval(() => {
-      if (!isLoggedIn() && !popup.classList.contains('open')) {
-        showPopup();
-      }
+      if (!loggedIn && !popup.classList.contains('open')) showPopup();
     }, 18000);
   }
 
-  // Don't show anything if already logged in
-  if (isLoggedIn()) {
-    popup.style.display = 'none';
-  } else {
-    // Initial appearance after a short delay
-    setTimeout(showPopup, 4000);
-    scheduleReshow();
-  }
+  // Check real Supabase session on load
+  flyancerSupabase.auth.getSession().then(({ data }) => {
+    loggedIn = !!data.session;
+    if (loggedIn) {
+      popup.style.display = 'none';
+    } else {
+      setTimeout(showPopup, 4000);
+      scheduleReshow();
+    }
+  });
+
+  // Keep in sync if session changes (e.g. logs in via magic link in another tab)
+  flyancerSupabase.auth.onAuthStateChange((_event, session) => {
+    loggedIn = !!session;
+    if (loggedIn) {
+      popup.style.display = 'none';
+      hidePopup();
+      if (reshowTimer) clearInterval(reshowTimer);
+    }
+  });
 
   closeBtn.addEventListener('click', () => {
     hidePopup();
@@ -282,7 +296,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     hint.classList.remove('error');
   });
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = nameInput.value.trim();
     const email = emailInput.value.trim().toLowerCase();
@@ -297,14 +311,31 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       }
     }
 
-    // Store login state (in real deployment, this hits a backend / auth provider)
-    localStorage.setItem('flyancer_user', JSON.stringify({ name, email, role: currentRole, ts: new Date().toISOString() }));
+    const submitBtn = form.querySelector('.lp-submit');
+    submitBtn.disabled = true;
+    hint.classList.remove('error');
+    hint.textContent = 'Sending your login link…';
+
+    const { error } = await flyancerSupabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: window.location.origin + '/onboarding.html',
+        data: { full_name: name, role: currentRole }
+      }
+    });
+
+    submitBtn.disabled = false;
+
+    if (error) {
+      hint.textContent = 'Something went wrong: ' + error.message;
+      hint.classList.add('error');
+      return;
+    }
 
     form.classList.remove('active');
     success.classList.add('active');
+    success.textContent = `✦ Check your inbox! We sent a login link to ${email}.`;
     if (reshowTimer) clearInterval(reshowTimer);
-
-    setTimeout(hidePopup, 2200);
   });
 })();
 
@@ -312,9 +343,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 function openLoginPopup(e) {
   if (e) e.preventDefault();
   const popup = document.getElementById('loginPopup');
-  if (!popup) return;
-  if (localStorage.getItem('flyancer_user')) return; // already logged in
-  popup.classList.add('open');
+  if (!popup || !flyancerSupabase) return;
+  flyancerSupabase.auth.getSession().then(({ data }) => {
+    if (data.session) return; // already logged in
+    popup.classList.add('open');
+  });
 }
 
 /* ── ROTATING EXPERT MARQUEE + COMPANY FILTER ── */
