@@ -949,24 +949,41 @@ strong { font-weight: 600; }
 
 .marquee-wrap {
   position: relative;
-  height: 620px;
   overflow: hidden;
   border-radius: var(--radius);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 50px, black calc(100% - 50px), transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, black 50px, black calc(100% - 50px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
 }
 .marquee-track {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1.25rem;
-  animation: marqueeScroll 24s linear infinite;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeScrollX 38s linear infinite;
 }
 .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
-@keyframes marqueeScroll {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-50%); }
+@keyframes marqueeScrollX {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
-.marquee-track .expert-card { max-width: 480px; width: 100%; margin: 0 auto; }
+
+/* Card sizing for the horizontal layout — desktop shows ~3 cards */
+.marquee-track .expert-card {
+  max-width: none;
+  width: 340px;
+  flex: 0 0 auto;
+  margin: 0;
+  transition: transform 250ms ease-out, box-shadow 250ms ease-out, border-color 250ms ease-out;
+}
+
+/* Hover: pause (handled above) + lift/scale/glow on the specific card */
+.marquee-track .expert-card:hover {
+  transform: translateY(-5px) scale(1.04);
+  border-color: rgba(96,165,250,0.55);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(96,165,250,0.15), 0 0 32px rgba(124,58,237,0.18);
+  z-index: 2;
+}
 
 .filtered-grid {
   display: none;
@@ -976,9 +993,34 @@ strong { font-weight: 600; }
 .filtered-grid.active { display: grid; }
 .filtered-grid .expert-card { max-width: none; margin: 0; }
 
+/* Tablet — ~1.5–2 cards visible */
+@media (max-width: 1024px) {
+  .marquee-track .expert-card { width: 300px; }
+}
+
+/* Mobile — ~1 card + peek of the next; switch to native touch-scroll */
 @media (max-width: 640px) {
-  .marquee-wrap { height: 480px; }
+  .marquee-track .expert-card { width: 82vw; }
   .filtered-grid { grid-template-columns: 1fr; }
+}
+
+/* Touch devices — hand control to native horizontal swipe instead of
+   the auto-scrolling animation, so drag/swipe feels natural and never
+   fights the user's finger */
+@media (hover: none) and (pointer: coarse) {
+  .marquee-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .marquee-track .expert-card { scroll-snap-align: start; }
+  .marquee-track .expert-card:hover {
+    transform: none; /* avoid a "stuck" lifted card after a tap on touch */
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -1129,3 +1171,24 @@ body::before {
 
 .onboard-submit { width: 100%; text-align: center; margin-top: 1.5rem; font-size: 14px; padding: 12px; }
 .onboard-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── USERNAME SUGGESTION CHIPS ── */
+.onboard-suggestions {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+.onboard-suggest-label { font-size: 11.5px; color: var(--muted); margin-right: 2px; }
+.onboard-suggest-chip {
+  font-family: var(--font-display); font-weight: 600; font-size: 12px;
+  color: var(--blue2);
+  background: rgba(37,99,255,0.1);
+  border: 0.5px solid rgba(37,99,255,0.3);
+  border-radius: 14px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.onboard-suggest-chip:hover { background: rgba(37,99,255,0.2); }
