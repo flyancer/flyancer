@@ -497,3 +497,16 @@ function openLoginPopup(e) {
   }
   requestAnimationFrame(draw);
 })();
+
+/* ── LOGO CAROUSEL — duplicate the set for a seamless left-to-right loop ── */
+(function initLogoMarquee() {
+  const track = document.getElementById('logoMarqueeTrack');
+  if (!track) return;
+
+  const originals = Array.from(track.querySelectorAll('.logo-chip--orig'));
+  originals.forEach(item => {
+    const clone = item.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  });
+})();
