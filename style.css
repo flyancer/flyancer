@@ -1192,3 +1192,101 @@ body::before {
   transition: background .15s;
 }
 .onboard-suggest-chip:hover { background: rgba(37,99,255,0.2); }
+
+/* ═══════════════════════════════════════════
+   NEW — Logo-only horizontal company carousel
+   ═══════════════════════════════════════════ */
+
+/* Subtitle: one line on desktop where space allows, natural wrap on mobile */
+.logo-section-sub {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+}
+
+.logo-marquee-wrap {
+  position: relative;
+  overflow: hidden;
+  margin-top: 2.5rem;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 48px, black calc(100% - 48px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, black 48px, black calc(100% - 48px), transparent 100%);
+}
+.logo-marquee-track {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  width: max-content;
+  will-change: transform;
+  animation: logoMarqueeX 32s linear infinite;
+}
+.logo-marquee-wrap:hover .logo-marquee-track { animation-play-state: paused; }
+@keyframes logoMarqueeX {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0%); }
+}
+
+/* ── NORMALIZED LOGO CONTAINER ── */
+.logo-chip {
+  flex: 0 0 auto;
+  width: 112px;
+  height: 68px;
+  background: #FAFAF9;
+  border: 1px solid rgba(17,24,39,0.08);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  transition: transform 220ms ease-out, box-shadow 220ms ease-out, border-color 220ms ease-out;
+}
+.logo-img {
+  max-width: 78%;
+  max-height: 70%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 220ms ease-out;
+}
+.logo-chip:hover {
+  transform: scale(1.07) translateY(-3px);
+  border-color: rgba(37,99,255,0.45);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.3), 0 0 0 1px rgba(37,99,255,0.12), 0 0 22px rgba(37,99,255,0.22);
+}
+.logo-chip:hover .logo-img { transform: scale(1.03); }
+
+/* The "+ your company next" chip keeps its existing pill text style,
+   just sits inline in the track without stretching */
+.logo-marquee-track .company-chip { flex: 0 0 auto; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .logo-chip { width: 98px; height: 62px; }
+}
+@media (max-width: 640px) {
+  .logo-chip { width: 88px; height: 56px; padding: 8px; }
+  .logo-marquee-track { gap: 0.75rem; }
+  .logo-marquee-wrap {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+  }
+}
+
+/* ── TOUCH DEVICES — native swipe, no fighting the user's finger ── */
+@media (hover: none) and (pointer: coarse) {
+  .logo-marquee-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .logo-marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .logo-chip:hover { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track { animation: none !important; }
+}
