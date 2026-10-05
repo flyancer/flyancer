@@ -510,3 +510,38 @@ function openLoginPopup(e) {
     track.appendChild(clone);
   });
 })();
+
+/* ── SOUND TOGGLE ── */
+(function initSoundToggle() {
+  const btn = document.getElementById('soundToggle');
+  const audio = document.getElementById('ambientAudio');
+  if (!btn || !audio) return;
+
+  audio.volume = 0.35; // ambient background, not full blast
+
+  const STORAGE_KEY = 'flyancer_sound_on';
+
+  function setState(on) {
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.setAttribute('aria-label', on ? 'Turn off background sound' : 'Turn on background sound');
+    if (on) {
+      audio.play().catch(() => {
+        // Autoplay was blocked for some reason — fall back to muted state
+        btn.setAttribute('aria-pressed', 'false');
+      });
+    } else {
+      audio.pause();
+    }
+  }
+
+  // Default OFF on first visit — never auto-blare at anyone.
+  // If the person explicitly turned it on before, respect that on return.
+  const savedPref = localStorage.getItem(STORAGE_KEY);
+  setState(savedPref === 'true' ? true : false);
+
+  btn.addEventListener('click', () => {
+    const nowOn = btn.getAttribute('aria-pressed') !== 'true';
+    setState(nowOn);
+    localStorage.setItem(STORAGE_KEY, nowOn ? 'true' : 'false');
+  });
+})();
