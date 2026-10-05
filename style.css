@@ -1216,10 +1216,10 @@ body::before {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: 65px;
   width: max-content;
   will-change: transform;
-  animation: logoMarqueeX 32s linear infinite;
+  animation: logoMarqueeX 30s linear infinite;
 }
 .logo-marquee-wrap:hover .logo-marquee-track { animation-play-state: paused; }
 @keyframes logoMarqueeX {
@@ -1227,35 +1227,25 @@ body::before {
   to   { transform: translateX(0%); }
 }
 
-/* ── NORMALIZED LOGO CONTAINER ── */
+/* ── LOGOS — transparent, no card/box/border, sit directly on the dark bg ── */
 .logo-chip {
   flex: 0 0 auto;
-  width: 112px;
-  height: 68px;
-  background: #FAFAF9;
-  border: 1px solid rgba(17,24,39,0.08);
-  border-radius: 14px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  transition: transform 220ms ease-out, box-shadow 220ms ease-out, border-color 220ms ease-out;
 }
 .logo-img {
-  max-width: 78%;
-  max-height: 70%;
+  height: 46px;
   width: auto;
-  height: auto;
+  max-width: 170px;
   object-fit: contain;
   display: block;
-  transition: transform 220ms ease-out;
+  transition: transform 230ms ease-out, filter 230ms ease-out;
 }
-.logo-chip:hover {
-  transform: scale(1.07) translateY(-3px);
-  border-color: rgba(37,99,255,0.45);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.3), 0 0 0 1px rgba(37,99,255,0.12), 0 0 22px rgba(37,99,255,0.22);
+.logo-chip:hover .logo-img {
+  transform: scale(1.08) translateY(-3px);
+  filter: brightness(1.15) drop-shadow(0 0 14px rgba(96,165,250,0.5));
 }
-.logo-chip:hover .logo-img { transform: scale(1.03); }
 
 /* The "+ your company next" chip keeps its existing pill text style,
    just sits inline in the track without stretching */
@@ -1263,11 +1253,12 @@ body::before {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
-  .logo-chip { width: 98px; height: 62px; }
+  .logo-marquee-track { gap: 50px; }
+  .logo-img { height: 38px; }
 }
 @media (max-width: 640px) {
-  .logo-chip { width: 88px; height: 56px; padding: 8px; }
-  .logo-marquee-track { gap: 0.75rem; }
+  .logo-marquee-track { gap: 34px; }
+  .logo-img { height: 32px; }
   .logo-marquee-wrap {
     -webkit-mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
     mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
@@ -1284,7 +1275,7 @@ body::before {
     animation: none !important;
     transform: none !important;
   }
-  .logo-chip:hover { transform: none; }
+  .logo-chip:hover .logo-img { transform: none; filter: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
