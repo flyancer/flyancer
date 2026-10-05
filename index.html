@@ -95,6 +95,16 @@
       <div class="nav-links">
         <a href="#showcase">Find an Expert</a>
         <a href="#create">Become an Expert</a>
+        <button class="sound-toggle" id="soundToggle" aria-label="Turn on background sound" aria-pressed="false">
+          <svg class="sound-icon sound-icon--off" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 10v4h4l5 5V5L7 10H3z" fill="currentColor"/>
+            <path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 10v4h4l5 5V5L7 10H3z" fill="currentColor"/>
+            <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
         <a href="#" class="btn-nav" onclick="openLoginPopup(event)">Free Username</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -102,6 +112,8 @@
       </button>
     </div>
   </nav>
+
+  <audio id="ambientAudio" src="assets/audio/ambient.mp3" loop preload="none"></audio>
 
   <!-- HERO -->
   <section class="hero">
