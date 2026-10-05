@@ -1234,7 +1234,7 @@ body::before {
   align-items: center;
   justify-content: center;
 }
-.logo-img {
+.logo-marquee-track .logo-img {
   height: 46px;
   width: auto;
   max-width: 170px;
@@ -1242,7 +1242,7 @@ body::before {
   display: block;
   transition: transform 230ms ease-out, filter 230ms ease-out;
 }
-.logo-chip:hover .logo-img {
+.logo-marquee-track .logo-chip:hover .logo-img {
   transform: scale(1.08) translateY(-3px);
   filter: brightness(1.15) drop-shadow(0 0 14px rgba(96,165,250,0.5));
 }
@@ -1280,4 +1280,41 @@ body::before {
 
 @media (prefers-reduced-motion: reduce) {
   .logo-marquee-track { animation: none !important; }
+}
+
+/* ═══════════════════════════════════════════
+   NEW — Sound toggle
+   ═══════════════════════════════════════════ */
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 0.5px solid var(--border2);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease, transform 150ms ease;
+  flex-shrink: 0;
+}
+.sound-toggle:hover {
+  color: var(--blue2);
+  border-color: rgba(37,99,255,0.45);
+  transform: scale(1.06);
+}
+.sound-toggle svg { width: 18px; height: 18px; }
+
+.sound-icon--on { display: none; }
+.sound-toggle[aria-pressed="true"] .sound-icon--off { display: none; }
+.sound-toggle[aria-pressed="true"] .sound-icon--on { display: block; }
+.sound-toggle[aria-pressed="true"] {
+  color: var(--blue2);
+  border-color: rgba(37,99,255,0.5);
+  background: rgba(37,99,255,0.1);
+}
+
+@media (max-width: 640px) {
+  .sound-toggle { width: 34px; height: 34px; margin: 0.5rem 0; }
 }
