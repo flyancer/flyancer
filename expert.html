@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Become a Verified Flyancer Expert – Earn by Helping Candidates Get Hired</title>
+  <meta name="description" content="Join Flyancer as a company-verified expert: set your own prices and offer referrals, mock interviews, coaching and resume reviews." />
+  <link rel="canonical" href="https://www.flyancer.com/expert.html" />
+  <meta property="og:title" content="Become a Verified Flyancer Expert – Earn by Helping Candidates Get Hired" />
+  <meta property="og:description" content="Join Flyancer as a company-verified expert: set your own prices and offer referrals, mock interviews, coaching and resume reviews." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.flyancer.com/expert.html" />
+  <meta property="og:image" content="https://www.flyancer.com/assets/hero-video-poster.jpg" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <img src="assets/logo-transparent.png" alt="Flyancer" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <span class="logo-mark" style="display:none;">F</span>
+        <span class="logo-text">Flyancer</span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="expert.html">For Experts</a>
+        <a href="candidate.html">For Candidates</a>
+        <a href="#" class="btn-nav" onclick="openLoginPopup(event)">Free Username</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <button class="sound-toggle" id="soundToggle" type="button" aria-label="Turn off background sound" aria-pressed="true" title="Sound">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </button>
+  <audio id="ambientAudio" src="assets/ambient.mp3" loop preload="auto"></audio>
+
+  <header class="aud-hero">
+    <div class="container aud-grid">
+      <div>
+        <span class="aud-eyebrow">For experts · HR · Interviewers · Professionals</span>
+        <h1 class="aud-title">Your experience is <span class="gradient-text">someone’s way in.</span></h1>
+        <p class="aud-sub">Verify with your company email, set your own price, and help candidates with referrals, mock interviews, coaching and resume reviews — on your schedule.</p>
+        <div class="aud-cta">
+          <a href="#" class="btn-primary" onclick="openLoginPopup(event, 'expert')">Join as an Expert</a>
+          <a href="candidate.html" class="btn-ghost">I’m a student instead →</a>
+        </div>
+      </div>
+      <div class="aud-cloud aud-cloud--expert" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="aud-section">
+      <div class="container">
+        <h2 class="section-title">Why experts join Flyancer</h2>
+        <div class="aud-cards">
+        <div class="aud-card"><div class="ic">✅</div><h3>Get verified</h3><p>Sign up with your official company email and earn a verified badge, so candidates know you’re real.</p></div>
+        <div class="aud-card"><div class="ic">🎯</div><h3>Choose your services</h3><p>Offer referral requests, mock interviews, 1:1 coaching or resume reviews, and set your own price for each.</p></div>
+        <div class="aud-card"><div class="ic">🌱</div><h3>Help someone grow</h3><p>Share what you know and be the reason a candidate gets prepared, referred and hired.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="aud-section" style="padding-top:0">
+      <div class="container">
+        <h2 class="section-title">How it works</h2>
+        <div class="aud-steps">
+        <div class="aud-step"><h3>Sign up with your work email</h3><p>We verify your company domain — personal email addresses aren’t accepted for experts.</p></div>
+        <div class="aud-step"><h3>Claim your @username</h3><p>Set up your profile and list the services you want to offer.</p></div>
+        <div class="aud-step"><h3>Accept requests</h3><p>Candidates send you requests; you accept the ones you can genuinely help with.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="aud-final">
+      <div class="container">
+        <h2 class="section-title">Ready to start?</h2>
+        <a href="#" class="btn-primary" onclick="openLoginPopup(event, 'expert')">Join as an Expert</a>
+        <p class="aud-note">Referrals are recommendations, not guarantees.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <span>© 2026 Flyancer. All rights reserved.</span>
+      <span>Referrals are recommendations, not guarantees.</span>
+    </div>
+  </footer>
+
+  <!-- LOGIN POPUP -->
+  <div class="login-popup" id="loginPopup">
+    <button class="lp-close" id="lpClose" aria-label="Close">✕</button>
+
+    <div class="lp-role-select" id="lpRoleSelect">
+      <div class="lp-title">Join Flyancer</div>
+      <p class="lp-desc">Who are you here as?</p>
+      <button class="lp-role-btn" data-role="expert">
+        <span class="lp-role-icon">🎓</span>
+        <span>
+          <strong>Flyancer</strong>
+          <small>I teach &amp; guide — I'll sign up with my work email</small>
+        </span>
+      </button>
+      <button class="lp-role-btn" data-role="candidate">
+        <span class="lp-role-icon">🎯</span>
+        <span>
+          <strong>Student / Candidate</strong>
+          <small>I'm looking for referrals, coaching, or interview prep</small>
+        </span>
+      </button>
+    </div>
+
+    <form class="lp-form" id="lpForm">
+      <button type="button" class="lp-back" id="lpBack">← Back</button>
+      <div class="lp-title" id="lpFormTitle">Sign up</div>
+      <input type="text" id="lpName" placeholder="Full name" required />
+      <input type="email" id="lpEmail" placeholder="Email address" required />
+      <div class="lp-hint" id="lpHint"></div>
+      <button type="submit" class="btn-primary lp-submit">Continue →</button>
+    </form>
+
+    <div class="lp-success" id="lpSuccess">
+      ✦ Check your inbox for your login link.
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
+    window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
