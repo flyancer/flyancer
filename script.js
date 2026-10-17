@@ -511,37 +511,69 @@ function openLoginPopup(e) {
   });
 })();
 
-/* ── SOUND TOGGLE ── */
-(function initSoundToggle() {
-  const btn = document.getElementById('soundToggle');
+/* ── AMBIENT SOUND — plays automatically, no button ──
+   Browsers block audio-with-sound from starting on its own before the
+   visitor has interacted with the page at all (a universal browser rule,
+   not something we can switch off). So we try to play immediately, and
+   if that's blocked, we start it on the very first click/tap/scroll/key
+   press anywhere on the page — whichever happens first — with no icon
+   or prompt involved. To the visitor it simply starts playing shortly
+   after they land and begin browsing. */
+(function initAmbientSound() {
   const audio = document.getElementById('ambientAudio');
-  if (!btn || !audio) return;
+  if (!audio) return;
 
   audio.volume = 0.35; // ambient background, not full blast
 
-  const STORAGE_KEY = 'flyancer_sound_on';
+  const btn = document.getElementById('soundToggle');
+  const KEY = 'flyancer_sound_muted';
+  let userMuted = false;
+  try { userMuted = localStorage.getItem(KEY) === 'true'; } catch (e) {}
 
-  function setState(on) {
-    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    btn.setAttribute('aria-label', on ? 'Turn off background sound' : 'Turn on background sound');
-    if (on) {
-      audio.play().catch(() => {
-        // Autoplay was blocked for some reason — fall back to muted state
-        btn.setAttribute('aria-pressed', 'false');
-      });
-    } else {
-      audio.pause();
-    }
+  function setIcon(playing) {
+    if (!btn) return;
+    btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+    btn.setAttribute('aria-label', playing ? 'Turn off background sound' : 'Turn on background sound');
+  }
+  // Icon always reflects whether sound is actually playing
+  audio.addEventListener('play', () => setIcon(true));
+  audio.addEventListener('pause', () => setIcon(false));
+  setIcon(false);
+
+  let started = false;
+  function start() {
+    if (started || userMuted) return;
+    audio.play().then(() => { started = true; }).catch(() => {
+      // blocked until the visitor interacts — listeners below retry
+    });
   }
 
-  // Default OFF on first visit — never auto-blare at anyone.
-  // If the person explicitly turned it on before, respect that on return.
-  const savedPref = localStorage.getItem(STORAGE_KEY);
-  setState(savedPref === 'true' ? true : false);
+  // Try right away (works in some browsers/contexts without interaction).
+  start();
 
-  btn.addEventListener('click', () => {
-    const nowOn = btn.getAttribute('aria-pressed') !== 'true';
-    setState(nowOn);
-    localStorage.setItem(STORAGE_KEY, nowOn ? 'true' : 'false');
-  });
+  // Fallback: start on the first interaction of any kind.
+  const events = ['click', 'touchstart', 'keydown', 'scroll', 'pointerdown'];
+  function onFirstInteraction(e) {
+    if (btn && e && btn.contains(e.target)) return; // the icon handles its own click
+    start();
+    if (started || userMuted) {
+      events.forEach(evt => document.removeEventListener(evt, onFirstInteraction));
+    }
+  }
+  events.forEach(evt => document.addEventListener(evt, onFirstInteraction, { passive: true }));
+
+  // Manual on/off via the tiny icon; choice is remembered
+  if (btn) {
+    btn.addEventListener('click', () => {
+      if (audio.paused) {
+        userMuted = false;
+        try { localStorage.setItem(KEY, 'false'); } catch (e) {}
+        audio.play().then(() => { started = true; }).catch(() => {});
+      } else {
+        userMuted = true;
+        try { localStorage.setItem(KEY, 'true'); } catch (e) {}
+        audio.pause();
+      }
+    });
+  }
 })();
