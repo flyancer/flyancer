@@ -109,8 +109,48 @@
   </button>
   <audio id="ambientAudio" src="assets/ambient.mp3" loop preload="auto"></audio>
 
+  <!-- GATEWAY — first screen: pick your side by clicking a cloud -->
+  <section class="gateway" id="gateway" aria-label="Choose how you want to use Flyancer">
+    <div class="gw-sky" aria-hidden="true"></div>
+    <div class="gw-shade" aria-hidden="true"></div>
+    <div class="gw-stars" aria-hidden="true"></div>
+    <div class="gw-light" aria-hidden="true"></div>
+    <svg class="gw-plane" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M4 30L60 6 40 58 30 36 4 30z" fill="rgba(255,255,255,0.92)"/>
+      <path d="M30 36L60 6 26 31z" fill="rgba(160,190,255,0.85)"/>
+    </svg>
+
+    <div class="gw-inner">
+      <p class="gw-kicker">Flyancer · Verified referrals</p>
+      <p class="gw-title">Where do you want to <span class="gradient-text">fly</span>?</p>
+      <p class="gw-sub">Tap a cloud to find your side of Flyancer.</p>
+
+      <div class="gw-clouds">
+        <a class="gw-cloud gw-cloud--expert" href="expert.html" data-gw-go>
+          <span class="gw-cloud-img" aria-hidden="true"></span>
+          <span class="gw-cloud-label">
+            <small>I'm an</small>
+            <strong>Expert</strong>
+            <em>HR · Interviewer · Professional</em>
+          </span>
+        </a>
+        <a class="gw-cloud gw-cloud--cand" href="candidate.html" data-gw-go>
+          <span class="gw-cloud-img" aria-hidden="true"></span>
+          <span class="gw-cloud-label">
+            <small>I'm a</small>
+            <strong>Student / Candidate</strong>
+            <em>Referrals · Mock interviews · Coaching</em>
+          </span>
+        </a>
+      </div>
+
+      <a class="gw-scroll" href="#hero">or scroll to explore <span aria-hidden="true">↓</span></a>
+    </div>
+    <div class="gw-flash" aria-hidden="true"></div>
+  </section>
+
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero-bg">
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
