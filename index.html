@@ -103,19 +103,11 @@
     </div>
   </nav>
 
-  <!-- Floating sound toggle — deliberately kept out of the header so it takes zero header space -->
-  <button class="sound-toggle" id="soundToggle" aria-label="Turn on background sound" aria-pressed="false">
-    <svg class="sound-icon sound-icon--off" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 10v4h4l5 5V5L7 10H3z" fill="currentColor"/>
-      <path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
-    <svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 10v4h4l5 5V5L7 10H3z" fill="currentColor"/>
-      <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
+  <!-- Ambient background sound — auto-starts; tiny transparent equalizer icon lets visitors mute/unmute -->
+  <button class="sound-toggle" id="soundToggle" type="button" aria-label="Turn off background sound" aria-pressed="true" title="Sound">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
   </button>
-
-  <audio id="ambientAudio" src="assets/ambient.mp3" loop preload="none"></audio>
+  <audio id="ambientAudio" src="assets/ambient.mp3" loop preload="auto"></audio>
 
   <!-- HERO -->
   <section class="hero">
