@@ -252,7 +252,17 @@ const flyancerSupabase = (window.supabase && window.FLYANCER_SUPABASE_URL)
     if (loggedIn) {
       popup.style.display = 'none';
     } else {
-      setTimeout(showPopup, 4000);
+      // Arriving from an Expert / Candidate page (?join=expert|candidate):
+      // open the popup straight away with that role already chosen.
+      const joinRole = new URLSearchParams(window.location.search).get('join');
+      const preBtn = (joinRole === 'expert' || joinRole === 'candidate')
+        ? document.querySelector('.lp-role-btn[data-role="' + joinRole + '"]') : null;
+      if (preBtn) {
+        showPopup();
+        preBtn.click();
+      } else {
+        setTimeout(showPopup, 4000);
+      }
       scheduleReshow();
     }
   });
@@ -340,13 +350,17 @@ const flyancerSupabase = (window.supabase && window.FLYANCER_SUPABASE_URL)
 })();
 
 // Called by "Free Username" nav CTA and hero CTA
-function openLoginPopup(e) {
+function openLoginPopup(e, role) {
   if (e) e.preventDefault();
   const popup = document.getElementById('loginPopup');
   if (!popup || !flyancerSupabase) return;
   flyancerSupabase.auth.getSession().then(({ data }) => {
     if (data.session) return; // already logged in
     popup.classList.add('open');
+    if (role) {
+      const btn = document.querySelector('.lp-role-btn[data-role="' + role + '"]');
+      if (btn) btn.click(); // skip the "who are you" step — they already told us
+    }
   });
 }
 
@@ -576,4 +590,85 @@ function openLoginPopup(e) {
       }
     });
   }
+})();
+
+/* ── GATEWAY: cloud parallax + fly-through transition ── */
+(function initGateway() {
+  const gw = document.getElementById('gateway');
+  if (!gw) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Mouse parallax + cursor light (smoothed)
+  if (!reduce && window.matchMedia('(hover: hover)').matches) {
+    const clouds = Array.from(gw.querySelectorAll('.gw-cloud'));
+    const imgs = clouds.map((c) => c.querySelector('.gw-cloud-img'));
+    const lit = clouds.map(() => 0);
+    const litTarget = clouds.map(() => 0);
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+    function tick() {
+      cx += (tx - cx) * 0.07;
+      cy += (ty - cy) * 0.07;
+      gw.style.setProperty('--mx', cx.toFixed(3));
+      gw.style.setProperty('--my', cy.toFixed(3));
+      let moving = Math.abs(tx - cx) > 0.002 || Math.abs(ty - cy) > 0.002;
+      for (let i = 0; i < lit.length; i++) {
+        lit[i] += (litTarget[i] - lit[i]) * 0.12;
+        if (Math.abs(litTarget[i] - lit[i]) > 0.004) moving = true;
+        imgs[i].style.setProperty('--lit', lit[i].toFixed(3));
+      }
+      raf = moving ? requestAnimationFrame(tick) : null;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+
+    gw.addEventListener('mousemove', (e) => {
+      const r = gw.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      gw.style.setProperty('--lx', (e.clientX - r.left) + 'px');
+      gw.style.setProperty('--ly', (e.clientY - r.top) + 'px');
+      gw.classList.add('gw-lit');
+      // The closer the cursor is to a cloud's centre, the more that cloud lights up
+      clouds.forEach((c, i) => {
+        const cr = c.getBoundingClientRect();
+        const dx = e.clientX - (cr.left + cr.width / 2);
+        const dy = e.clientY - (cr.top + cr.height / 2);
+        const reach = Math.max(cr.width, cr.height) * 0.85;
+        const t = 1 - Math.min(1, Math.hypot(dx, dy) / reach);
+        litTarget[i] = c.matches(':hover') ? 1 : t * t * 0.9;
+      });
+      kick();
+    });
+    gw.addEventListener('mouseleave', () => {
+      tx = 0; ty = 0;
+      litTarget.fill(0);
+      gw.classList.remove('gw-lit');
+      kick();
+    });
+  }
+
+  // Click a cloud → fly through, then go to the page
+  gw.querySelectorAll('[data-gw-go]').forEach((cloud) => {
+    cloud.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return; // let "open in new tab" work
+      e.preventDefault();
+      const href = cloud.getAttribute('href');
+      if (reduce) { window.location.href = href; return; }
+      const gr = gw.getBoundingClientRect();
+      const cr = cloud.getBoundingClientRect();
+      gw.style.setProperty('--ox', ((cr.left + cr.width / 2 - gr.left) / gr.width * 100).toFixed(1) + '%');
+      gw.style.setProperty('--oy', ((cr.top + cr.height / 2 - gr.top) / gr.height * 100).toFixed(1) + '%');
+      cloud.classList.add('gw-picked');
+      gw.classList.add('gw-go');
+      setTimeout(() => { window.location.href = href; }, 950);
+    });
+  });
+
+  // Coming back with the browser Back button: reset the transition state
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      gw.classList.remove('gw-go');
+      gw.querySelectorAll('.gw-picked').forEach((c) => c.classList.remove('gw-picked'));
+    }
+  });
 })();
