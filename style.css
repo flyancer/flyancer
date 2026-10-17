@@ -1283,38 +1283,66 @@ body::before {
 }
 
 /* ═══════════════════════════════════════════
-   NEW — Sound toggle
+   Sound toggle — transparent, tiny, blends into the page
    ═══════════════════════════════════════════ */
 .sound-toggle {
-  display: inline-flex;
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 480;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--surface2);
-  border: 0.5px solid var(--border2);
-  color: var(--muted);
+  background: transparent;
+  border: none;
+  outline: none;
   cursor: pointer;
-  transition: color 180ms ease, border-color 180ms ease, background 180ms ease, transform 150ms ease;
-  flex-shrink: 0;
+  color: #fff;
+  opacity: 0.4;
+  mix-blend-mode: difference; /* stays visible on dark and light sections without a box */
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 200ms ease;
 }
-.sound-toggle:hover {
-  color: var(--blue2);
-  border-color: rgba(37,99,255,0.45);
-  transform: scale(1.06);
-}
-.sound-toggle svg { width: 18px; height: 18px; }
+.sound-toggle:hover { opacity: 0.9; }
+.sound-toggle:focus-visible { opacity: 1; outline: 1px dashed currentColor; outline-offset: 3px; border-radius: 6px; }
 
-.sound-icon--on { display: none; }
-.sound-toggle[aria-pressed="true"] .sound-icon--off { display: none; }
-.sound-toggle[aria-pressed="true"] .sound-icon--on { display: block; }
-.sound-toggle[aria-pressed="true"] {
-  color: var(--blue2);
-  border-color: rgba(37,99,255,0.5);
-  background: rgba(37,99,255,0.1);
+.sound-toggle .eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
 }
+.sound-toggle .eq i {
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: currentColor;
+  border-radius: 1px;
+  transform-origin: bottom;
+  transform: scaleY(0.25);
+  transition: transform 250ms ease;
+}
+/* playing = tiny equalizer motion */
+.sound-toggle[aria-pressed="true"] .eq i { animation: eqBounce 1.1s ease-in-out infinite; }
+.sound-toggle[aria-pressed="true"] .eq i:nth-child(1) { animation-delay: 0s; }
+.sound-toggle[aria-pressed="true"] .eq i:nth-child(2) { animation-delay: 0.25s; }
+.sound-toggle[aria-pressed="true"] .eq i:nth-child(3) { animation-delay: 0.5s; }
+.sound-toggle[aria-pressed="true"] .eq i:nth-child(4) { animation-delay: 0.15s; }
+@keyframes eqBounce {
+  0%, 100% { transform: scaleY(0.25); }
+  50%      { transform: scaleY(1); }
+}
+/* muted = flat dim bars */
+.sound-toggle[aria-pressed="false"] { opacity: 0.25; }
+.sound-toggle[aria-pressed="false"]:hover { opacity: 0.6; }
 
+@media (prefers-reduced-motion: reduce) {
+  .sound-toggle[aria-pressed="true"] .eq i { animation: none; transform: scaleY(0.7); }
+}
 @media (max-width: 640px) {
-  .sound-toggle { width: 34px; height: 34px; margin: 0.5rem 0; }
+  .sound-toggle { left: 12px; bottom: 12px; }
 }
+
