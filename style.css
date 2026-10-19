@@ -1515,19 +1515,55 @@ body::before {
 .gw-scroll span { display: inline-block; animation: gwNudge 1.6s ease-in-out infinite; }
 @keyframes gwNudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
 
-/* fly-through transition when a cloud is clicked */
+/* rocket launch from the gateway */
 .gw-flash {
-  position: absolute; inset: 0; z-index: 6; pointer-events: none;
-  background: radial-gradient(circle at var(--ox, 50%) var(--oy, 55%), #fff 0%, #cfe0ff 30%, #7aa4ff 70%);
-  opacity: 0; transition: opacity 0.55s ease-in 0.35s;
+  position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: 0;
+  background: linear-gradient(180deg, #eaf2ff 0%, #a9c8ff 55%, #5b8def 100%);
+  transition: opacity 0.5s ease-in;
 }
-.gateway.gw-go { pointer-events: none; }
-.gateway.gw-go .gw-flash { opacity: 1; }
-.gateway.gw-go .gw-sky { animation-play-state: paused; transition: transform 1s ease-in; transform: scale(1.9); transform-origin: var(--ox, 50%) var(--oy, 55%); }
-.gateway.gw-go .gw-inner > *:not(.gw-clouds) { opacity: 0; transition: opacity 0.3s ease; }
-.gateway.gw-go .gw-cloud { opacity: 0; transition: opacity 0.6s ease 0.2s, transform 0.9s ease-in; transform: scale(0.9); }
-.gateway.gw-go .gw-cloud.gw-picked { opacity: 1; transform: scale(2.6); transform-origin: center; transition: transform 0.9s ease-in, opacity 0.4s ease 0.5s; }
-.gateway.gw-go .gw-cloud.gw-picked { opacity: 0; }
+.gateway.gw-launch { pointer-events: none; }
+.gateway.gw-launch .gw-sky { animation-play-state: paused; }
+.gateway.gw-launch .gw-inner > *:not(.gw-clouds) { opacity: 0; transition: opacity 0.35s ease; }
+.gateway.gw-launch .gw-cloud:not(.gw-picked) { opacity: 0; transition: opacity 0.5s ease; }
+.gateway.gw-launch .gw-cloud.gw-picked { animation-play-state: paused; }
+.gateway.gw-launch .gw-cloud.gw-picked .gw-cloud-label { opacity: 0; transition: opacity 0.3s ease; }
+.gw-streaks { position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; opacity: 0; transition: opacity 0.4s ease; }
+.gw-streaks.on { opacity: 1; }
+.gw-streaks i {
+  position: absolute; top: -35%; width: 2px; height: 35%;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent);
+  animation: gwStreak 0.4s linear infinite;
+}
+@keyframes gwStreak { from { transform: translateY(0); } to { transform: translateY(380%); } }
+
+/* rocket (image layers) */
+.rk { position: fixed; z-index: 950; pointer-events: none; will-change: transform; visibility: visible; }
+.rk img { position: absolute; inset: 0; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
+.rk-flame { transform-origin: 50% var(--ft, 60%); animation: rkFlicker 0.12s ease-in-out infinite alternate; }
+@keyframes rkFlicker { from { transform: scale(0.95, 0.9); } to { transform: scale(1.04, 1.12); } }
+.rk-puff {
+  position: fixed; z-index: 940; border-radius: 50%; pointer-events: none; visibility: visible;
+  background: radial-gradient(circle, rgba(255,255,255,0.85), rgba(205,220,255,0.45) 55%, transparent 72%);
+}
+
+/* landing overlay + parked rocket on expert / candidate pages */
+html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; }
+@keyframes rkUnhide { to { visibility: visible; } }
+.land-overlay {
+  position: fixed; inset: 0; z-index: 900; overflow: hidden; visibility: visible;
+  background: linear-gradient(180deg, #eaf2ff 0%, #a9c8ff 55%, #5b8def 100%);
+}
+.land-overlay img { position: absolute; width: min(46vw, 520px); height: auto; filter: brightness(1.8) saturate(0.5); opacity: 0.85; }
+.aud-cloud-wrap { position: relative; width: 100%; }
+.rk--parked {
+  position: absolute; left: 50%; top: 48%; width: 24%; height: auto;
+  margin: 0; z-index: 2; animation: rkIdle 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35));
+}
+.rk--parked img { position: static; display: block; }
+@keyframes rkIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@media (max-width: 860px) { .aud-cloud-wrap { max-width: 300px; margin: 0 auto; order: -1; } .aud-cloud { max-width: none; order: 0; } }
+@media (prefers-reduced-motion: reduce) { .rk--parked { animation: none; } .rk-flame { animation: none; } }
 
 @media (max-width: 760px) {
   .gw-inner { padding: 100px 16px 48px; }
