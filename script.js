@@ -841,13 +841,17 @@ const FX = (function () {
         const dy = e.clientY - (cr.top + cr.height / 2);
         const reach = Math.max(cr.width, cr.height) * 0.85;
         const t = 1 - Math.min(1, Math.hypot(dx, dy) / reach);
-        litTarget[i] = c.matches(':hover') ? 1 : t * t * 0.9;
+        // Fully lit only when the cursor is on this cloud's icon / text; just a faint hint when merely nearby
+        const onLabel = c.querySelector('.gw-cloud-label').matches(':hover');
+        litTarget[i] = onLabel ? 1 : t * t * 0.22;
+        c.classList.toggle('gw-hot', onLabel);
       });
       kick();
     });
     gw.addEventListener('mouseleave', () => {
       tx = 0; ty = 0;
       litTarget.fill(0);
+      clouds.forEach((c) => c.classList.remove('gw-hot'));
       gw.classList.remove('gw-lit');
       kick();
     });
