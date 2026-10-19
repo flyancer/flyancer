@@ -592,6 +592,212 @@ function openLoginPopup(e, role) {
   }
 })();
 
+/* ═══════════════ ROCKET (images) + generated sound effects ═══════════════ */
+const Rocket = (function () {
+  const meta = {"expert": {"w": 300, "h": 456, "cx": 0.4997, "cy": 0.4154, "ft": 0.8304}, "candidate": {"w": 300, "h": 757, "cx": 0.4991, "cy": 0.2993, "ft": 0.5978}};
+
+  function make(theme, W, withFlame) {
+    const m = meta[theme] || meta.candidate;
+    const el = document.createElement('div');
+    el.className = 'rk';
+    const H = W * m.h / m.w;
+    el.style.width = W + 'px';
+    el.style.height = H + 'px';
+    el.style.marginLeft = (-W * m.cx) + 'px';
+    el.style.marginTop = (-H * m.cy) + 'px';
+    el.style.setProperty('--ft', (m.ft * 100).toFixed(1) + '%');
+    el.innerHTML = (withFlame ? '<img class="rk-flame" src="assets/rocket-' + theme + '-flame.webp" alt="" draggable="false">' : '') +
+                   '<img class="rk-body" src="assets/rocket-' + theme + '-body.webp" alt="" draggable="false">';
+    return el;
+  }
+
+  function puff(x, y, size) {
+    const p = document.createElement('div');
+    p.className = 'rk-puff';
+    p.style.width = p.style.height = size + 'px';
+    p.style.left = (x - size / 2) + 'px';
+    p.style.top = (y - size / 2) + 'px';
+    document.body.appendChild(p);
+    const dx = (Math.random() - 0.5) * 50, dy = 30 + Math.random() * 60;
+    const a = p.animate([
+      { transform: 'translate(0,0) scale(.4)', opacity: 0.65 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + (2 + Math.random() * 1.6) + ')', opacity: 0 }
+    ], { duration: 700 + Math.random() * 500, easing: 'ease-out' });
+    a.onfinish = () => p.remove();
+  }
+
+  function shake(el, ms) {
+    if (!el.animate) return;
+    el.animate([
+      { transform: 'translate(0,0)' }, { transform: 'translate(-3px,2px)' }, { transform: 'translate(3px,-2px)' },
+      { transform: 'translate(-2px,-2px)' }, { transform: 'translate(2px,2px)' }, { transform: 'translate(0,0)' }
+    ], { duration: ms, iterations: 2 });
+  }
+
+  return { make, puff, shake, meta };
+})();
+
+const FX = (function () {
+  let ctx = null;
+  function get() {
+    try {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+      return ctx;
+    } catch (e) { return null; }
+  }
+  function muted() { try { return localStorage.getItem('flyancer_sound_muted') === 'true'; } catch (e) { return false; } }
+  function noise(c, sec) {
+    const b = c.createBuffer(1, Math.floor(c.sampleRate * sec), c.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const s = c.createBufferSource(); s.buffer = b; return s;
+  }
+  function env(g, t, pts) { // [[time, value, ...]]
+    g.gain.setValueAtTime(0.0001, t);
+    pts.forEach(([dt, v]) => g.gain.linearRampToValueAtTime(Math.max(v, 0.0001), t + dt));
+  }
+
+  // Fun rocket launch: ignition pop → rumble → rising whoosh → cartoon "whoop"
+  function launch() {
+    const c = get(); if (!c || muted() || c.state !== 'running') return;
+    const t = c.currentTime, out = c.createGain(); out.gain.value = 0.9; out.connect(c.destination);
+
+    const pop = noise(c, 0.15), pg = c.createGain(), pf = c.createBiquadFilter();
+    pf.type = 'lowpass'; pf.frequency.value = 1400; pop.connect(pf); pf.connect(pg); pg.connect(out);
+    env(pg, t, [[0.005, 0.5], [0.14, 0.0001]]); pop.start(t); pop.stop(t + 0.16);
+
+    const rum = noise(c, 2), rf = c.createBiquadFilter(), rg = c.createGain();
+    rf.type = 'lowpass'; rf.frequency.setValueAtTime(180, t); rf.frequency.linearRampToValueAtTime(520, t + 1.6);
+    rum.connect(rf); rf.connect(rg); rg.connect(out);
+    env(rg, t + 0.05, [[0.25, 0.55], [1.2, 0.35], [1.7, 0.0001]]); rum.start(t); rum.stop(t + 1.9);
+
+    const wh = noise(c, 2), wf = c.createBiquadFilter(), wg = c.createGain();
+    wf.type = 'bandpass'; wf.Q.value = 0.9;
+    wf.frequency.setValueAtTime(380, t + 0.2); wf.frequency.exponentialRampToValueAtTime(4200, t + 1.7);
+    wh.connect(wf); wf.connect(wg); wg.connect(out);
+    env(wg, t + 0.2, [[0.5, 0.35], [1.0, 0.5], [1.5, 0.0001]]); wh.start(t); wh.stop(t + 1.9);
+
+    const o = c.createOscillator(), og = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(170, t + 0.25); o.frequency.exponentialRampToValueAtTime(1350, t + 1.6);
+    lfo.frequency.value = 9; lg.gain.value = 16; lfo.connect(lg); lg.connect(o.frequency);
+    o.connect(og); og.connect(out);
+    env(og, t + 0.25, [[0.15, 0.13], [1.0, 0.1], [1.3, 0.0001]]);
+    o.start(t + 0.25); lfo.start(t + 0.25); o.stop(t + 1.65); lfo.stop(t + 1.65);
+  }
+
+  // Landing: descending whoosh, cartoon "wooop" down, soft thud at touchdown
+  function land() {
+    const c = get(); if (!c || muted() || c.state !== 'running') return;
+    const t = c.currentTime, out = c.createGain(); out.gain.value = 0.85; out.connect(c.destination);
+
+    const wh = noise(c, 2), wf = c.createBiquadFilter(), wg = c.createGain();
+    wf.type = 'bandpass'; wf.Q.value = 0.8;
+    wf.frequency.setValueAtTime(3200, t); wf.frequency.exponentialRampToValueAtTime(320, t + 1.7);
+    wh.connect(wf); wf.connect(wg); wg.connect(out);
+    env(wg, t, [[0.3, 0.4], [1.2, 0.3], [1.75, 0.0001]]); wh.start(t); wh.stop(t + 1.9);
+
+    const o = c.createOscillator(), og = c.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(900, t); o.frequency.exponentialRampToValueAtTime(150, t + 1.6);
+    o.connect(og); og.connect(out); env(og, t, [[0.2, 0.1], [1.4, 0.07], [1.7, 0.0001]]); o.start(t); o.stop(t + 1.75);
+
+    const th = c.createOscillator(), tg = c.createGain();
+    th.type = 'sine'; th.frequency.setValueAtTime(120, t + 1.7); th.frequency.exponentialRampToValueAtTime(42, t + 1.95);
+    th.connect(tg); tg.connect(out); env(tg, t + 1.7, [[0.01, 0.55], [0.25, 0.0001]]); th.start(t + 1.7); th.stop(t + 2);
+    const dust = noise(c, 0.3), df = c.createBiquadFilter(), dg = c.createGain();
+    df.type = 'lowpass'; df.frequency.value = 700; dust.connect(df); df.connect(dg); dg.connect(out);
+    env(dg, t + 1.7, [[0.01, 0.25], [0.25, 0.0001]]); dust.start(t + 1.7); dust.stop(t + 2);
+  }
+  return { launch, land, prime: get };
+})();
+
+/* ── LANDING (expert.html / candidate.html): rocket comes down and parks on the cloud ── */
+(function initLanding() {
+  const wrap = document.querySelector('.aud-cloud-wrap');
+  const root = document.documentElement;
+  if (!wrap) return;
+  const theme = wrap.getAttribute('data-rocket') || 'candidate';
+  const m = Rocket.meta[theme];
+
+  // Parked rocket (always there, gently hovering)
+  const parked = Rocket.make(theme, 100, false);
+  parked.classList.add('rk--parked');
+  parked.style.cssText = '';
+  parked.style.aspectRatio = m.w + ' / ' + m.h;
+  parked.style.translate = (-m.cx * 100) + '% ' + (-m.cy * 100) + '%';
+  wrap.appendChild(parked);
+
+  let flag = null;
+  try { flag = JSON.parse(sessionStorage.getItem('flyancer_rocket') || 'null'); sessionStorage.removeItem('flyancer_rocket'); } catch (e) {}
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const arriving = flag && Math.abs(Date.now() - flag.t) < 20000 && !reduce;
+  if (!arriving) { root.classList.remove('rk-arriving'); return; }
+
+  parked.style.visibility = 'hidden';
+  const overlay = document.createElement('div');
+  overlay.className = 'land-overlay';
+  ['cloud-candidate', 'cloud-expert', 'cloud-candidate', 'cloud-expert'].forEach((n, i) => {
+    const img = document.createElement('img');
+    img.src = 'assets/' + n + '.webp'; img.alt = '';
+    img.style.left = (6 + i * 24 + (i % 2) * 6) + '%';
+    img.style.top = (30 + i * 28) + '%';
+    overlay.appendChild(img);
+    img.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-170vh)' }],
+      { duration: 2100, easing: 'cubic-bezier(.2,.6,.3,1)', fill: 'forwards' });
+  });
+  document.body.appendChild(overlay);
+
+  requestAnimationFrame(() => {
+    const pr = parked.getBoundingClientRect();
+    const W = pr.width, H = W * m.h / m.w;
+    const tx = pr.left + W * m.cx, ty = pr.top + H * m.cy;      // where the body centre must end up
+    const fly = Rocket.make(theme, W, true);
+    fly.classList.add('rk-fly');
+    fly.style.left = tx + 'px'; fly.style.top = ty + 'px';
+    document.body.appendChild(fly);
+
+    const fall = ty + H * m.cy + 160;
+    fly.animate([
+      { transform: 'translateY(' + (-fall) + 'px) scale(1.1)' },
+      { transform: 'translateY(0) scale(1)' }
+    ], { duration: 2000, easing: 'cubic-bezier(.12,.7,.25,1)', fill: 'forwards' });
+    const flame = fly.querySelector('.rk-flame');
+    if (flame && flame.animate) {
+      flame.animate([{ scale: '1 1.9' }, { scale: '1 1.3', offset: 0.65 }, { scale: '1 0.12' }],
+        { duration: 2000, fill: 'forwards', easing: 'ease-out' });
+    }
+
+    let stop = false, last = 0;
+    (function emit(ts) {
+      if (stop) return;
+      if (ts - last > 40) {
+        last = ts;
+        const r = fly.getBoundingClientRect();
+        Rocket.puff(r.left + r.width * m.cx + (Math.random() - 0.5) * W * 0.4, r.top + r.height * m.ft * 0.95, 12 + Math.random() * 16);
+      }
+      requestAnimationFrame(emit);
+    })(0);
+
+    setTimeout(FX.land, 150);
+
+    function touchdown() {
+      stop = true;
+      const baseY = pr.top + H * m.ft;
+      for (let i = 0; i < 12; i++) {
+        Rocket.puff(tx + (Math.random() - 0.5) * W * 1.7, baseY - 6 + Math.random() * 10, 18 + Math.random() * 26);
+      }
+      Rocket.shake(document.body, 260);
+      parked.style.visibility = '';
+      fly.remove();
+      root.classList.remove('rk-arriving');
+      overlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 650, easing: 'ease-out', fill: 'forwards' })
+        .onfinish = () => overlay.remove();
+    }
+    setTimeout(touchdown, 2000);
+    setTimeout(() => { root.classList.remove('rk-arriving'); }, 7000); // failsafe
+  });
+})();
+
 /* ── GATEWAY: cloud parallax + fly-through transition ── */
 (function initGateway() {
   const gw = document.getElementById('gateway');
@@ -647,28 +853,100 @@ function openLoginPopup(e, role) {
     });
   }
 
-  // Click a cloud → fly through, then go to the page
+  // Click a cloud → rocket launches through the sky, then the page loads and the rocket lands
+  let launching = false;
+  const sky = gw.querySelector('.gw-sky');
+  let skyAnim = null, streaks = null, flyer = null, puffTimer = null;
+
+  function resetLaunch() {
+    launching = false;
+    gw.classList.remove('gw-launch');
+    gw.querySelectorAll('.gw-picked').forEach((c) => c.classList.remove('gw-picked'));
+    if (skyAnim) { skyAnim.cancel(); skyAnim = null; }
+    if (streaks) { streaks.remove(); streaks = null; }
+    if (flyer) { flyer.remove(); flyer = null; }
+    if (puffTimer) { cancelAnimationFrame(puffTimer); puffTimer = null; }
+    const fl = gw.querySelector('.gw-flash'); if (fl) fl.style.opacity = '';
+  }
+
   gw.querySelectorAll('[data-gw-go]').forEach((cloud) => {
     cloud.addEventListener('click', (e) => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return; // let "open in new tab" work
       e.preventDefault();
+      if (launching) return;
       const href = cloud.getAttribute('href');
+      const theme = cloud.classList.contains('gw-cloud--expert') ? 'expert' : 'candidate';
+      try { sessionStorage.setItem('flyancer_rocket', JSON.stringify({ theme, t: Date.now() + 2200 })); } catch (err) {}
       if (reduce) { window.location.href = href; return; }
-      const gr = gw.getBoundingClientRect();
-      const cr = cloud.getBoundingClientRect();
-      gw.style.setProperty('--ox', ((cr.left + cr.width / 2 - gr.left) / gr.width * 100).toFixed(1) + '%');
-      gw.style.setProperty('--oy', ((cr.top + cr.height / 2 - gr.top) / gr.height * 100).toFixed(1) + '%');
+      launching = true;
+      FX.prime();                      // unlock audio inside this click
       cloud.classList.add('gw-picked');
-      gw.classList.add('gw-go');
-      setTimeout(() => { window.location.href = href; }, 950);
+      gw.classList.add('gw-launch');
+
+      // Rocket appears from the middle of the picked cloud
+      const cr = cloud.getBoundingClientRect();
+      const W = Math.max(70, Math.min(112, window.innerWidth * 0.075));
+      flyer = Rocket.make(theme, W, true);
+      flyer.classList.add('rk-fly');
+      flyer.style.left = (cr.left + cr.width / 2) + 'px';
+      flyer.style.top = (cr.top + cr.height / 2) + 'px';
+      document.body.appendChild(flyer);
+      const m = Rocket.meta[theme];
+      const H = W * m.h / m.w;
+      const dist = cr.top + cr.height / 2 + H + 120;
+
+      flyer.animate([
+        { transform: 'translateY(8px) scale(.4)', opacity: 0, offset: 0, easing: 'ease-out' },
+        { transform: 'translateY(-6px) scale(1)', opacity: 1, offset: 0.22, easing: 'cubic-bezier(.55,0,.95,.5)' },
+        { transform: 'translateY(' + (-dist) + 'px) scale(1.08)', opacity: 1, offset: 1 }
+      ], { duration: 1750, fill: 'forwards' });
+      const flame = flyer.querySelector('.rk-flame');
+      if (flame && flame.animate) {
+        flame.animate([
+          { scale: '1 0.15', offset: 0 }, { scale: '1 1', offset: 0.22 }, { scale: '1 1.9', offset: 1 }
+        ], { duration: 1750, fill: 'forwards', easing: 'ease-in' });
+      }
+
+      // Smoke trail from the nozzle
+      let last = 0;
+      (function emit(ts) {
+        if (!flyer) return;
+        if (ts - last > 34) {
+          last = ts;
+          const r = flyer.getBoundingClientRect();
+          Rocket.puff(r.left + r.width * m.cx + (Math.random() - 0.5) * W * 0.3, r.top + r.height * m.ft * 0.92, 14 + Math.random() * 20);
+        }
+        puffTimer = requestAnimationFrame(emit);
+      })(0);
+
+      // Camera: the sky rushes downward as we climb; speed lines; flash to blue
+      const cur = getComputedStyle(sky).transform;
+      skyAnim = sky.animate(
+        [{ transform: cur === 'none' ? 'none' : cur }, { transform: 'translateY(22%) scale(1.65)' }],
+        { duration: 1750, easing: 'cubic-bezier(.5,0,.9,.5)', fill: 'forwards' }
+      );
+      setTimeout(() => {
+        streaks = document.createElement('div');
+        streaks.className = 'gw-streaks';
+        for (let i = 0; i < 22; i++) {
+          const s = document.createElement('i');
+          s.style.left = (Math.random() * 100).toFixed(1) + '%';
+          s.style.animationDelay = (-Math.random() * 0.4).toFixed(2) + 's';
+          s.style.animationDuration = (0.28 + Math.random() * 0.25).toFixed(2) + 's';
+          s.style.opacity = (0.35 + Math.random() * 0.65).toFixed(2);
+          streaks.appendChild(s);
+        }
+        gw.appendChild(streaks);
+        requestAnimationFrame(() => streaks && streaks.classList.add('on'));
+      }, 750);
+      setTimeout(() => { const fl = gw.querySelector('.gw-flash'); if (fl) fl.style.opacity = '1'; }, 1350);
+
+      FX.launch();
+      Rocket.shake(gw, 420);
+      setTimeout(() => { window.location.href = href; }, 1900);
     });
   });
 
-  // Coming back with the browser Back button: reset the transition state
-  window.addEventListener('pageshow', (e) => {
-    if (e.persisted) {
-      gw.classList.remove('gw-go');
-      gw.querySelectorAll('.gw-picked').forEach((c) => c.classList.remove('gw-picked'));
-    }
-  });
+  // Coming back with the browser Back button: reset everything
+  window.addEventListener('pageshow', (e) => { if (e.persisted) resetLaunch(); });
 })();
