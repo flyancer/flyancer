@@ -954,3 +954,36 @@ const FX = (function () {
   // Coming back with the browser Back button: reset everything
   window.addEventListener('pageshow', (e) => { if (e.persisted) resetLaunch(); });
 })();
+
+/* ── LOGGED-IN STATE: show the person's name instead of "Free Username" / "Join as…" ── */
+(function initLoggedInUI() {
+  if (!flyancerSupabase) return;
+  function apply(session) {
+    if (!session) return;
+    const meta = session.user.user_metadata || {};
+    flyancerSupabase.from('profiles').select('full_name,username,role').eq('id', session.user.id).maybeSingle()
+      .then(({ data: p }) => {
+        const name = (p && p.full_name) || meta.full_name || (session.user.email || '').split('@')[0];
+        const first = String(name).split(/\s+/)[0];
+        const initial = String(name).trim().charAt(0).toUpperCase();
+        const dest = p ? 'dashboard.html' : 'onboarding.html';
+        document.querySelectorAll('.btn-nav').forEach(a => {
+          a.classList.add('is-user');
+          a.removeAttribute('onclick');
+          a.href = dest;
+          a.innerHTML = '<span class="nav-av">' + initial + '</span>' + first.replace(/[<>&]/g, '');
+          a.title = p ? 'Open my dashboard' : 'Finish setting up your profile';
+        });
+        document.querySelectorAll('a[onclick*="openLoginPopup"]:not(.btn-nav)').forEach(a => {
+          if (a.classList.contains('btn-sm')) return; // sample "Request →" cards stay as they are
+          a.removeAttribute('onclick');
+          a.href = dest;
+          a.textContent = p ? 'Go to my dashboard →' : 'Finish my profile →';
+        });
+        const popup = document.getElementById('loginPopup');
+        if (popup) popup.style.display = 'none';
+      });
+  }
+  flyancerSupabase.auth.getSession().then(({ data }) => apply(data.session));
+  flyancerSupabase.auth.onAuthStateChange((_e, session) => apply(session));
+})();
