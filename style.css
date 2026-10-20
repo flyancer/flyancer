@@ -1080,7 +1080,7 @@ body::before {
 .onboard-page {
   min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
-  padding: 2rem 1.25rem;
+  padding: 5.5rem 1.25rem 2rem; position: relative;
 }
 .onboard-card {
   width: 100%; max-width: 440px;
@@ -1672,3 +1672,7 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 /* legibility of labels over the bright (hot) cloud, without any box */
 .gw-cloud-label strong, .gw-cloud-label em { text-shadow: 0 1px 2px rgba(5,10,28,.95), 0 0 10px rgba(5,10,28,.85), 0 0 22px rgba(5,10,28,.6); }
 .gw-cloud.gw-hot .gw-cloud-label em { color: #fff; }
+
+/* logged-in nav chip */
+.btn-nav.is-user { display: inline-flex; align-items: center; gap: 8px; padding-left: 6px; }
+.btn-nav .nav-av { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.22); display: inline-grid; place-items: center; font: 700 12px var(--font-display); }
