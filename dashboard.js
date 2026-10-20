@@ -23,13 +23,19 @@ async function init() {
 async function render() {
   const isExpert = me.role === 'expert';
   $('app').innerHTML = `
-    <h1 class="pf-h" style="margin-top:6px">Hi ${esc(me.full_name.split(' ')[0])} 👋 ${me.is_verified ? '<span class="pf-badge">✓ Verified</span>' : ''}</h1>
-    <p style="color:var(--muted)">Your page: <a style="color:var(--blue2)" href="profile.html?u=${esc(me.username)}">flyancer.com/@${esc(me.username)}</a></p>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:6px">${me.gender ? window.flyAvatar(me.gender, me.username, 56) : ''}
+      <h1 class="pf-h" style="margin:0">Hi ${esc(me.full_name.split(' ')[0])} 👋 ${me.is_verified ? '<span class="pf-badge">✓ Verified</span>' : ''}</h1></div>
+    <p style="color:var(--muted)">Your page: <a style="color:var(--blue2)" href="profile.html?u=${esc(me.username)}">flyancer.com/${esc(me.username)}</a></p>
 
     <h2 class="pf-h">Your profile</h2>
     <form class="pf-form" id="profForm">
       <label>Full name<input id="pName" required value="${esc(me.full_name)}"></label>
       ${isExpert ? `<div class="pf-row"><label>Company<input id="pCompany" value="${esc(me.company)}"></label><label>Job title<input id="pTitle" value="${esc(me.job_title)}"></label></div>` : ''}
+      <div><span style="font:600 13px var(--font-body);color:rgba(240,244,255,.85)">Avatar</span>
+        <div class="ob-avatars" id="pAvatars" style="margin-top:8px">
+          <button type="button" class="ob-av ${me.gender !== 'female' ? 'on' : ''}" data-g="male"><span>${window.flyAvatar('male', me.username, 64)}</span><em>Male</em></button>
+          <button type="button" class="ob-av ${me.gender === 'female' ? 'on' : ''}" data-g="female"><span>${window.flyAvatar('female', me.username, 64)}</span><em>Female</em></button>
+        </div></div>
       <label>Bio<textarea id="pBio" rows="3">${esc(me.bio)}</textarea></label>
       <div><span class="pf-err" id="profMsg"></span></div>
       <div><button class="pf-btn" type="submit">Save profile</button></div>
@@ -53,6 +59,12 @@ async function render() {
     <h2 class="pf-h">${isExpert ? 'Requests from candidates' : 'Your requests'}</h2>
     <div id="reqList"><div class="pf-empty">Loading…</div></div>`;
 
+  let g = me.gender || 'male';
+  document.querySelectorAll('#pAvatars .ob-av').forEach(b => b.addEventListener('click', () => {
+    g = b.dataset.g; window.__g = g;
+    document.querySelectorAll('#pAvatars .ob-av').forEach(x => x.classList.toggle('on', x === b));
+  }));
+  window.__g = g;
   $('profForm').addEventListener('submit', saveProfile);
   if (isExpert) { $('svcForm').addEventListener('submit', addService); loadServices(); }
   loadRequests();
@@ -60,13 +72,13 @@ async function render() {
 
 async function saveProfile(e) {
   e.preventDefault();
-  const upd = { full_name: $('pName').value.trim(), bio: $('pBio').value.trim() || null };
+  const upd = { full_name: $('pName').value.trim(), bio: $('pBio').value.trim() || null, gender: window.__g || me.gender || 'male' };
   if (me.role === 'expert') { upd.company = $('pCompany').value.trim() || null; upd.job_title = $('pTitle').value.trim() || null; }
   const { error } = await sb.from('profiles').update(upd).eq('id', me.id);
   const m = $('profMsg');
   m.className = error ? 'pf-err' : 'pf-ok';
   m.textContent = error ? error.message : 'Saved ✓';
-  if (!error) Object.assign(me, upd);
+  if (!error) { Object.assign(me, upd); render(); }
 }
 
 async function loadServices() {
