@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Flyancer</title>
+<script>
+  // GitHub Pages serves this for unknown paths. /@username -> profile page.
+  (function(){
+    var m = location.pathname.match(/^\/@([A-Za-z0-9_]+)\/?$/);
+    if (m) { location.replace('/profile.html?u=' + m[1].toLowerCase()); }
+  })();
+</script>
+<link rel="stylesheet" href="/style.css"/></head>
+<body style="display:grid;place-items:center;min-height:100vh;text-align:center;font-family:Inter,sans-serif">
+<div><h1 style="font-size:2rem;margin-bottom:10px">Page not found</h1><a href="/" style="color:#60A5FA">Back to Flyancer</a></div>
+</body></html>

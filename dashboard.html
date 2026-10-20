@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Flyancer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pf.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="pf">
+  <header class="pf-top">
+    <a class="brand" href="index.html"><b>F</b>Flyancer</a>
+    <nav class="pf-nav"><a id="viewPublic" href="#">My public page</a><button id="logoutBtn" type="button">Log out</button></nav>
+  </header>
+  <main class="pf-wrap" id="app"><div class="pf-msg">Loading…</div></main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
+    window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
+  </script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
