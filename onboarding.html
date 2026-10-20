@@ -34,7 +34,7 @@
         <div class="onboard-icon">✓</div>
         <h2>Welcome back!</h2>
         <p id="obExistingText">Your profile is already set up.</p>
-        <a href="index.html" class="btn-primary">Go to Flyancer</a>
+        <a href="dashboard.html" class="btn-primary">Go to my dashboard →</a>
       </div>
 
       <!-- PROFILE FORM -->
@@ -48,9 +48,10 @@
         <label class="onboard-label">Choose a username</label>
         <div class="onboard-username-row">
           <span class="onboard-at">flyancer.com/@</span>
-          <input type="text" id="obUsername" placeholder="yourname" required pattern="[a-z0-9_]{3,20}" />
+          <input type="text" id="obUsername" placeholder="yourname" required />
         </div>
-        <div class="onboard-hint" id="obUsernameHint">Lowercase letters, numbers, underscores only — 3 to 20 characters.</div>
+        <div class="onboard-suggestions" id="obSuggestions" style="display:none;"></div>
+        <div class="onboard-hint" id="obUsernameHint">We've suggested one based on your name — feel free to change it.</div>
 
         <label class="onboard-label">Full name</label>
         <input type="text" id="obFullName" required />
@@ -77,8 +78,8 @@
         <div class="onboard-icon onboard-icon--success">🎉</div>
         <h2>You're live!</h2>
         <p>Your Flyancer profile is now <strong id="obSuccessUsername"></strong>.</p>
-        <p class="onboard-sub">(A public profile page at that address is coming very soon — for now, you're fully set up in our system.)</p>
-        <a href="index.html" class="btn-primary">Back to Flyancer</a>
+        <p class="onboard-sub">Your public page and dashboard are ready.</p>
+        <a href="dashboard.html" class="btn-primary">Go to my dashboard →</a>
       </div>
 
     </div>
