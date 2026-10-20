@@ -23,12 +23,21 @@ async function init() {
 async function render() {
   const isExpert = me.role === 'expert';
   $('app').innerHTML = `
-    <div style="display:flex;align-items:center;gap:14px;margin-top:6px">${me.gender ? window.flyAvatar(me.gender, me.username, 56) : ''}
+    <div style="display:flex;align-items:center;gap:14px;margin-top:6px">
       <h1 class="pf-h" style="margin:0">Hi ${esc(me.full_name.split(' ')[0])} 👋 ${me.is_verified ? '<span class="pf-badge">✓ Verified</span>' : ''}</h1></div>
     <p style="color:var(--muted)">Your page: <a style="color:var(--blue2)" href="profile.html?u=${esc(me.username)}">flyancer.com/${esc(me.username)}</a></p>
 
-    <h2 class="pf-h">Your profile</h2>
-    <form class="pf-form" id="profForm">
+    <div class="pf-h-row"><h2 class="pf-h">Your profile</h2><button class="pf-btn ghost" id="editProf" type="button">✎ Edit profile</button></div>
+    <div class="pf-sum">
+      ${me.gender ? window.flyAvatar(me.gender, me.username, 64) : ''}
+      <div style="min-width:0">
+        <div style="font:700 1.1rem var(--font-display)">${esc(me.full_name)}</div>
+        ${isExpert ? `<div style="color:rgba(240,244,255,.8);font-size:14px">${me.job_title || me.company ? esc([me.job_title, me.company].filter(Boolean).join(' · ')) : '<span class="pf-dim">Add your company and job title</span>'}</div>` : ''}
+        <div class="pf-sum-bio">${me.bio ? esc(me.bio) : '<span class="pf-dim">Add a short bio so people know who you are.</span>'}</div>
+      </div>
+    </div>
+    <div class="pf-modal" id="profModal"><form class="pf-form wide" id="profForm">
+      <div class="pf-mh"><h3>Edit profile</h3><button type="button" class="pf-x" data-close aria-label="Close">✕</button></div>
       <label>Full name<input id="pName" required value="${esc(me.full_name)}"></label>
       ${isExpert ? `<div class="pf-row"><label>Company<input id="pCompany" value="${esc(me.company)}"></label><label>Job title<input id="pTitle" value="${esc(me.job_title)}"></label></div>` : ''}
       <div><span style="font:600 13px var(--font-body);color:rgba(240,244,255,.85)">Avatar</span>
@@ -39,13 +48,13 @@ async function render() {
       <label>Bio<textarea id="pBio" rows="3">${esc(me.bio)}</textarea></label>
       <div><span class="pf-err" id="profMsg"></span></div>
       <div><button class="pf-btn" type="submit">Save profile</button></div>
-    </form>
+    </form></div>
 
     ${isExpert ? `
-    <h2 class="pf-h">Your services</h2>
+    <div class="pf-h-row"><h2 class="pf-h">Your services</h2><button class="pf-btn" id="addSvc" type="button">+ Add a service</button></div>
     <div id="svcList"></div>
-    <form class="pf-form" id="svcForm" style="margin-top:14px">
-      <h3 style="font:700 1rem var(--font-display)">Add a service</h3>
+    <div class="pf-modal" id="svcModal"><form class="pf-form wide" id="svcForm">
+      <div class="pf-mh"><h3>Add a service</h3><button type="button" class="pf-x" data-close aria-label="Close">✕</button></div>
       <div class="cat-tiles" id="catTiles">${window.FLY_CATS.map(c => `<button type="button" class="cat-tile" data-k="${c.k}"><span>${c.icon} ${c.label}</span><small>${c.blurb}</small></button>`).join('')}</div>
       <div class="pf-row">
         <label>Type<select id="sType">${Object.entries(TYPES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
@@ -56,7 +65,7 @@ async function render() {
       <label>Description<textarea id="sDesc" rows="3" maxlength="500" placeholder="What will the candidate get? How will you run the session?"></textarea></label>
       <div class="pf-err" id="svcMsg"></div>
       <div><button class="pf-btn" type="submit">Add service</button></div>
-    </form>` : ''}
+    </form></div>` : ''}
 
     ${isExpert ? '' : `<div class="pf-hero" style="margin-top:22px;padding:24px"><div><h2 style="font:800 1.3rem var(--font-display)">Find an expert</h2><p style="color:rgba(240,244,255,.8);margin:6px 0 14px">Resume review, mock interviews, referrals and more — from people at real companies.</p><a class="pf-btn" href="explore.html">Browse experts →</a></div></div>`}
     <h2 class="pf-h">${isExpert ? 'Requests from candidates' : 'Your requests'}</h2>
@@ -68,6 +77,13 @@ async function render() {
     document.querySelectorAll('#pAvatars .ob-av').forEach(x => x.classList.toggle('on', x === b));
   }));
   window.__g = g;
+  const openM = (id) => $(id).classList.add('open');
+  document.querySelectorAll('.pf-modal').forEach(m => {
+    m.addEventListener('click', (e) => { if (e.target === m || e.target.closest('[data-close]')) m.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.pf-modal.open').forEach(m => m.classList.remove('open')); });
+  $('editProf').onclick = () => openM('profModal');
+  if (isExpert) $('addSvc').onclick = () => { $('svcMsg').textContent = ''; openM('svcModal'); };
   $('profForm').addEventListener('submit', saveProfile);
   if (isExpert) { $('svcForm').addEventListener('submit', addService);
     $('catTiles').querySelectorAll('.cat-tile').forEach(t => t.onclick = () => {
@@ -96,7 +112,7 @@ async function saveProfile(e) {
 async function loadServices() {
   const { data } = await sb.from('services').select('*').eq('profile_id', me.id).order('created_at');
   const box = $('svcList');
-  if (!data || !data.length) { box.innerHTML = '<div class="pf-empty">No services yet — add your first one below.</div>'; return; }
+  if (!data || !data.length) { box.innerHTML = '<div class="pf-empty">No services yet — click “+ Add a service” to create your first one.</div>'; return; }
   box.innerHTML = data.map(s => `
     <div class="pf-svc-row"><div><h4>${esc(s.title)}</h4><small>${esc(TYPES[s.service_type])} · ₹${Number(s.price_inr).toLocaleString('en-IN')}</small></div>
     <button class="pf-btn danger" data-del="${s.id}">Delete</button></div>`).join('');
@@ -117,7 +133,7 @@ async function addService(e) {
     title: $('sTitle').value.trim(), description: $('sDesc').value.trim() || null, price_inr: price
   });
   if (error) { m.textContent = error.message; return; }
-  $('svcForm').reset(); m.className = 'pf-ok'; m.textContent = 'Service added ✓';
+  $('svcForm').reset(); $('svcModal').classList.remove('open');
   loadServices();
 }
 
