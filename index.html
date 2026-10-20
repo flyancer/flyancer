@@ -93,7 +93,7 @@
         <span class="logo-text">Flyancer</span>
       </a>
       <div class="nav-links">
-        <a href="#showcase">Find an Expert</a>
+        <a href="explore.html">Find an Expert</a>
         <a href="#create">Become an Expert</a>
         <a href="#" class="btn-nav" onclick="openLoginPopup(event)">Free Username</a>
       </div>
@@ -409,92 +409,11 @@
     <div class="container">
       <div class="section-eyebrow">Connect</div>
       <h2 class="section-title">Connect with clients, experts, and professionals.</h2>
-      <p class="section-sub">Every expert on Flyancer signs up with a real company email — so what you're booking is real too.</p>
+      <p class="section-sub">Pick a topic and meet verified people who have actually done it. Every expert signs up with a real company email — so what you're booking is real too.</p>
 
-      <div class="services-grid">
-
-        <!-- Service 1: Referrals -->
-        <div class="service-card service-card--primary">
-          <div class="sc-icon">
-            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="56" height="56" rx="16" fill="url(#g1)"/>
-              <circle cx="22" cy="22" r="7" fill="white" opacity="0.9"/>
-              <path d="M12 40c0-6 4.5-10 10-10s10 4 10 10" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-              <path d="M36 20l4 4 6-6" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <defs>
-                <linearGradient id="g1" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#2563FF"/>
-                  <stop offset="1" stop-color="#7C3AED"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div class="sc-coming">Coming Soon</div>
-          <h3 class="sc-title">Job Referrals</h3>
-          <p class="sc-desc">Find a verified employee at the company you want to join. Submit your resume and a short pitch — they review it and choose to refer you internally.</p>
-          <ul class="sc-features">
-            <li>Search experts by company &amp; role</li>
-            <li>Structured request: resume, JD link, pitch</li>
-            <li>Expert accepts, declines, or reviews first</li>
-          </ul>
-          <div class="sc-badge">🎯 No guaranteed outcomes — just a real shot</div>
-        </div>
-
-        <!-- Service 2: Mock Interviews & Coaching -->
-        <div class="service-card">
-          <div class="sc-icon">
-            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="56" height="56" rx="16" fill="url(#g2)"/>
-              <rect x="16" y="18" width="16" height="20" rx="3" fill="white" opacity="0.9"/>
-              <circle cx="24" cy="25" r="3" fill="#0EA5E9"/>
-              <path d="M19 33h10" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M36 22v14M40 26v6" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
-              <defs>
-                <linearGradient id="g2" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#0EA5E9"/>
-                  <stop offset="1" stop-color="#2563FF"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div class="sc-coming">Coming Soon</div>
-          <h3 class="sc-title">Mock Interviews &amp; Coaching</h3>
-          <p class="sc-desc">Book time with a real interviewer or coach — practice system design, behavioral rounds, or get a full career consultation from someone who's done the job.</p>
-          <ul class="sc-features">
-            <li>Book by role, company, or skill</li>
-            <li>Live 1:1 video sessions</li>
-            <li>Honest feedback after every round</li>
-          </ul>
-          <div class="sc-badge">🎤 Practice with people who've hired</div>
-        </div>
-
-        <!-- Service 3: Resume Review -->
-        <div class="service-card">
-          <div class="sc-icon">
-            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="56" height="56" rx="16" fill="url(#g3)"/>
-              <path d="M18 16h20v4H18zM18 23h12v3H18zM18 30h20v3H18zM18 37h8v3H18z" fill="white" opacity="0.9"/>
-              <circle cx="42" cy="40" r="8" fill="#F59E0B"/>
-              <path d="M39 40l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <defs>
-                <linearGradient id="g3" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#059669"/>
-                  <stop offset="1" stop-color="#0EA5E9"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div class="sc-coming">Coming Soon</div>
-          <h3 class="sc-title">Resume Review</h3>
-          <p class="sc-desc">Get your resume reviewed by someone who actually screens resumes for a living — not a generic template checker.</p>
-          <ul class="sc-features">
-            <li>Line-by-line feedback from a real recruiter/HR</li>
-            <li>Role-specific suggestions</li>
-            <li>Turnaround in 24–48 hours</li>
-          </ul>
-          <div class="sc-badge">📄 Real eyes, real feedback</div>
-        </div>
-
+      <div class="topics" id="topics">
+        <div class="tp-main" id="tpMain" role="tablist" aria-label="Topics"></div>
+        <div class="tp-panel" id="tpPanel" aria-live="polite"></div>
       </div>
     </div>
   </section>
@@ -739,6 +658,7 @@
   </script>
 
   <script src="avatar.js"></script>
+  <script src="topics.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
