@@ -1676,3 +1676,48 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 /* logged-in nav chip */
 .btn-nav.is-user { display: inline-flex; align-items: center; gap: 8px; padding-left: 6px; }
 .btn-nav .nav-av { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.22); display: inline-grid; place-items: center; font: 700 12px var(--font-display); }
+
+/* avatar picker */
+.ob-avatars { display: flex; gap: 12px; margin-bottom: 6px; }
+.ob-av { flex: 1; background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.14); border-radius: 14px; padding: 12px 8px 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #fff; transition: border-color .2s, background .2s; }
+.ob-av em { font: 600 13px var(--font-body); font-style: normal; color: rgba(240,244,255,.8); }
+.ob-av:hover { border-color: rgba(96,165,250,.5); }
+.ob-av.on { border-color: var(--blue); background: rgba(37,99,255,.14); }
+.btn-nav .nav-av svg { width: 26px; height: 26px; }
+.btn-nav .nav-av { background: none; width: 26px; height: 26px; }
+
+/* ═══ FLOATING GLASS PILL NAV ═══
+   Top of page: fully transparent. After scrolling: a round, blurred, floating pill. */
+.nav {
+  background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  border-bottom: 0 !important; padding: 10px 1.25rem 0; pointer-events: none;
+}
+.nav.scrolled { background: transparent !important; }
+.nav-inner {
+  pointer-events: auto; width: 100%; max-width: 1120px; height: 60px;
+  padding: 0 4px; border: 1px solid transparent; border-radius: 999px;
+  transition: max-width .5s cubic-bezier(.2,.8,.2,1), padding .4s, background .35s, border-color .35s, box-shadow .35s, backdrop-filter .35s, height .35s;
+}
+.nav.scrolled .nav-inner {
+  max-width: 760px; height: 54px; padding: 0 8px 0 16px;
+  background: rgba(12,19,38,0.52);
+  backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: 0 10px 40px rgba(2,6,20,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.nav .logo-text { text-shadow: 0 1px 12px rgba(6,11,24,.6); }
+.nav-links { gap: 1.6rem; color: rgba(240,244,255,0.82); text-shadow: 0 1px 10px rgba(6,11,24,.6); }
+.nav-links .btn-nav { text-shadow: none; border-radius: 999px; padding: 8px 18px; box-shadow: 0 4px 18px rgba(37,99,255,.4); }
+.nav.scrolled .logo-img { width: 30px; height: 30px; }
+.nav.scrolled .logo-mark { width: 28px; height: 28px; font-size: 14px; }
+.nav .btn-nav.is-user { padding: 5px 16px 5px 5px; }
+@media (max-width: 640px) {
+  .nav { padding: 8px 12px 0; }
+  .nav-inner { height: 52px; padding: 0 6px; }
+  .nav.scrolled .nav-inner { max-width: 100%; height: 50px; padding: 0 10px 0 14px; }
+  .nav-links.open {
+    top: 66px; left: 12px; right: 12px; border-radius: 22px; padding: 1.25rem; pointer-events: auto;
+    background: rgba(10,16,32,0.95); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); align-items: stretch; text-align: center;
+    border: 1px solid rgba(255,255,255,.14); box-shadow: 0 16px 48px rgba(2,6,20,.55);
+  }
+}
