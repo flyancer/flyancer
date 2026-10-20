@@ -13,6 +13,9 @@ const FREE_DOMAINS = [
   'rediffmail.com', 'zoho.com', 'gmx.com', 'mail.com'
 ];
 
+const RESERVED = ['about','admin','login','logout','signup','dashboard','profile','onboarding','expert','experts','candidate','candidates','index','assets','api','support','help','terms','privacy','refund','contact','pricing','blog','flyancer','settings','static','www','mail','robots','sitemap','status','null','undefined','home','search','book','booking'];
+let currentGender = 'male';
+
 const el = (id) => document.getElementById(id);
 const states = ['obLoading', 'obInvalid', 'obExisting', 'obForm', 'obSuccess'];
 function showState(id) {
@@ -21,6 +24,23 @@ function showState(id) {
     if (!node) return;
     node.style.display = (s === id) ? (s === 'obForm' ? 'block' : 'flex') : 'none';
   });
+}
+
+function slugifyUsername(str) {
+  return (str || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9_]+/g, '')
+    .slice(0, 20);
+}
+
+function suggestUsernames(base) {
+  const clean = slugifyUsername(base) || 'flyancer';
+  const suffixes = [
+    Math.floor(10 + Math.random() * 89),
+    Math.floor(10 + Math.random() * 89),
+    '_' + Math.floor(1 + Math.random() * 9)
+  ];
+  return suffixes.map(s => (clean.slice(0, 17) + s).slice(0, 20));
 }
 
 let currentUser = null;
@@ -53,6 +73,14 @@ async function init() {
     return;
   }
 
+  // avatar picker
+  document.querySelectorAll('#obAvatars [data-av]').forEach(s => {
+    s.innerHTML = window.flyAvatar(s.dataset.av, el('obUsername').value || currentUser.email, 64);
+  });
+  const pick = (g) => { currentGender = g; document.querySelectorAll('#obAvatars .ob-av').forEach(b => b.classList.toggle('on', b.dataset.g === g)); };
+  document.querySelectorAll('#obAvatars .ob-av').forEach(b => b.addEventListener('click', () => pick(b.dataset.g)));
+  pick('male');
+
   await populateForm();
   showState('obForm');
 }
@@ -60,6 +88,10 @@ async function init() {
 async function populateForm() {
   el('obEmailLine').textContent = `Signed in as ${currentUser.email}`;
   el('obFullName').value = currentUser.user_metadata?.full_name || '';
+
+  // Suggest a starting username from their name — most people won't need to type one at all
+  const nameForSlug = currentUser.user_metadata?.full_name || currentUser.email.split('@')[0];
+  el('obUsername').value = slugifyUsername(nameForSlug);
 
   if (currentRole === 'expert') {
     el('obRoleLabel').textContent = 'Create Your Flyancer Profile';
@@ -79,19 +111,47 @@ async function populateForm() {
   }
 }
 
+// Sanitize as they type instead of rejecting on submit — invalid characters
+// just quietly don't appear, so there's nothing to "get wrong"
+el('obUsername').addEventListener('input', () => {
+  const cleaned = slugifyUsername(el('obUsername').value);
+  if (cleaned !== el('obUsername').value) el('obUsername').value = cleaned;
+  el('obSuggestions').style.display = 'none';
+});
+
+function showSuggestions(base) {
+  const box = el('obSuggestions');
+  const options = suggestUsernames(base);
+  box.innerHTML = '<span class="onboard-suggest-label">That one\'s taken — try:</span>' +
+    options.map(u => `<button type="button" class="onboard-suggest-chip">${u}</button>`).join('');
+  box.style.display = 'flex';
+  box.querySelectorAll('.onboard-suggest-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      el('obUsername').value = chip.textContent;
+      box.style.display = 'none';
+      el('obFormError').textContent = '';
+    });
+  });
+}
+
 el('obForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const errorEl = el('obFormError');
   errorEl.textContent = '';
+  el('obSuggestions').style.display = 'none';
 
-  const username = el('obUsername').value.trim().toLowerCase();
+  const username = slugifyUsername(el('obUsername').value.trim());
   const fullName = el('obFullName').value.trim();
   const bio = el('obBio').value.trim();
   const company = currentRole === 'expert' ? el('obCompany').value.trim() : null;
   const jobTitle = currentRole === 'expert' ? el('obJobTitle').value.trim() : null;
 
-  if (!/^[a-z0-9_]{3,20}$/.test(username)) {
-    errorEl.textContent = 'Username must be 3–20 characters: lowercase letters, numbers, underscores only.';
+  if (username.length < 3) {
+    errorEl.textContent = 'Just a couple more characters for your username (letters, numbers, or _).';
+    return;
+  }
+  if (RESERVED.includes(username)) {
+    errorEl.textContent = 'That name is reserved by Flyancer — please pick another.';
     return;
   }
   if (!fullName) {
@@ -111,7 +171,8 @@ el('obForm').addEventListener('submit', async (e) => {
     .maybeSingle();
 
   if (taken) {
-    errorEl.textContent = 'That username is already taken — try another.';
+    errorEl.textContent = '';
+    showSuggestions(username);
     submitBtn.disabled = false;
     submitBtn.textContent = 'Create My Profile →';
     return;
@@ -129,6 +190,7 @@ el('obForm').addEventListener('submit', async (e) => {
     company: company || null,
     job_title: jobTitle || null,
     bio: bio || null,
+    gender: currentGender,
     is_verified: isVerified,
     verified_domain: isVerified ? currentDomain : null,
     verified_at: isVerified ? new Date().toISOString() : null
