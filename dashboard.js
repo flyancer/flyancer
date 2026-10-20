@@ -2,7 +2,7 @@
 const sb = window.supabase.createClient(window.FLYANCER_SUPABASE_URL, window.FLYANCER_SUPABASE_ANON_KEY);
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const TYPES = { referral:'Referral', mock_interview:'Mock interview', coaching:'Coaching', resume_review:'Resume review' };
+const TYPES = Object.fromEntries(window.FLY_CATS.map(c => [c.k, c.label]));
 let me = null;
 
 $('logoutBtn').onclick = async () => { await sb.auth.signOut(); location.href = 'index.html'; };
@@ -46,16 +46,19 @@ async function render() {
     <div id="svcList"></div>
     <form class="pf-form" id="svcForm" style="margin-top:14px">
       <h3 style="font:700 1rem var(--font-display)">Add a service</h3>
+      <div class="cat-tiles" id="catTiles">${window.FLY_CATS.map(c => `<button type="button" class="cat-tile" data-k="${c.k}"><span>${c.icon} ${c.label}</span><small>${c.blurb}</small></button>`).join('')}</div>
       <div class="pf-row">
         <label>Type<select id="sType">${Object.entries(TYPES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
         <label>Price (₹)<input id="sPrice" type="number" min="1" step="1" required placeholder="e.g. 499"></label>
       </div>
+      <label>Topic<select id="sTopic" required><option value="">Choose a topic…</option>${(window.FLY_TOPICS||[]).map(t => `<option value="${t.id}">${t.label}</option>`).join('')}</select></label>
       <label>Title<input id="sTitle" required maxlength="80" placeholder="e.g. 30-min mock interview for SDE roles"></label>
       <label>Description<textarea id="sDesc" rows="3" maxlength="500" placeholder="What will the candidate get? How will you run the session?"></textarea></label>
       <div class="pf-err" id="svcMsg"></div>
       <div><button class="pf-btn" type="submit">Add service</button></div>
     </form>` : ''}
 
+    ${isExpert ? '' : `<div class="pf-hero" style="margin-top:22px;padding:24px"><div><h2 style="font:800 1.3rem var(--font-display)">Find an expert</h2><p style="color:rgba(240,244,255,.8);margin:6px 0 14px">Resume review, mock interviews, referrals and more — from people at real companies.</p><a class="pf-btn" href="explore.html">Browse experts →</a></div></div>`}
     <h2 class="pf-h">${isExpert ? 'Requests from candidates' : 'Your requests'}</h2>
     <div id="reqList"><div class="pf-empty">Loading…</div></div>`;
 
@@ -66,7 +69,16 @@ async function render() {
   }));
   window.__g = g;
   $('profForm').addEventListener('submit', saveProfile);
-  if (isExpert) { $('svcForm').addEventListener('submit', addService); loadServices(); }
+  if (isExpert) { $('svcForm').addEventListener('submit', addService);
+    $('catTiles').querySelectorAll('.cat-tile').forEach(t => t.onclick = () => {
+      const c = window.FLY_CAT[t.dataset.k];
+      $('catTiles').querySelectorAll('.cat-tile').forEach(x => x.classList.toggle('on', x === t));
+      $('sType').value = c.k;
+      if (!$('sTitle').value || $('sTitle').dataset.auto) { $('sTitle').value = c.sugTitle; $('sTitle').dataset.auto = '1'; }
+      if (!$('sDesc').value || $('sDesc').dataset.auto) { $('sDesc').value = c.sugDesc; $('sDesc').dataset.auto = '1'; }
+      if (!$('sPrice').value || $('sPrice').dataset.auto) { $('sPrice').value = c.sugPrice; $('sPrice').dataset.auto = '1'; }
+    });
+    ['sTitle','sDesc','sPrice'].forEach(i => $(i).addEventListener('input', () => { delete $(i).dataset.auto; })); loadServices(); }
   loadRequests();
 }
 
@@ -101,7 +113,7 @@ async function addService(e) {
   const price = parseInt($('sPrice').value, 10);
   if (!(price > 0)) { m.textContent = 'Enter a price above ₹0.'; return; }
   const { error } = await sb.from('services').insert({
-    profile_id: me.id, service_type: $('sType').value,
+    profile_id: me.id, service_type: $('sType').value, topic: $('sTopic').value || null,
     title: $('sTitle').value.trim(), description: $('sDesc').value.trim() || null, price_inr: price
   });
   if (error) { m.textContent = error.message; return; }
