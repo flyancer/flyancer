@@ -1,4 +1,4 @@
-/* Flyancer — public profile page. Works at /profile.html?u=name and (via 404.html) /@name */
+/* Flyancer — public profile page. Works at /profile.html?u=name and (via 404.html) /name or /@name */
 const sb = window.supabase.createClient(window.FLYANCER_SUPABASE_URL, window.FLYANCER_SUPABASE_ANON_KEY);
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -7,7 +7,7 @@ const TYPES = { referral:'Referral', mock_interview:'Mock interview', coaching:'
 function getUsername() {
   const q = new URLSearchParams(location.search).get('u');
   if (q) return q.replace(/^@/, '').toLowerCase();
-  const m = location.pathname.match(/@([a-z0-9_]+)/i);
+  const m = location.pathname.match(/^\/@?([a-z0-9_]{3,20})\/?$/i);
   return m ? m[1].toLowerCase() : '';
 }
 
@@ -33,6 +33,7 @@ async function init() {
     return;
   }
   profile = p;
+  if (/^https?:$/.test(location.protocol) && location.pathname.endsWith('profile.html')) history.replaceState(null, '', '/' + p.username);
   const { data: services } = await sb.from('services').select('*').eq('profile_id', p.id).order('created_at');
 
   document.title = `${p.full_name}${p.company ? ' · ' + p.company : ''} – Flyancer`;
@@ -46,11 +47,11 @@ async function init() {
 
   app.innerHTML = `
     <section class="pf-hero">
-      <div class="pf-avatar">${esc(initials)}</div>
+      ${p.gender ? `<div class="pf-avatar pf-avatar--img">${window.flyAvatar(p.gender, p.username, 96)}</div>` : `<div class="pf-avatar">${esc(initials)}</div>`}
       <div>
         <div class="pf-name">${esc(p.full_name)}${p.is_verified ? `<span class="pf-badge" title="Verified through official ${esc(p.verified_domain)} email">✓ Verified${p.company ? ' · ' + esc(p.company) : ''}</span>` : ''}</div>
         ${sub ? `<div class="pf-role">${esc(sub)}</div>` : ''}
-        <div class="pf-user">flyancer.com/@${esc(p.username)}</div>
+        <div class="pf-user">flyancer.com/${esc(p.username)}</div>
         ${isOwn ? '<div style="margin-top:12px"><a class="pf-btn ghost" href="dashboard.html">Edit profile &amp; services</a></div>' : ''}
       </div>
     </section>
