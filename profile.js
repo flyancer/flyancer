@@ -2,7 +2,7 @@
 const sb = window.supabase.createClient(window.FLYANCER_SUPABASE_URL, window.FLYANCER_SUPABASE_ANON_KEY);
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const TYPES = { referral:'Referral', mock_interview:'Mock interview', coaching:'Coaching', resume_review:'Resume review' };
+const TYPES = Object.fromEntries(window.FLY_CATS.map(c => [c.k, c.label]));
 
 function getUsername() {
   const q = new URLSearchParams(location.search).get('u');
@@ -11,6 +11,7 @@ function getUsername() {
   return m ? m[1].toLowerCase() : '';
 }
 
+const BOOK_ID = new URLSearchParams(location.search).get('book');
 let session = null, me = null, profile = null, pendingService = null;
 
 async function init() {
@@ -66,12 +67,13 @@ async function init() {
     } else {
       grid.innerHTML = services.map(s => `
         <div class="pf-card">
-          <span class="pf-type">${esc(TYPES[s.service_type] || s.service_type)}</span>
+          <span class="pf-type">${(window.FLY_CAT[s.service_type]||{}).icon || ''} ${esc(TYPES[s.service_type] || s.service_type)}</span>
           <h3>${esc(s.title)}</h3>
           <p>${esc(s.description || '')}</p>
           <div class="pf-foot"><span class="pf-price">₹${Number(s.price_inr).toLocaleString('en-IN')}</span>
           ${isOwn ? '' : `<button class="pf-btn" data-sid="${s.id}">Request →</button>`}</div>
         </div>`).join('');
+      if (BOOK_ID && !isOwn) { const w = services.find(x => x.id === BOOK_ID); if (w) setTimeout(() => openRequest(w), 300); }
       grid.querySelectorAll('[data-sid]').forEach(b => b.addEventListener('click', () => openRequest(services.find(x => x.id === b.dataset.sid))));
     }
   }
