@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find an expert – Resume review, mock interviews, referrals | Flyancer</title>
+  <meta name="description" content="Browse verified experts from top companies. Book resume reviews, mock interviews, referrals and career coaching on Flyancer." />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pf.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="pf">
+  <header class="pf-top">
+    <a href="index.html" class="logo">
+      <img src="assets/logo-transparent.png" alt="Flyancer" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <span class="logo-mark" style="display:none;">F</span>
+      <span class="logo-text">Flyancer</span>
+    </a>
+    <nav class="pf-nav"><a href="index.html">Home</a><a href="dashboard.html" id="navDash">Log in</a></nav>
+  </header>
+
+  <main class="pf-wrap">
+    <section class="ex-hero">
+      <h1>Find the right expert</h1>
+      <p>Verified people from real companies. Pick what you need, then request a session.</p>
+      <input id="exSearch" class="ex-search" type="search" placeholder="Search by company, role or name — e.g. Accenture, HR, Soni" />
+    </section>
+
+    <div class="ex-cats" id="exCats"></div>
+
+    <div class="ex-bar">
+      <span id="exCount" style="color:var(--muted);font-size:14px"></span>
+      <select id="exTopic" class="ex-sort"><option value="">All topics</option></select>
+      <select id="exSort" class="ex-sort">
+        <option value="new">Newest</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+      </select>
+    </div>
+
+    <div id="exBanner"></div>
+    <div class="pf-grid" id="exGrid"><div class="pf-empty">Loading experts…</div></div>
+    <p class="pf-note">Experts are verified through their official company email. Services are offered by individuals in a personal capacity — a referral is a recommendation and not a guarantee of an interview or job offer.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
+    window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
+  </script>
+  <script src="categories.js"></script>
+  <script src="topics.js"></script>
+  <script src="avatar.js"></script>
+  <script src="explore.js"></script>
+</body>
+</html>
