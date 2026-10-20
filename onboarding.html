@@ -54,7 +54,7 @@
 
         <label class="onboard-label">Choose a username</label>
         <div class="onboard-username-row">
-          <span class="onboard-at">flyancer.com/@</span>
+          <span class="onboard-at">flyancer.com/</span>
           <input type="text" id="obUsername" placeholder="yourname" required />
         </div>
         <div class="onboard-suggestions" id="obSuggestions" style="display:none;"></div>
@@ -70,6 +70,12 @@
 
           <label class="onboard-label">Job title</label>
           <input type="text" id="obJobTitle" placeholder="e.g. Software Engineer, HR Manager" />
+        </div>
+
+        <label class="onboard-label">Pick your avatar</label>
+        <div class="ob-avatars" id="obAvatars">
+          <button type="button" class="ob-av" data-g="male"><span data-av="male"></span><em>Male</em></button>
+          <button type="button" class="ob-av" data-g="female"><span data-av="female"></span><em>Female</em></button>
         </div>
 
         <label class="onboard-label">Short bio</label>
@@ -97,6 +103,7 @@
     window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
     window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
   </script>
+  <script src="avatar.js"></script>
   <script src="onboarding.js"></script>
 </body>
 </html>
