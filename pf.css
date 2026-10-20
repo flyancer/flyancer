@@ -46,3 +46,4 @@ body.pf{background:var(--bg);color:#F0F4FF;font-family:var(--font-body);min-heig
 .pf-status.accepted,.pf-status.completed{background:rgba(34,211,165,.14);color:#7DF0D1}.pf-status.declined{background:rgba(248,113,113,.14);color:#F87171}
 .pf-modal{position:fixed;inset:0;background:rgba(3,6,14,.75);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
 .pf-modal.open{display:flex}.pf-modal .pf-form{width:100%;max-width:440px}
+.pf-avatar--img{background:none;overflow:hidden;box-shadow:0 0 0 3px rgba(96,165,250,.35)}
