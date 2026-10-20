@@ -2,10 +2,12 @@
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Flyancer</title>
 <script>
-  // GitHub Pages serves this for unknown paths. /@username -> profile page.
+  // GitHub Pages serves this file for any unknown path.
+  // /soni and /@soni both open the profile for "soni".
   (function(){
-    var m = location.pathname.match(/^\/@([A-Za-z0-9_]+)\/?$/);
-    if (m) { location.replace('/profile.html?u=' + m[1].toLowerCase()); }
+    var reserved = ['about','admin','login','logout','signup','dashboard','profile','onboarding','expert','experts','candidate','candidates','index','assets','api','support','help','terms','privacy','refund','contact','pricing','blog','flyancer','settings','static','www','mail','robots','sitemap','status','home','search','book','booking'];
+    var m = location.pathname.match(/^\/@?([A-Za-z0-9_]{3,20})\/?$/);
+    if (m && reserved.indexOf(m[1].toLowerCase()) < 0) { location.replace('/profile.html?u=' + m[1].toLowerCase()); }
   })();
 </script>
 <link rel="stylesheet" href="/style.css"/></head>
