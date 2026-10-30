@@ -14,7 +14,7 @@ const FREE_DOMAINS = [
 ];
 
 const RESERVED = ['about','admin','login','logout','signup','dashboard','profile','onboarding','expert','experts','candidate','candidates','index','assets','api','support','help','terms','privacy','refund','contact','pricing','blog','flyancer','settings','static','www','mail','robots','sitemap','status','null','undefined','home','search','book','booking'];
-let currentGender = 'male';
+let currentAvatar = 'm1';
 
 const el = (id) => document.getElementById(id);
 const states = ['obLoading', 'obInvalid', 'obExisting', 'obForm', 'obSuccess'];
@@ -73,13 +73,12 @@ async function init() {
     return;
   }
 
-  // avatar picker
-  document.querySelectorAll('#obAvatars [data-av]').forEach(s => {
-    s.innerHTML = window.flyAvatar(s.dataset.av, el('obUsername').value || currentUser.email, 64);
-  });
-  const pick = (g) => { currentGender = g; document.querySelectorAll('#obAvatars .ob-av').forEach(b => b.classList.toggle('on', b.dataset.g === g)); };
-  document.querySelectorAll('#obAvatars .ob-av').forEach(b => b.addEventListener('click', () => pick(b.dataset.g)));
-  pick('male');
+  // avatar picker (8 characters)
+  el('obAvatars').innerHTML = window.FLY_AVATARS.map(id =>
+    '<button type="button" class="ob-av" data-a="' + id + '" aria-label="Avatar ' + id + '">' + window.flyAvatar(id, id, 56) + '</button>').join('');
+  const pick = (a) => { currentAvatar = a; el('obAvatars').querySelectorAll('.ob-av').forEach(b => b.classList.toggle('on', b.dataset.a === a)); };
+  el('obAvatars').querySelectorAll('.ob-av').forEach(b => b.addEventListener('click', () => pick(b.dataset.a)));
+  pick('m1');
 
   await populateForm();
   showState('obForm');
@@ -190,7 +189,8 @@ el('obForm').addEventListener('submit', async (e) => {
     company: company || null,
     job_title: jobTitle || null,
     bio: bio || null,
-    gender: currentGender,
+    avatar: currentAvatar,
+    gender: currentAvatar.charAt(0) === 'f' ? 'female' : 'male',
     is_verified: isVerified,
     verified_domain: isVerified ? currentDomain : null,
     verified_at: isVerified ? new Date().toISOString() : null
