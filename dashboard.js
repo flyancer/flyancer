@@ -36,14 +36,19 @@ async function render() {
         <div class="pf-sum-bio">${me.bio ? esc(me.bio) : '<span class="pf-dim">Add a short bio so people know who you are.</span>'}</div>
       </div>
     </div>
-    <div class="pf-modal" id="profModal"><form class="pf-form wide" id="profForm">
+    <div class="pf-modal" id="profModal"><form class="pf-form wide pf-wide2" id="profForm">
       <div class="pf-mh"><h3>Edit profile</h3><button type="button" class="pf-x" data-close aria-label="Close">✕</button></div>
-      <label>Full name<input id="pName" required value="${esc(me.full_name)}"></label>
-      ${isExpert ? `<div class="pf-row"><label>Company<input id="pCompany" value="${esc(me.company)}"></label><label>Job title<input id="pTitle" value="${esc(me.job_title)}"></label></div>` : ''}
-      <div><span style="font:600 13px var(--font-body);color:rgba(240,244,255,.85)">Avatar</span>
-        <div class="ob-avatars ob-av8" id="pAvatars" style="margin-top:8px">${window.FLY_AVATARS.map(id => `<button type="button" class="ob-av ${window.flyAvatarId(me.avatar, me.gender, me.username) === id ? 'on' : ''}" data-a="${id}">${window.flyAvatar(id, id, 56)}</button>`).join('')}
-        </div></div>
-      <label>Bio<textarea id="pBio" rows="3">${esc(me.bio)}</textarea></label>
+      <div class="pf-cols">
+        <div class="pf-col">
+          <label>Full name<input id="pName" required value="${esc(me.full_name)}"></label>
+          ${isExpert ? `<label>Company<input id="pCompany" value="${esc(me.company)}"></label><label>Job title<input id="pTitle" value="${esc(me.job_title)}"></label>` : ''}
+          <label>Bio<textarea id="pBio" rows="3">${esc(me.bio)}</textarea></label>
+        </div>
+        <div class="pf-col">
+          <span class="pf-lbl">Choose your avatar</span>
+          <div class="ob-avatars ob-av8" id="pAvatars">${window.FLY_AVATARS.map(id => `<button type="button" class="ob-av ${window.flyAvatarId(me.avatar, me.gender, me.username) === id ? 'on' : ''}" data-a="${id}">${window.flyAvatar(id, id, 56)}</button>`).join('')}</div>
+        </div>
+      </div>
       <div><span class="pf-err" id="profMsg"></span></div>
       <div><button class="pf-btn" type="submit">Save profile</button></div>
     </form></div>
@@ -51,9 +56,13 @@ async function render() {
     ${isExpert ? `
     <div class="pf-h-row"><h2 class="pf-h">Your services</h2><button class="pf-btn" id="addSvc" type="button">+ Add a service</button></div>
     <div id="svcList"></div>
-    <div class="pf-modal" id="svcModal"><form class="pf-form wide" id="svcForm">
+    <div class="pf-modal" id="svcModal"><form class="pf-form wide pf-wide2" id="svcForm">
       <div class="pf-mh"><h3>Add a service</h3><button type="button" class="pf-x" data-close aria-label="Close">✕</button></div>
+      <div class="pf-cols">
+        <div class="pf-col"><span class="pf-lbl">Start from a category</span>
       <div class="cat-tiles" id="catTiles">${window.FLY_CATS.map(c => `<button type="button" class="cat-tile" data-k="${c.k}"><span>${c.icon} ${c.label}</span><small>${c.blurb}</small></button>`).join('')}</div>
+        </div>
+        <div class="pf-col">
       <div class="pf-row">
         <label>Type<select id="sType">${Object.entries(TYPES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
         <label>Price (₹)<input id="sPrice" type="number" min="1" step="1" required placeholder="e.g. 499"></label>
@@ -61,6 +70,8 @@ async function render() {
       <label>Topic<select id="sTopic" required><option value="">Choose a topic…</option>${(window.FLY_TOPICS||[]).map(t => `<option value="${t.id}">${t.label}</option>`).join('')}</select></label>
       <label>Title<input id="sTitle" required maxlength="80" placeholder="e.g. 30-min mock interview for SDE roles"></label>
       <label>Description<textarea id="sDesc" rows="3" maxlength="500" placeholder="What will the candidate get? How will you run the session?"></textarea></label>
+        </div>
+      </div>
       <div class="pf-err" id="svcMsg"></div>
       <div><button class="pf-btn" type="submit">Add service</button></div>
     </form></div>` : ''}
