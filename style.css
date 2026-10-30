@@ -1774,3 +1774,13 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
   .tp-panel { padding: 20px 16px 22px; border-radius: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .tp-pill { animation: none; } .tp-chip { animation-duration: .01s; } }
+
+/* 8-avatar picker */
+.ob-av8 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ob-av8 .ob-av { padding: 8px; flex: none; aspect-ratio: 1; align-items: center; justify-content: center; }
+.ob-av8 .ob-av svg { width: 100%; height: auto; max-width: 64px; }
+
+/* legal links */
+.foot-legal a { color: inherit; text-decoration: none; opacity: .85; } .foot-legal a:hover { opacity: 1; text-decoration: underline; }
+.lp-consent, .onboard-consent { font-size: 11.5px; color: var(--muted); text-align: center; margin: 10px 0 0; line-height: 1.5; }
+.lp-consent a, .onboard-consent a { color: var(--blue2); }
