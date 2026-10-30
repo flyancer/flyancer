@@ -95,3 +95,6 @@ body.pf{background:var(--bg);color:#F0F4FF;font-family:var(--font-body);min-heig
 .ob-av8 .ob-av svg{width:100%;height:auto;max-width:60px}
 .pf-cols .cat-tiles{grid-template-columns:1fr 1fr}
 .pf-cols .cat-tile{padding:10px}
+
+.ob-av8 .ob-av img.fa-svg{width:100%;height:auto;max-width:60px}
+.pf-avatar--img img.fa-svg{width:96px;height:96px}
