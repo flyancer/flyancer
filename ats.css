@@ -1,0 +1,26 @@
+.ats-priv{font-size:13px;color:#7DF0D1;margin-top:-6px}
+.ats-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+@media(max-width:760px){.ats-grid{grid-template-columns:1fr}}
+.ats-grid textarea{min-height:260px;resize:vertical}
+.ats-up{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ats-dim{color:var(--muted);font-size:13px}
+.ats-result{margin-top:30px;display:grid;gap:18px}
+.ats-top{display:flex;gap:26px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px}
+.ats-ring{width:132px;height:132px;flex:none;position:relative}
+.ats-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ats-ring b{position:absolute;inset:0;display:grid;place-items:center;font:800 2rem var(--font-display)}
+.ats-ring small{display:block;font:500 11px var(--font-body);color:var(--muted);text-align:center;margin-top:-6px}
+.ats-verdict h2{font:800 1.4rem var(--font-display);margin-bottom:6px}
+.ats-verdict p{color:rgba(240,244,255,.8);max-width:520px;line-height:1.6}
+.ats-box{background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px}
+.ats-box h3{font:700 1.05rem var(--font-display);margin-bottom:12px}
+.ats-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ats-chip{font:500 13px var(--font-body);padding:6px 12px;border-radius:999px}
+.ats-chip.ok{background:rgba(34,211,165,.12);border:1px solid rgba(34,211,165,.35);color:#7DF0D1}
+.ats-chip.miss{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:#FBBF24}
+.ats-list{list-style:none;padding:0;display:grid;gap:9px}
+.ats-list li{display:flex;gap:10px;font-size:14.5px;line-height:1.5;color:rgba(240,244,255,.88)}
+.ats-list i{font-style:normal;flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700}
+.ats-list .g i{background:rgba(34,211,165,.18);color:#7DF0D1}.ats-list .w i{background:rgba(245,158,11,.18);color:#FBBF24}
+.ats-cta{display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,rgba(37,99,255,.18),rgba(124,58,237,.18));border:1px solid rgba(96,165,250,.35);border-radius:18px;padding:22px}
+.ats-cta h3{font:800 1.15rem var(--font-display)}.ats-cta p{color:rgba(240,244,255,.8);font-size:14px;margin-top:4px}

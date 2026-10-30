@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Resume Match Check – see how well your resume fits a job | Flyancer</title>
+  <meta name="description" content="Paste a job description and your resume to see matching keywords, what's missing and quick fixes. Free, private — your resume never leaves your browser." />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pf.css" />
+  <link rel="stylesheet" href="ats.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="pf">
+  <header class="pf-top">
+    <a href="index.html" class="logo">
+      <img src="assets/logo-transparent.png" alt="Flyancer" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <span class="logo-mark" style="display:none;">F</span>
+      <span class="logo-text">Flyancer</span>
+    </a>
+    <nav class="pf-nav"><a href="index.html">Home</a><a href="explore.html">Find an Expert</a></nav>
+  </header>
+
+  <main class="pf-wrap">
+    <section class="ex-hero">
+      <h1>Free Resume Match Check</h1>
+      <p>Paste the job description and your resume. See which keywords match, what's missing and what to fix — in seconds.</p>
+      <p class="ats-priv">🔒 Private: everything runs in your browser. Your resume is never uploaded or saved.</p>
+    </section>
+
+    <div class="ats-grid">
+      <div class="pf-form">
+        <label>1. Job description
+          <textarea id="jd" rows="12" placeholder="Paste the job description here…"></textarea>
+        </label>
+      </div>
+      <div class="pf-form">
+        <label>2. Your resume
+          <textarea id="resume" rows="12" placeholder="Paste your resume text here — or upload a PDF / Word file below"></textarea>
+        </label>
+        <div class="ats-up">
+          <label class="pf-btn ghost" for="file">Upload PDF / DOCX / TXT</label>
+          <input id="file" type="file" accept=".pdf,.docx,.txt" hidden />
+          <span id="fileName" class="ats-dim"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pf-err" id="err" style="margin:10px 0"></div>
+    <button class="pf-btn" id="go" type="button" style="padding:13px 28px;font-size:15px">Check my resume →</button>
+
+    <section id="result" class="ats-result" hidden></section>
+
+    <p class="pf-note">This is a keyword-and-structure check to help you improve your resume. It is <strong>not</strong> the scoring system of any company, and it does not predict whether you will be shortlisted — employers make their own hiring decisions.</p>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="ats.js"></script>
+</body>
+</html>
