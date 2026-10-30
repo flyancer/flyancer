@@ -29,7 +29,7 @@ async function render() {
 
     <div class="pf-h-row"><h2 class="pf-h">Your profile</h2><button class="pf-btn ghost" id="editProf" type="button">✎ Edit profile</button></div>
     <div class="pf-sum">
-      ${me.gender ? window.flyAvatar(me.gender, me.username, 64) : ''}
+      ${(me.avatar || me.gender) ? window.flyAvatar(me.avatar || me.gender, me.username, 64, me.gender) : ''}
       <div style="min-width:0">
         <div style="font:700 1.1rem var(--font-display)">${esc(me.full_name)}</div>
         ${isExpert ? `<div style="color:rgba(240,244,255,.8);font-size:14px">${me.job_title || me.company ? esc([me.job_title, me.company].filter(Boolean).join(' · ')) : '<span class="pf-dim">Add your company and job title</span>'}</div>` : ''}
@@ -41,9 +41,7 @@ async function render() {
       <label>Full name<input id="pName" required value="${esc(me.full_name)}"></label>
       ${isExpert ? `<div class="pf-row"><label>Company<input id="pCompany" value="${esc(me.company)}"></label><label>Job title<input id="pTitle" value="${esc(me.job_title)}"></label></div>` : ''}
       <div><span style="font:600 13px var(--font-body);color:rgba(240,244,255,.85)">Avatar</span>
-        <div class="ob-avatars" id="pAvatars" style="margin-top:8px">
-          <button type="button" class="ob-av ${me.gender !== 'female' ? 'on' : ''}" data-g="male"><span>${window.flyAvatar('male', me.username, 64)}</span><em>Male</em></button>
-          <button type="button" class="ob-av ${me.gender === 'female' ? 'on' : ''}" data-g="female"><span>${window.flyAvatar('female', me.username, 64)}</span><em>Female</em></button>
+        <div class="ob-avatars ob-av8" id="pAvatars" style="margin-top:8px">${window.FLY_AVATARS.map(id => `<button type="button" class="ob-av ${window.flyAvatarId(me.avatar, me.gender, me.username) === id ? 'on' : ''}" data-a="${id}">${window.flyAvatar(id, id, 56)}</button>`).join('')}
         </div></div>
       <label>Bio<textarea id="pBio" rows="3">${esc(me.bio)}</textarea></label>
       <div><span class="pf-err" id="profMsg"></span></div>
@@ -71,12 +69,11 @@ async function render() {
     <h2 class="pf-h">${isExpert ? 'Requests from candidates' : 'Your requests'}</h2>
     <div id="reqList"><div class="pf-empty">Loading…</div></div>`;
 
-  let g = me.gender || 'male';
+  window.__a = window.flyAvatarId(me.avatar, me.gender, me.username);
   document.querySelectorAll('#pAvatars .ob-av').forEach(b => b.addEventListener('click', () => {
-    g = b.dataset.g; window.__g = g;
+    window.__a = b.dataset.a;
     document.querySelectorAll('#pAvatars .ob-av').forEach(x => x.classList.toggle('on', x === b));
   }));
-  window.__g = g;
   const openM = (id) => $(id).classList.add('open');
   document.querySelectorAll('.pf-modal').forEach(m => {
     m.addEventListener('click', (e) => { if (e.target === m || e.target.closest('[data-close]')) m.classList.remove('open'); });
@@ -100,7 +97,7 @@ async function render() {
 
 async function saveProfile(e) {
   e.preventDefault();
-  const upd = { full_name: $('pName').value.trim(), bio: $('pBio').value.trim() || null, gender: window.__g || me.gender || 'male' };
+  const upd = { full_name: $('pName').value.trim(), bio: $('pBio').value.trim() || null, avatar: window.__a, gender: window.__a.charAt(0) === 'f' ? 'female' : 'male' };
   if (me.role === 'expert') { upd.company = $('pCompany').value.trim() || null; upd.job_title = $('pTitle').value.trim() || null; }
   const { error } = await sb.from('profiles').update(upd).eq('id', me.id);
   const m = $('profMsg');
