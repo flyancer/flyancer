@@ -1788,3 +1788,8 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 /* slim disclaimer strip (replaces waitlist) */
 .wl-slim { padding: 56px 0 64px; text-align: center; border-top: 1px solid rgba(255,255,255,.06); }
 .wl-slim p { max-width: 640px; margin: 0 auto; color: rgba(240,244,255,.7); font-size: 16px; line-height: 1.7; }
+
+/* tell browsers this site is already dark (stops phone 'force dark' from washing out colours) */
+:root { color-scheme: dark; }
+.btn-nav .nav-av img.fa-svg { width: 26px; height: 26px; }
+.ob-av8 .ob-av img.fa-svg { width: 100%; height: auto; max-width: 64px; }
