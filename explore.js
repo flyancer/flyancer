@@ -13,7 +13,7 @@ async function init() {
   if (session) $('navDash').textContent = 'Dashboard';
 
   const { data, error } = await sb.from('services')
-    .select('id,title,topic,description,price_inr,service_type,created_at,profiles(full_name,username,company,job_title,gender,is_verified,role)')
+    .select('id,title,topic,description,price_inr,service_type,created_at,profiles(full_name,username,company,job_title,gender,avatar,is_verified,role)')
     .order('created_at', { ascending: false }).limit(300);
   if (error) { $('exGrid').innerHTML = '<div class="pf-empty">Could not load experts right now. Please refresh.</div>'; return; }
   all = (data || []).filter(s => s.profiles && s.profiles.role === 'expert');
@@ -58,7 +58,7 @@ function draw() {
       <h3>${esc(s.title)}</h3>
       <p>${esc(s.description || '')}</p>
       <a class="ex-exp" href="profile.html?u=${esc(p.username)}">
-        ${p.gender ? window.flyAvatar(p.gender, p.username, 38) : `<span class="ex-ini">${esc(p.full_name.charAt(0))}</span>`}
+        ${(p.avatar || p.gender) ? window.flyAvatar(p.avatar || p.gender, p.username, 38, p.gender) : `<span class="ex-ini">${esc(p.full_name.charAt(0))}</span>`}
         <span><strong>${esc(p.full_name)}${p.is_verified ? ' <i class="ex-tick" title="Verified via company email">✓</i>' : ''}</strong><small>${esc(sub)}</small></span>
       </a>
       <div class="pf-foot"><span class="pf-price">₹${Number(s.price_inr).toLocaleString('en-IN')}</span>
