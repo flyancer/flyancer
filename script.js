@@ -961,7 +961,7 @@ const FX = (function () {
   function apply(session) {
     if (!session) return;
     const meta = session.user.user_metadata || {};
-    flyancerSupabase.from('profiles').select('full_name,username,role,gender').eq('id', session.user.id).maybeSingle()
+    flyancerSupabase.from('profiles').select('full_name,username,role,gender,avatar').eq('id', session.user.id).maybeSingle()
       .then(({ data: p }) => {
         const name = (p && p.full_name) || meta.full_name || (session.user.email || '').split('@')[0];
         const first = String(name).split(/\s+/)[0];
@@ -971,7 +971,7 @@ const FX = (function () {
           a.classList.add('is-user');
           a.removeAttribute('onclick');
           a.href = dest;
-          a.innerHTML = '<span class="nav-av">' + (p && p.gender && window.flyAvatar ? window.flyAvatar(p.gender, p.username, 26) : initial) + '</span>' + first.replace(/[<>&]/g, '');
+          a.innerHTML = '<span class="nav-av">' + (p && (p.avatar || p.gender) && window.flyAvatar ? window.flyAvatar(p.avatar || p.gender, p.username, 26, p.gender) : initial) + '</span>' + first.replace(/[<>&]/g, '');
           a.title = p ? 'Open my dashboard' : 'Finish setting up your profile';
         });
         document.querySelectorAll('a[onclick*="openLoginPopup"]:not(.btn-nav)').forEach(a => {
