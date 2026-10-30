@@ -59,7 +59,7 @@
     var glasses = sp.glasses ? '<g fill="rgba(180,210,255,.12)" stroke="#1b1b22" stroke-width="1.5"><rect x="35.5" y="43" width="13" height="10.5" rx="4.5"/><rect x="51.5" y="43" width="13" height="10.5" rx="4.5"/></g><path d="M48.5 47.5h3" stroke="#1b1b22" stroke-width="1.4"/>' : '';
     var brow = sp.hair;
     var eye = function (cx) { return '<g class="fa-blink"><ellipse cx="' + cx + '" cy="48" rx="3.3" ry="3.4" fill="#fff"/><g class="fa-look">' + C(cx, 48.2, 2, '#2a1a12') + C(cx + .7, 47.4, .6, '#fff') + '</g></g>'; };
-    return '<svg class="fa-svg" width="' + size + '" height="' + size + '" viewBox="0 0 100 100" role="img" aria-label="' + (female ? 'Female' : 'Male') + ' professional avatar" style="display:block;border-radius:50%;flex:none">' +
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 100 100">' +
       '<style>.fa-head{animation:faSway 5.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 90%}' +
       '.fa-blink{animation:faBlink 4.6s infinite;transform-box:fill-box;transform-origin:center}' +
       '.fa-look{animation:faLook 7s ease-in-out infinite}' +
@@ -88,5 +88,6 @@
       beard + hr.front + glasses +
       '<g class="fa-mouth"><path d="M44.5 57.8Q50 63 55.5 57.8" fill="none" stroke="' + (sp.beard ? '#fff' : '#8f3b2c') + '" stroke-width="1.9" stroke-linecap="round"/></g>' +
       '</g></g></svg>';
+    return '<img class="fa-svg" alt="' + (female ? 'Female' : 'Male') + ' professional avatar" width="' + size + '" height="' + size + '" style="display:block;border-radius:50%;flex:none" src="data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '">';
   };
 })();
