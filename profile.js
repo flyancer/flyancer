@@ -48,7 +48,7 @@ async function init() {
 
   app.innerHTML = `
     <section class="pf-hero">
-      ${p.gender ? `<div class="pf-avatar pf-avatar--img">${window.flyAvatar(p.gender, p.username, 96)}</div>` : `<div class="pf-avatar">${esc(initials)}</div>`}
+      ${(p.avatar || p.gender) ? `<div class="pf-avatar pf-avatar--img">${window.flyAvatar(p.avatar || p.gender, p.username, 96, p.gender)}</div>` : `<div class="pf-avatar">${esc(initials)}</div>`}
       <div>
         <div class="pf-name">${esc(p.full_name)}${p.is_verified ? `<span class="pf-badge" title="Verified through official ${esc(p.verified_domain)} email">✓ Verified${p.company ? ' · ' + esc(p.company) : ''}</span>` : ''}</div>
         ${sub ? `<div class="pf-role">${esc(sub)}</div>` : ''}
