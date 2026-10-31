@@ -28,7 +28,6 @@
     { id: 'abroad',   label: 'Study abroad',         icon: 'globe',  subs: ['Shortlist US universities for an MS in CS', "Review my SOP for a master's application", 'Plan my MBA applications', 'GRE and IELTS preparation plan', 'Practice my US student visa interview', 'Study in Germany: universities and costs'] },
     { id: 'content',  label: 'Content marketing',    icon: 'mega',   subs: ['Grow my Instagram as a new creator', 'Plan a YouTube channel for my niche', 'Write LinkedIn posts that bring clients', "SEO plan for my startup's blog", 'Set up email marketing for my business', 'Run my first Meta ads campaign'] },
     { id: 'health',   label: 'Health & wellness',    icon: 'health', subs: ['Indian diet plan for weight loss', 'Home workout plan for a busy schedule', 'Yoga routine for lower back pain', 'PCOS diet and lifestyle advice', 'Sleep better and manage stress', 'Training plan for my first half marathon'] },
-    { id: 'astro',    label: 'Astrology & tarot',    icon: 'moon',   subs: ['Birth chart reading on career and marriage', 'Tarot reading on a career decision', 'Kundli matching before marriage', 'Vastu advice for my new home', 'Numerology for my business name', 'Astrology reading on a job change'] }
   ];
 
   window.FLY_TOPICS = TOPICS;
