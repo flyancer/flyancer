@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="darkreader-lock" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referral Jobs at Top Companies – Flyancer</title>
+  <meta name="description" content="Openings shared by verified employees at real companies. Ask them directly for a referral on Flyancer." />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pf.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="pf">
+  <header class="pf-top">
+    <a href="index.html" class="logo">
+      <img src="assets/logo-transparent.png" alt="Flyancer" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <span class="logo-mark" style="display:none;">F</span>
+      <span class="logo-text">Flyancer</span>
+    </a>
+    <nav class="pf-nav"><a href="index.html">Home</a><a href="explore.html">Experts</a><a href="dashboard.html" id="navDash">Log in</a></nav>
+  </header>
+
+  <main class="pf-wrap">
+    <section class="ex-hero">
+      <h1>Jobs with a referral path</h1>
+      <p>Openings shared by verified employees at their own companies. Pick one and ask the person who works there.</p>
+      <input id="jbSearch" class="ex-search" type="search" placeholder="Search by role or company — e.g. Software Engineer, Accenture" />
+    </section>
+    <div class="ex-bar">
+      <span id="jbCount" style="color:var(--muted);font-size:14px"></span>
+      <select id="jbType" class="ex-sort"><option value="">All types</option><option value="full_time">Full-time</option><option value="internship">Internship</option><option value="contract">Contract</option></select>
+      <input id="jbLoc" class="ex-sort" type="search" placeholder="Location" style="min-width:140px" />
+    </div>
+    <div class="pf-grid" id="jbGrid"><div class="pf-empty">Loading openings…</div></div>
+    <p class="pf-note">These are personal referral openings shared by individual employees, not official postings by the companies. A referral is a recommendation and not a guarantee of an interview or job offer. Spot something wrong? Use “Report” on the card.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
+    window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
+  </script>
+  <script src="categories.js"></script>
+    <script src="avatar.js"></script>
+  <script src="jobs.js"></script>
+</body>
+</html>
