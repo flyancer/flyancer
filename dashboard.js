@@ -76,6 +76,24 @@ async function render() {
       <div><button class="pf-btn" type="submit">Add service</button></div>
     </form></div>` : ''}
 
+    ${isExpert ? `
+    <div class="pf-h-row"><h2 class="pf-h">Your job openings</h2><button class="pf-btn" id="addJob" type="button">+ Post a job</button></div>
+    <p class="pf-dim" style="margin:-6px 0 12px;font-size:13px">Share openings at ${esc(me.company || 'your company')} (up to 5 live, each stays up for 30 days). Candidates can then ask you for a referral.</p>
+    <div id="jobList"></div>
+    <div class="pf-modal" id="jobModal"><form class="pf-form" id="jobForm">
+      <div class="pf-mh"><h3>Post a job opening</h3><button type="button" class="pf-x" data-close aria-label="Close">✕</button></div>
+      <label>Job title<input id="jTitle" required maxlength="100" placeholder="e.g. Software Engineer II"></label>
+      <div class="pf-row">
+        <label>Location<input id="jLoc" maxlength="80" placeholder="e.g. Bengaluru / Remote"></label>
+        <label>Type<select id="jType"><option value="full_time">Full-time</option><option value="internship">Internship</option><option value="contract">Contract</option></select></label>
+      </div>
+      <label>Official job link (optional)<input id="jUrl" type="url" placeholder="https://careers.company.com/…"></label>
+      <label>Short description<textarea id="jDesc" rows="3" maxlength="1000" placeholder="Skills needed, experience, team…"></textarea></label>
+      <p class="pf-dim" style="font-size:12px">This is your personal referral opening, not an official posting by ${esc(me.company || 'your company')}. Only post roles you can genuinely refer for.</p>
+      <div class="pf-err" id="jobMsg"></div>
+      <div><button class="pf-btn" type="submit">Post job</button></div>
+    </form></div>` : ''}
+
     ${isExpert ? '' : `<div class="pf-hero" style="margin-top:22px;padding:24px"><div><h2 style="font:800 1.3rem var(--font-display)">Find an expert</h2><p style="color:rgba(240,244,255,.8);margin:6px 0 14px">Resume review, mock interviews, referrals and more — from people at real companies.</p><a class="pf-btn" href="explore.html">Browse experts →</a></div></div>`}
     <h2 class="pf-h">${isExpert ? 'Requests from candidates' : 'Your requests'}</h2>
     <div id="reqList"><div class="pf-empty">Loading…</div></div>`;
@@ -91,8 +109,10 @@ async function render() {
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.pf-modal.open').forEach(m => m.classList.remove('open')); });
   $('editProf').onclick = () => openM('profModal');
+  if (isExpert) $('addJob').onclick = () => { $('jobMsg').textContent = ''; if (!me.is_verified) { alert('Jobs can be posted once your work email is verified.'); return; } openM('jobModal'); };
   if (isExpert) $('addSvc').onclick = () => { $('svcMsg').textContent = ''; openM('svcModal'); };
   $('profForm').addEventListener('submit', saveProfile);
+  if (isExpert) { $('jobForm').addEventListener('submit', addJob); loadJobs(); }
   if (isExpert) { $('svcForm').addEventListener('submit', addService);
     $('catTiles').querySelectorAll('.cat-tile').forEach(t => t.onclick = () => {
       const c = window.FLY_CAT[t.dataset.k];
@@ -143,6 +163,30 @@ async function addService(e) {
   if (error) { m.textContent = error.message; return; }
   $('svcForm').reset(); $('svcModal').classList.remove('open');
   loadServices();
+}
+
+const JT = { full_time: 'Full-time', internship: 'Internship', contract: 'Contract' };
+async function loadJobs() {
+  const { data } = await sb.from('jobs').select('*').eq('profile_id', me.id).gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false });
+  const box = $('jobList');
+  if (!data || !data.length) { box.innerHTML = '<div class="pf-empty">No openings posted yet — click “+ Post a job”.</div>'; return; }
+  box.innerHTML = data.map(j => {
+    const days = Math.max(0, Math.ceil((new Date(j.expires_at) - Date.now()) / 864e5));
+    return `<div class="pf-svc-row"><div><h4>${esc(j.title)}</h4><small>${esc([j.company, j.location, JT[j.job_type]].filter(Boolean).join(' · '))} · expires in ${days} day${days === 1 ? '' : 's'}</small></div>
+    <button class="pf-btn danger" data-jdel="${j.id}">Delete</button></div>`; }).join('');
+  box.querySelectorAll('[data-jdel]').forEach(b => b.onclick = async () => {
+    if (!confirm('Delete this opening?')) return;
+    await sb.from('jobs').delete().eq('id', b.dataset.jdel); loadJobs();
+  });
+}
+async function addJob(e) {
+  e.preventDefault();
+  const m = $('jobMsg'); m.className = 'pf-err'; m.textContent = '';
+  const { error } = await sb.from('jobs').insert({
+    profile_id: me.id, title: $('jTitle').value.trim(), location: $('jLoc').value.trim() || null,
+    job_type: $('jType').value, job_url: $('jUrl').value.trim() || null, description: $('jDesc').value.trim() || null });
+  if (error) { m.textContent = error.message.replace(/^.*?exception:?\s*/i, ''); return; }
+  $('jobForm').reset(); $('jobModal').classList.remove('open'); loadJobs();
 }
 
 async function loadRequests() {
