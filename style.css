@@ -1699,14 +1699,14 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
   transition: max-width .5s cubic-bezier(.2,.8,.2,1), padding .4s, background .35s, border-color .35s, box-shadow .35s, backdrop-filter .35s, height .35s;
 }
 .nav.scrolled .nav-inner {
-  max-width: 760px; height: 54px; padding: 0 8px 0 16px;
+  max-width: 880px; height: 54px; padding: 0 8px 0 16px;
   background: rgba(12,19,38,0.52);
   backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
   border-color: rgba(255,255,255,0.14);
   box-shadow: 0 10px 40px rgba(2,6,20,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 .nav .logo-text { text-shadow: 0 1px 12px rgba(6,11,24,.6); }
-.nav-links { gap: 1.6rem; color: rgba(240,244,255,0.82); text-shadow: 0 1px 10px rgba(6,11,24,.6); }
+.nav-links { gap: 1.35rem; color: rgba(240,244,255,0.82); text-shadow: 0 1px 10px rgba(6,11,24,.6); }
 .nav-links .btn-nav { text-shadow: none; border-radius: 999px; padding: 8px 18px; box-shadow: 0 4px 18px rgba(37,99,255,.4); }
 .nav.scrolled .logo-img { width: 30px; height: 30px; }
 .nav.scrolled .logo-mark { width: 28px; height: 28px; font-size: 14px; }
@@ -1822,3 +1822,19 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
   mask-image:radial-gradient(ellipse 62% 66% at 50% 52%,#000 55%,transparent 100%)}
 .hl-glow{inset:-4% -2% 6%}
 .hl-tag{top:6%;left:4%}
+
+/* ===== Curved company logo marquee ===== */
+.la-section{overflow:hidden;padding:6rem 0 4.5rem}
+.la-title{font:800 clamp(2rem,5vw,3.6rem)/1.08 var(--font-display);letter-spacing:-1.5px;margin:.4rem 0 1rem;color:#fff}
+.la-stage{position:relative;height:420px;margin-top:2.5rem;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}
+.la-row{position:relative;height:96px;margin-bottom:34px}
+.la-item{position:absolute;left:0;top:18px;display:flex;align-items:center;gap:10px;color:#fff;opacity:.88;white-space:nowrap;will-change:transform;transition:opacity .2s}
+.la-item:hover{opacity:1}
+.la-item svg{width:30px;height:30px;fill:currentColor;flex:none}
+.la-item span{font:700 20px/1 var(--font-display);letter-spacing:-.3px}
+.la-png{height:28px;width:auto;display:block;filter:brightness(0) invert(1)}
+.la-note{max-width:640px;margin:1.2rem auto 0;font-size:11.5px;line-height:1.5;color:var(--muted);opacity:.8}
+@media(max-width:700px){.la-stage{height:330px}.la-row{height:76px;margin-bottom:26px}.la-item span{font-size:16px}.la-item svg{width:24px;height:24px}.la-png{height:22px}}
+.la-item svg.la-wm{fill:currentColor;display:block;flex:none;width:auto;height:24px}
