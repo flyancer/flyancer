@@ -4,7 +4,7 @@
   function start(){
     if(!window.lottie) return;
     var a=lottie.loadAnimation({container:el,renderer:'svg',loop:true,autoplay:!reduce,path:'assets/business.json',
-      rendererSettings:{preserveAspectRatio:'xMidYMid slice',progressiveLoad:true}});
+      rendererSettings:{preserveAspectRatio:'xMidYMid meet',progressiveLoad:true}});
     if(reduce){a.addEventListener('DOMLoaded',function(){a.goToAndStop(60,true)});return;}
     a.setSpeed(0.85);
     if('IntersectionObserver' in window){
