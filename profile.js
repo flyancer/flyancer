@@ -12,6 +12,8 @@ function getUsername() {
 }
 
 const BOOK_ID = new URLSearchParams(location.search).get('book');
+const JOB_ID = new URLSearchParams(location.search).get('job');
+let jobCtx = null;
 let session = null, me = null, profile = null, pendingService = null;
 
 async function init() {
@@ -36,6 +38,7 @@ async function init() {
   profile = p;
   if (/^https?:$/.test(location.protocol) && location.pathname.endsWith('profile.html')) history.replaceState(null, '', '/' + p.username);
   const { data: services } = await sb.from('services').select('*').eq('profile_id', p.id).order('created_at');
+  const { data: jobs } = await sb.from('jobs').select('*').eq('profile_id', p.id).gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false });
 
   document.title = `${p.full_name}${p.company ? ' · ' + p.company : ''} – Flyancer`;
   const desc = `${p.full_name}${p.job_title ? ', ' + p.job_title : ''}${p.company ? ' at ' + p.company : ''} on Flyancer. ` + (p.bio || 'Book a 1:1 session.');
@@ -57,9 +60,22 @@ async function init() {
       </div>
     </section>
     ${p.bio ? `<p class="pf-bio">${esc(p.bio)}</p>` : ''}
+    ${isExpert && jobs && jobs.length ? `<h2 class="pf-h">Open roles${p.company ? ' at ' + esc(p.company) : ''}</h2><div class="pf-grid" id="jobGrid">${jobs.map(j => `
+      <div class="pf-card"><span class="pf-type">💼 ${esc({full_time:'Full-time',internship:'Internship',contract:'Contract'}[j.job_type] || '')}${j.location ? ' · ' + esc(j.location) : ''}</span>
+      <h3>${esc(j.title)}</h3><p>${esc(j.description || '')}</p>
+      <div class="pf-foot"><span class="pf-dim" style="font-size:12px">Posted by verified employee</span>${isOwn ? '' : `<button class="pf-btn" data-jid="${j.id}">Ask for referral →</button>`}</div></div>`).join('')}</div>` : ''}
     ${isExpert ? `<h2 class="pf-h">Book a session</h2><div class="pf-grid" id="svcGrid"></div>` : ''}
     <p class="pf-note">Flyancer experts are verified through their official company email. Services are offered by individuals in a personal capacity — a referral is a recommendation and not a guarantee of an interview or job offer.</p>`;
 
+  const pickJob = (jid) => {
+    const j = (jobs || []).find(x => x.id === jid); if (!j) return;
+    const svc = (services || []).find(x => x.service_type === 'referral') || (services || [])[0];
+    if (!svc) { alert('This expert has not listed a service yet. Please check back soon.'); return; }
+    jobCtx = j; openRequest(svc);
+    $('reqJob').value = j.job_url || ''; $('reqMsg').value = 'Hi, I would like a referral for: ' + j.title + (j.location ? ' (' + j.location + ')' : '') + '. ';
+  };
+  document.querySelectorAll('[data-jid]').forEach(b => b.addEventListener('click', () => pickJob(b.dataset.jid)));
+  if (JOB_ID && !isOwn) setTimeout(() => pickJob(JOB_ID), 300);
   if (isExpert) {
     const grid = $('svcGrid');
     if (!services || !services.length) {
