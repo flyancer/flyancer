@@ -1814,3 +1814,11 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 @media(max-width:900px){.hl-wrap{max-width:460px}.hl-c1{right:-6px}.hl-c2{left:-6px}}
 @media(max-width:480px){.hl-chip{font-size:11px;padding:7px 10px}.hl-tag{top:10px;left:10px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.hl-stage,.hl-chip,.hl-tag i{animation:none!important}}
+
+/* Hero Lottie: open / borderless (no box) */
+.hl-stage{background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+.hl-anim{border-radius:0!important;overflow:visible!important;
+  -webkit-mask-image:radial-gradient(ellipse 62% 66% at 50% 52%,#000 55%,transparent 100%);
+  mask-image:radial-gradient(ellipse 62% 66% at 50% 52%,#000 55%,transparent 100%)}
+.hl-glow{inset:-4% -2% 6%}
+.hl-tag{top:6%;left:4%}
