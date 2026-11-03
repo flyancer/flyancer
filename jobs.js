@@ -51,6 +51,7 @@ async function report(btn) {
   if (!error || /duplicate|unique/i.test(error.message)) btn.disabled = true;
 }
 
+{ const q0 = new URLSearchParams(location.search).get('q'); if (q0) $('jbSearch').value = q0; }
 ['jbSearch', 'jbLoc'].forEach(i => $(i).addEventListener('input', draw));
 $('jbType').addEventListener('change', draw);
 init();
