@@ -67,6 +67,7 @@ function draw() {
   }).join('');
 }
 
+if (QS.get('q')) $('exSearch').value = QS.get('q');
 $('exSearch').addEventListener('input', draw);
 $('exSort').addEventListener('change', draw);
 $('exTopic').addEventListener('change', () => { topic = $('exTopic').value; draw(); });
