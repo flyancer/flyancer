@@ -255,110 +255,96 @@
     <div class="container"><div class="rl-panel" id="rlPanel" aria-live="polite"></div></div>
   </section>
 
-  <!-- CREATE -->
-  <section class="for-good" id="create">
+  <!-- CREATE · CONNECT · GROW -->
+  <section class="jn" id="create">
+    <span id="grow" class="jn-anchor"></span><span id="connect" class="jn-anchor"></span>
     <div class="container">
-      <div class="section-eyebrow" style="color:#F59E0B">Create</div>
-      <h2 class="section-title">Build your profile. Write your story. List your services.</h2>
-      <p class="section-sub">
-        Your Flyancer identity is three things at once — a profile, a place to publish what you know, and a shopfront
-        for what you offer. Sign up with your company email, and start creating.
-      </p>
-
-      <div class="create-strip">
-        <div class="create-item">
-          <span class="create-icon">👤</span>
-          <div><strong>Profile</strong><br/>Your career identity — role, company, proof of expertise.</div>
-        </div>
-        <div class="create-item">
-          <span class="create-icon">✍️</span>
-          <div><strong>Blogs</strong><br/>Share what you've learned — the content builds your reputation.</div>
-        </div>
-        <div class="create-item">
-          <span class="create-icon">🛠️</span>
-          <div><strong>Services</strong><br/>List referrals, coaching, or mock interviews — and set your price.</div>
-        </div>
+      <div class="section-eyebrow">How Flyancer works</div>
+      <h2 class="jn-title">Create. Connect. <span class="gradient-text">Grow.</span></h2>
+      <p class="section-sub">Three moves that turn real experience into real opportunity — for the people who have it and the people who need it.</p>
+      <div class="jn-tabs" id="jnTabs" role="tablist" aria-label="How it works">
+        <button type="button" role="tab" class="jn-tab on" data-t="create">Create</button>
+        <button type="button" role="tab" class="jn-tab" data-t="connect">Connect</button>
+        <button type="button" role="tab" class="jn-tab" data-t="grow">Grow</button>
       </div>
 
-      <div class="good-grid">
-
-        <div class="good-card">
-          <div class="audience-icon">💼</div>
-          <div class="good-tag">Verified via work email</div>
-          <h3>HR Professionals</h3>
-          <p>List referral slots for open roles at your company. Review candidates on your own time and choose exactly who you refer.</p>
+      <!-- CREATE -->
+      <div class="jn-pane on" data-p="create">
+        <div class="jn-copy">
+          <h3>Turn what you know into a page people trust.</h3>
+          <p>Sign up with your work email and Flyancer issues you a verified profile at <b>flyancer.com/yourname</b> — your role, your company, your proof. List the sessions you would gladly teach, set your own price, and open for business in minutes.</p>
+          <ul class="jn-list">
+            <li>A verified badge, issued from your real company email</li>
+            <li>Services for referrals, mock interviews, resume reviews and coaching</li>
+            <li>Your price, your schedule, your rules</li>
+          </ul>
+          <a href="#" class="btn-primary jn-cta" onclick="openLoginPopup(event)">Claim your free username →</a>
         </div>
-
-        <div class="good-card">
-          <div class="audience-icon">🎤</div>
-          <div class="good-tag">Set your own price</div>
-          <h3>Interviewers &amp; Hiring Managers</h3>
-          <p>Run mock interviews in the exact format your company uses. Give candidates the practice you wish you'd had.</p>
-        </div>
-
-        <div class="good-card">
-          <div class="audience-icon">🎓</div>
-          <div class="good-tag">Flexible scheduling</div>
-          <h3>Coaches &amp; Trainers</h3>
-          <p>Offer structured coaching — resume, skills, interview prep — and build a public track record of who you've helped.</p>
-        </div>
-
-        <div class="good-card">
-          <div class="audience-icon">📈</div>
-          <div class="good-tag">Keep the majority, always</div>
-          <h3>Senior Professionals</h3>
-          <p>Turn your career experience into a side income. You set your prices — Flyancer takes a small commission and handles payment.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- GROW -->
-  <section class="why" id="grow">
-    <div class="container">
-      <div class="why-inner">
-        <div class="why-text">
-          <div class="section-eyebrow">Grow</div>
-          <h2 class="section-title">Grow your career.<br/>Grow your business.</h2>
-          <p>Candidates grow their career and skills — through referrals, coaching, and honest feedback from people who've done the job. Experts grow a business on the side, built on a reputation that verification makes real.</p>
-          <p style="margin-top:1rem">Anyone can say "I can refer you." Flyancer requires every expert to sign up with their actual company email before they can list a single service — that's what makes the growth on both sides mean something.</p>
-          <div class="why-stats">
-            <div class="why-stat">
-              <span class="why-num">Career</span>
-              <span class="why-label">Referrals, coaching, feedback</span>
+        <div class="jn-vis" aria-hidden="true">
+          <div class="jv jv-create">
+            <div class="jv-url"><span id="jnType"></span><i class="jv-caret"></i></div>
+            <div class="jv-card jv-prof">
+              <div class="jv-avrow"><span class="jv-av" data-av="f2"></span>
+                <div><b>Soni Gupta</b><small>Talent Acquisition · Accenture</small></div>
+                <span class="jv-ver">✓ Verified</span></div>
+              <div class="jv-svc" style="--d:.9s"><span>🎯 Referral request</span><b>₹499</b></div>
+              <div class="jv-svc" style="--d:1.15s"><span>🎤 Mock HR interview</span><b>₹799</b></div>
+              <div class="jv-svc" style="--d:1.4s"><span>📄 Resume review</span><b>₹299</b></div>
             </div>
-            <div class="why-stat">
-              <span class="why-num">Skills</span>
-              <span class="why-label">Mock interviews, resume review</span>
-            </div>
-            <div class="why-stat">
-              <span class="why-num">Business</span>
-              <span class="why-label">Earn from what you already know</span>
-            </div>
+            <span class="jv-chip jv-c1">+ New service</span>
+            <span class="jv-note">Sample preview</span>
           </div>
         </div>
-        <div class="why-visual">
-          <div class="comparison-card">
-            <div class="comp-row comp-row--before">
-              <div class="comp-label">Other platforms</div>
-              <div class="comp-steps">
-                <div class="comp-step comp-step--bad">Anyone can list as "expert"</div>
-                <div class="comp-step comp-step--bad">No proof of employment</div>
-                <div class="comp-step comp-step--bad">Vague "I can refer you" promises</div>
-                <div class="comp-total comp-total--bad">Trust: unclear</div>
-              </div>
+      </div>
+
+      <!-- CONNECT -->
+      <div class="jn-pane" data-p="connect">
+        <div class="jn-copy">
+          <h3>Meet the person who has already done the job.</h3>
+          <p>No job board, no black hole. Choose the role you are aiming for, see who works there, and send one focused request with your resume and the job link. Experts answer on their own time — and say yes to the people they believe in.</p>
+          <ul class="jn-list">
+            <li>Find verified insiders by role, company and topic</li>
+            <li>One request carries your resume, target job and a personal note</li>
+            <li>Accept, decline, complete — every request tracked in your dashboard</li>
+          </ul>
+          <a href="explore.html" class="btn-primary jn-cta">Find an expert →</a>
+        </div>
+        <div class="jn-vis" aria-hidden="true">
+          <div class="jv jv-connect">
+            <div class="jv-side jv-left"><span class="jv-av jv-av-lg" data-av="m1"></span><small>You</small></div>
+            <div class="jv-link"><i></i><i></i><i></i></div>
+            <div class="jv-side jv-right"><span class="jv-av jv-av-lg" data-av="f2"></span><small>Verified insider</small></div>
+            <div class="jv-card jv-req">
+              <small>Referral request</small><b>Software Engineer II · Bengaluru</b>
+              <div class="jv-status"><span class="s1">Sent</span><span class="s2">Reviewing</span><span class="s3">✓ Accepted</span></div>
             </div>
-            <div class="comp-divider">→</div>
-            <div class="comp-row comp-row--after">
-              <div class="comp-label">With Flyancer</div>
-              <div class="comp-steps">
-                <div class="comp-step comp-step--good">Signs up with company email</div>
-                <div class="comp-step comp-step--good">Verified badge on every profile</div>
-                <div class="comp-step comp-step--good">Clear no-guarantee policy, always shown</div>
-                <div class="comp-total comp-total--good">Trust: verified</div>
-              </div>
+            <span class="jv-note">Sample preview</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROW -->
+      <div class="jn-pane" data-p="grow">
+        <div class="jn-copy">
+          <h3>Learn faster. Earn from what you know.</h3>
+          <p>Candidates grow through honest feedback and warm introductions from people inside the company. Experts grow a side income and a reputation built on verification that cannot be faked. Flyancer takes a small commission and handles the payment — you keep the majority.</p>
+          <ul class="jn-list">
+            <li>Candidates: practice, feedback and referrals that move an application forward</li>
+            <li>Experts: turn career experience into a steady side income</li>
+            <li>A public track record that compounds with every session</li>
+          </ul>
+          <a href="#" class="btn-primary jn-cta" onclick="openLoginPopup(event)">Start growing →</a>
+        </div>
+        <div class="jn-vis" aria-hidden="true">
+          <div class="jv jv-grow">
+            <div class="jv-card jv-earn">
+              <small>Sessions this month</small>
+              <b class="jv-num" data-to="18">0</b>
+              <div class="jv-bars"><i style="--h:30%"></i><i style="--h:44%"></i><i style="--h:38%"></i><i style="--h:62%"></i><i style="--h:74%"></i><i style="--h:92%"></i></div>
             </div>
+            <span class="jv-chip jv-c2">↗ Track record growing</span>
+            <span class="jv-chip jv-c3">✓ Verified expert</span>
+            <span class="jv-note">Illustrative numbers</span>
           </div>
         </div>
       </div>
@@ -373,6 +359,17 @@
       <p class="section-sub logo-section-sub">Every expert is verified through their official work email — so a referral at your dream company comes from someone who really works there.</p>
     </div>
     <div class="la-stage" id="logoArc" aria-label="Company logos"></div>
+  </section>
+
+  <!-- CLOSING BANNER -->
+  <section class="built">
+    <div class="container">
+      <h2 class="built-h">Built to get you
+        <span class="built-doc" aria-hidden="true"><span class="bd-back"></span><span class="bd-page"><i class="bd-dot"></i><i class="bd-l1"></i><i class="bd-l2"></i><i class="bd-l3"></i><svg class="bd-sig" viewBox="0 0 60 18"><path d="M2 14c6-12 9-12 10-2s5 2 9-4 8 4 14-2 10 2 20-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="bd-check">✓</span></span>
+        <span class="gradient-text">referred.</span></h2>
+      <p class="built-sub">Start free. Find your insider today.</p>
+      <a href="#" class="btn-primary" onclick="openLoginPopup(event)">Claim your free username →</a>
+    </div>
   </section>
 
   <!-- FOOTER -->
@@ -460,6 +457,7 @@
   <script src="avatar.js"></script>
   <script src="topics.js"></script>
   <script src="roles.js"></script>
+  <script src="journey.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
