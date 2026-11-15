@@ -190,6 +190,9 @@ const flyancerSupabase = (window.supabase && window.FLYANCER_SUPABASE_URL)
   ? window.supabase.createClient(window.FLYANCER_SUPABASE_URL, window.FLYANCER_SUPABASE_ANON_KEY)
   : null;
 
+/* Old links like index.html?join=expert now go to the Join page */
+(function(){ try { var r = new URLSearchParams(location.search).get('join'); if (r === 'expert' || r === 'candidate') location.replace('join.html?role=' + r); } catch (e) {} })();
+
 /* ── LOGIN POPUP (real Supabase auth) ── */
 (function initLoginPopup() {
   const popup = document.getElementById('loginPopup');
@@ -352,16 +355,7 @@ const flyancerSupabase = (window.supabase && window.FLYANCER_SUPABASE_URL)
 // Called by "Free Username" nav CTA and hero CTA
 function openLoginPopup(e, role) {
   if (e) e.preventDefault();
-  const popup = document.getElementById('loginPopup');
-  if (!popup || !flyancerSupabase) return;
-  flyancerSupabase.auth.getSession().then(({ data }) => {
-    if (data.session) return; // already logged in
-    popup.classList.add('open');
-    if (role) {
-      const btn = document.querySelector('.lp-role-btn[data-role="' + role + '"]');
-      if (btn) btn.click(); // skip the "who are you" step — they already told us
-    }
-  });
+  location.href = 'join.html' + (role ? '?role=' + encodeURIComponent(role) : '');
 }
 
 /* ── ROTATING EXPERT MARQUEE + COMPANY FILTER ── */
@@ -967,6 +961,7 @@ const FX = (function () {
         const first = String(name).split(/\s+/)[0];
         const initial = String(name).trim().charAt(0).toUpperCase();
         const dest = p ? 'dashboard.html' : 'onboarding.html';
+        document.querySelectorAll('.nav-signin').forEach(a => { a.style.display = 'none'; });
         document.querySelectorAll('.btn-nav').forEach(a => {
           a.classList.add('is-user');
           a.removeAttribute('onclick');
