@@ -5,11 +5,13 @@
   <meta name="color-scheme" content="dark" />
   <meta name="darkreader-lock" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Referral Jobs at Top Companies – Flyancer</title>
-  <meta name="description" content="Openings shared by verified employees at real companies. Ask them directly for a referral on Flyancer." />
+  <title>Live Job Postings with Referrals – Flyancer</title>
+  <meta name="description" content="Browse live openings shared by verified employees at real companies, and request a referral in one click." />
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="pf.css" />
+  <link rel="stylesheet" href="jobs.css" />
+  <link rel="stylesheet" href="finder.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
@@ -20,22 +22,47 @@
       <span class="logo-mark" style="display:none;">F</span>
       <span class="logo-text">Flyancer</span>
     </a>
-    <nav class="pf-nav"><a href="index.html">Home</a><a href="explore.html">Experts</a><a href="dashboard.html" id="navDash">Log in</a></nav>
+    <nav class="pf-nav"><a href="jobs.html" class="on">Get Referrals</a><a href="explore.html">Meet Insiders</a><a href="join.html?mode=signin" id="navDash">Sign in</a></nav>
   </header>
 
-  <main class="pf-wrap">
-    <section class="ex-hero">
-      <h1>Jobs with a referral path</h1>
-      <p>Openings shared by verified employees at their own companies. Pick one and ask the person who works there.</p>
-      <input id="jbSearch" class="ex-search" type="search" placeholder="Search by role or company — e.g. Software Engineer, Accenture" />
-    </section>
-    <div class="ex-bar">
-      <span id="jbCount" style="color:var(--muted);font-size:14px"></span>
-      <select id="jbType" class="ex-sort"><option value="">All types</option><option value="full_time">Full-time</option><option value="internship">Internship</option><option value="contract">Contract</option></select>
-      <input id="jbLoc" class="ex-sort" type="search" placeholder="Location" style="min-width:140px" />
+  <main class="jb-wrap">
+    <nav class="jb-crumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span>›</span><b>Jobs</b></nav>
+    <div class="jb-eyebrow">Get referred</div>
+    <h1 class="jb-h1">Live job postings</h1>
+    <p class="jb-lead">Roles shared by verified employees who can put your name forward. Pick one, send a focused request, and let an insider do the rest.</p>
+
+    <form class="jb-search" id="jbForm" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="jbSearch" type="search" placeholder="Company or role" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+    <div class="jb-chips" id="jbChips"></div>
+
+    <div class="jb-layout">
+      <details class="jb-filters" id="jbFilters" open>
+        <summary>Filters <span id="jbFcount"></span></summary>
+        <div class="jb-fgroup"><h3>Job type</h3>
+          <label><input type="checkbox" name="type" value="full_time"> Full-time</label>
+          <label><input type="checkbox" name="type" value="internship"> Internship</label>
+          <label><input type="checkbox" name="type" value="contract"> Contract</label>
+        </div>
+        <div class="jb-fgroup"><h3>Company</h3>
+          <input id="jbCoSearch" class="jb-fin" type="search" placeholder="Search companies" />
+          <div class="jb-colist" id="jbCoList"></div>
+        </div>
+        <div class="jb-fgroup"><h3>Location</h3>
+          <input id="jbLoc" class="jb-fin" type="search" placeholder="City or Remote" />
+        </div>
+        <button type="button" class="jb-clear" id="jbClear">Clear all</button>
+      </details>
+
+      <section>
+        <div class="jb-top"><span id="jbCount"></span>
+          <label>Sort by <select id="jbSort"><option value="new">Newest</option><option value="co">Company A–Z</option></select></label></div>
+        <div id="jbGrid" class="jb-list"><div class="pf-empty">Loading openings…</div></div>
+        <p class="pf-note">These are personal referral openings shared by individual employees, not official postings by the companies. A referral is a recommendation and not a guarantee of an interview or job offer. Spot something wrong? Use “Report” on the card.</p>
+      </section>
     </div>
-    <div class="pf-grid" id="jbGrid"><div class="pf-empty">Loading openings…</div></div>
-    <p class="pf-note">These are personal referral openings shared by individual employees, not official postings by the companies. A referral is a recommendation and not a guarantee of an interview or job offer. Spot something wrong? Use “Report” on the card.</p>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -43,8 +70,9 @@
     window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
     window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
   </script>
-  <script src="categories.js"></script>
-    <script src="avatar.js"></script>
+  <script src="avatar.js"></script>
+  <script src="logo-arc.js"></script>
+  <script src="finder.js"></script>
   <script src="jobs.js"></script>
 </body>
 </html>
