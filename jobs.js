@@ -95,7 +95,8 @@ async function report(btn) {
   if (!error || /duplicate|unique/i.test(error.message)) btn.disabled = true;
 }
 
-$('jbForm').addEventListener('submit', e => { e.preventDefault(); F.q = $('jbSearch').value; draw(); });
+$('jbForm').addEventListener('submit', e => { e.preventDefault(); const go = () => { F.q = $('jbSearch').value; draw(); const t = document.querySelector('.jb-top'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  if (window.flyFinding && $('jbSearch').value.trim()) window.flyFinding(go, { kind: 'jobs', ms: 2800 }); else go(); });
 $('jbSearch').addEventListener('input', () => { F.q = $('jbSearch').value; draw(); });
 $('jbChips').addEventListener('click', e => { const b = e.target.closest('.jb-chip'); if (!b) return; F.q = (F.q.trim().toLowerCase() === b.dataset.q.toLowerCase()) ? '' : b.dataset.q; $('jbSearch').value = F.q; draw(); });
 $('jbLoc').addEventListener('input', () => { F.loc = $('jbLoc').value; draw(); });
