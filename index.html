@@ -81,10 +81,11 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png" />
 
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="finder.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet" />
 </head>
-<body>
+<body data-finder>
 
   <!-- NAV -->
   <nav class="nav" id="nav">
@@ -95,11 +96,10 @@
         <span class="logo-text">Flyancer</span>
       </a>
       <div class="nav-links">
-        <a href="explore.html">Find an Expert</a>
-        <a href="jobs.html">Jobs</a>
-        <a href="ats.html">Free Resume Check</a>
-        <a href="#create">Become an Expert</a>
-        <a href="#" class="btn-nav" onclick="openLoginPopup(event)">Free Username</a>
+        <a href="jobs.html">Get Referrals</a>
+        <a href="explore.html">Meet Insiders</a>
+        <a href="join.html?mode=signin" class="nav-signin">Sign in</a>
+        <a href="join.html" class="btn-nav">Join the network</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -407,43 +407,6 @@
   </footer>
 
   <!-- LOGIN POPUP -->
-  <div class="login-popup" id="loginPopup">
-    <button class="lp-close" id="lpClose" aria-label="Close">✕</button>
-
-    <div class="lp-role-select" id="lpRoleSelect">
-      <div class="lp-title">Join Flyancer</div>
-      <p class="lp-desc">Who are you here as?</p>
-      <button class="lp-role-btn" data-role="expert">
-        <span class="lp-role-icon">🎓</span>
-        <span>
-          <strong>Flyancer</strong>
-          <small>I teach &amp; guide — I'll sign up with my work email</small>
-        </span>
-      </button>
-      <button class="lp-role-btn" data-role="candidate">
-        <span class="lp-role-icon">🎯</span>
-        <span>
-          <strong>Student / Candidate</strong>
-          <small>I'm looking for referrals, coaching, or interview prep</small>
-        </span>
-      </button>
-    </div>
-
-    <form class="lp-form" id="lpForm">
-      <button type="button" class="lp-back" id="lpBack">← Back</button>
-      <div class="lp-title" id="lpFormTitle">Sign up</div>
-      <input type="text" id="lpName" placeholder="Full name" required />
-      <input type="email" id="lpEmail" placeholder="Email address" required />
-      <div class="lp-hint" id="lpHint"></div>
-      <button type="submit" class="btn-primary lp-submit">Continue →</button>
-      <p class="lp-consent">By continuing you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
-    </form>
-
-    <div class="lp-success" id="lpSuccess">
-      ✦ Check your inbox for your login link.
-    </div>
-  </div>
-
   <!-- SUPABASE CONNECTION -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -456,6 +419,7 @@
   <script src="logo-arc.js"></script>
   <script src="avatar.js"></script>
   <script src="topics.js"></script>
+  <script src="finder.js"></script>
   <script src="roles.js"></script>
   <script src="journey.js"></script>
   <script src="script.js"></script>
