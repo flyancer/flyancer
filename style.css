@@ -1978,3 +1978,10 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 @media(prefers-reduced-motion:reduce){.bd-page,.bd-page i,.bd-sig,.bd-check{animation:none!important}.bd-page i{transform:none}.bd-sig{stroke-dashoffset:0}.bd-check{transform:scale(1)}}
 .jv-c1{right:8px;bottom:auto;top:-6px}
 @media(max-width:860px){.jv-c1{right:8px;top:-4px}}
+
+/* ===== seamless bottom sections + bigger resume tick ===== */
+.companies,.la-section{background:transparent!important}
+.built{background:radial-gradient(70% 100% at 50% 100%,rgba(37,99,255,.16),transparent 72%)}
+.footer{background:linear-gradient(to bottom,transparent 0,rgba(10,16,32,.78) 140px);border-top:0!important}
+.bd-check{width:.62em!important;height:.62em!important;font:800 .46em/.62em var(--font-body)!important;right:-.34em!important;top:-.34em!important;box-shadow:0 0 0 .1em rgba(34,211,165,.28),0 6px 16px rgba(34,211,165,.35)!important}
+.built{background:radial-gradient(60% 62% at 50% 52%,rgba(37,99,255,.15),transparent 100%)!important}
