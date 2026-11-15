@@ -31,12 +31,10 @@
         <span class="logo-text">Flyancer</span>
       </a>
       <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="explore.html">Find an Expert</a>
-        <a href="ats.html">Free Resume Check</a>
-        <a href="expert.html">For Experts</a>
-        <a href="candidate.html">For Candidates</a>
-        <a href="#" class="btn-nav" onclick="openLoginPopup(event)">Free Username</a>
+        <a href="jobs.html">Get Referrals</a>
+        <a href="explore.html">Meet Insiders</a>
+        <a href="join.html?mode=signin" class="nav-signin">Sign in</a>
+        <a href="join.html?role=candidate" class="btn-nav">Join as a Candidate</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -54,7 +52,7 @@
         <h1 class="aud-title">Don’t apply into the void. <span class="gradient-text">Get referred.</span></h1>
         <p class="aud-sub">Book 1:1 sessions with people who actually work at your dream company — verified by their official company email — for referrals, mock interviews, coaching and resume reviews.</p>
         <div class="aud-cta">
-          <a href="#" class="btn-primary" onclick="openLoginPopup(event, 'candidate')">Join as a Candidate</a>
+          <a href="join.html?role=candidate" class="btn-primary">Join as a Candidate</a>
           <a href="expert.html" class="btn-ghost">I’m an expert instead →</a>
         </div>
       </div>
@@ -88,7 +86,7 @@
     <section class="aud-final">
       <div class="container">
         <h2 class="section-title">Ready to take off?</h2>
-        <a href="#" class="btn-primary" onclick="openLoginPopup(event, 'candidate')">Join as a Candidate</a>
+        <a href="join.html?role=candidate" class="btn-primary">Join as a Candidate</a>
         <p class="aud-note">Referrals are recommendations, not guarantees.</p>
       </div>
     </section>
@@ -103,43 +101,6 @@
   </footer>
 
   <!-- LOGIN POPUP -->
-  <div class="login-popup" id="loginPopup">
-    <button class="lp-close" id="lpClose" aria-label="Close">✕</button>
-
-    <div class="lp-role-select" id="lpRoleSelect">
-      <div class="lp-title">Join Flyancer</div>
-      <p class="lp-desc">Who are you here as?</p>
-      <button class="lp-role-btn" data-role="expert">
-        <span class="lp-role-icon">🎓</span>
-        <span>
-          <strong>Flyancer</strong>
-          <small>I teach &amp; guide — I'll sign up with my work email</small>
-        </span>
-      </button>
-      <button class="lp-role-btn" data-role="candidate">
-        <span class="lp-role-icon">🎯</span>
-        <span>
-          <strong>Student / Candidate</strong>
-          <small>I'm looking for referrals, coaching, or interview prep</small>
-        </span>
-      </button>
-    </div>
-
-    <form class="lp-form" id="lpForm">
-      <button type="button" class="lp-back" id="lpBack">← Back</button>
-      <div class="lp-title" id="lpFormTitle">Sign up</div>
-      <input type="text" id="lpName" placeholder="Full name" required />
-      <input type="email" id="lpEmail" placeholder="Email address" required />
-      <div class="lp-hint" id="lpHint"></div>
-      <button type="submit" class="btn-primary lp-submit">Continue →</button>
-      <p class="lp-consent">By continuing you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
-    </form>
-
-    <div class="lp-success" id="lpSuccess">
-      ✦ Check your inbox for your login link.
-    </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
