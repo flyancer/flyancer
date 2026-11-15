@@ -24,7 +24,7 @@ async function init() {
   const { data: { session: s } } = await sb.auth.getSession();
   session = s;
   if (session) {
-    $('navDash').textContent = 'Dashboard';
+    $('navDash').textContent = 'Dashboard'; $('navDash').href = 'dashboard.html';
     const { data } = await sb.from('profiles').select('id,role,username').eq('id', session.user.id).maybeSingle();
     me = data;
   }
@@ -96,7 +96,7 @@ async function init() {
 }
 
 function openRequest(svc) {
-  if (!session) { location.href = 'index.html?join=candidate'; return; }
+  if (!session) { location.href = 'join.html?role=candidate'; return; }
   if (!me) { location.href = 'onboarding.html'; return; }
   pendingService = svc;
   $('reqTitle').textContent = `Request: ${svc.title}`;
