@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="darkreader-lock" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join the network – Flyancer</title>
+  <meta name="description" content="Join Flyancer free. Ask verified insiders for referrals, or share your experience as a verified expert." />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="join.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="jp">
+  <main class="jp-wrap">
+    <section class="jp-left">
+      <a href="index.html" class="logo jp-logo">
+        <img src="assets/logo-transparent.png" alt="Flyancer" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <span class="logo-mark" style="display:none;">F</span>
+        <span class="logo-text">Flyancer</span>
+      </a>
+
+      <div class="jp-form" id="jpForm">
+        <h1 id="jpTitle">Join the network</h1>
+        <p class="jp-sub" id="jpSub">Free to join. We’ll email you a magic link — no password to remember.</p>
+
+        <div class="jp-seg" id="jpRole" role="tablist" aria-label="I am a">
+          <button type="button" class="on" data-role="candidate" role="tab"><b>🎯 I want a referral</b><small>Student / candidate</small></button>
+          <button type="button" data-role="expert" role="tab"><b>🎓 I’m an insider</b><small>Expert · work email</small></button>
+        </div>
+
+        <form id="jpFormEl" novalidate>
+          <label id="jpNameWrap">Full name
+            <input id="jpName" type="text" autocomplete="name" placeholder="e.g. Soni Gupta" />
+          </label>
+          <label>Email <span id="jpEmailHint" class="jp-req">*</span>
+            <input id="jpEmail" type="email" autocomplete="email" placeholder="you@email.com" required />
+          </label>
+          <div class="jp-msg" id="jpMsg" role="status"></div>
+          <button class="jp-btn" id="jpBtn" type="submit">Send my magic link →</button>
+        </form>
+
+        <p class="jp-consent">By continuing you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+        <p class="jp-switch" id="jpSwitch">Already have an account? <a href="#" id="jpToggle">Sign in</a></p>
+      </div>
+
+      <div class="jp-done" id="jpDone" hidden>
+        <div class="jp-mail">✉️</div>
+        <h2>Check your inbox</h2>
+        <p>We sent a secure login link to <b id="jpSent"></b>. Open it on this device and you’re in.</p>
+        <p class="jp-small">Can’t see it? Check spam or promotions, or <a href="#" id="jpAgain">use a different email</a>.</p>
+      </div>
+    </section>
+
+    <aside class="jp-right" aria-label="Why Flyancer">
+      <div class="jp-glow" aria-hidden="true"></div>
+      <div class="jp-rin">
+        <div class="jp-eyebrow"><i></i>Verified insiders · Real referrals</div>
+        <h2>Don’t just apply.<br/><span class="gradient-text">Get referred.</span></h2>
+        <p class="jp-lead">Skip the résumé black hole. Ask someone who already works there — a person who proved it with their company email.</p>
+        <ul class="jp-card">
+          <li><span>✓</span>Ask verified employees for a referral at the company you want</li>
+          <li><span>✓</span>Practise with mock interviews and résumé reviews from people who’ve been on the other side</li>
+          <li><span>✓</span>Experts: turn your experience into income, on your own terms</li>
+        </ul>
+        <div class="jp-proof"><span class="jp-avs" id="jpAvs"></span><span>Free to join · pay only when you book</span></div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.FLYANCER_SUPABASE_URL = 'https://pwkxnwsezodqilrlurqi.supabase.co';
+    window.FLYANCER_SUPABASE_ANON_KEY = 'sb_publishable_ZumN5D2CdN5GmNgeIMiPWQ_ZjhL0jz3';
+  </script>
+  <script src="avatar.js"></script>
+  <script src="join.js"></script>
+</body>
+</html>

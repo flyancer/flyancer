@@ -1,0 +1,47 @@
+/* Flyancer — Join / Sign in page */
+[hidden]{display:none!important}
+body.jp{margin:0;min-height:100vh;background:#070C1A;color:#fff;font-family:var(--font-body)}
+.jp-wrap{display:grid;grid-template-columns:minmax(380px,1fr) 1.08fr;min-height:100vh}
+.jp-left{position:relative;display:flex;flex-direction:column;padding:34px clamp(24px,6vw,84px);background:linear-gradient(180deg,#0B1226,#091020)}
+.jp-logo{align-self:flex-start;margin-bottom:auto}
+.jp-form,.jp-done{width:100%;max-width:420px;margin:auto 0 auto 0;padding:34px 0}
+.jp-form h1{font:800 clamp(1.9rem,3.4vw,2.5rem)/1.1 var(--font-display);letter-spacing:-1px;margin:0 0 .6rem}
+.jp-sub{color:rgba(240,244,255,.65);font-size:15px;line-height:1.55;margin:0 0 1.5rem}
+.jp-seg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.3rem}
+.jp-seg button{text-align:left;padding:13px 14px;border-radius:14px;cursor:pointer;color:#fff;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.12);font-family:var(--font-body);transition:border-color .2s,background .2s}
+.jp-seg button b{display:block;font:700 14px var(--font-display);margin-bottom:2px}
+.jp-seg button small{color:rgba(240,244,255,.55);font-size:12px}
+.jp-seg button:hover{border-color:rgba(96,165,250,.5)}
+.jp-seg button.on{border-color:var(--blue);background:rgba(37,99,255,.14);box-shadow:0 0 0 3px rgba(37,99,255,.18)}
+.jp-form label{display:block;font:600 13px var(--font-body);color:rgba(240,244,255,.85);margin-bottom:14px}
+.jp-req{color:#7DA8FF;font-weight:500}
+.jp-form input{display:block;width:100%;margin-top:7px;padding:14px 15px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;font:500 15px var(--font-body);outline:none;transition:border-color .2s,box-shadow .2s;box-sizing:border-box}
+.jp-form input::placeholder{color:rgba(240,244,255,.35)}
+.jp-form input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,255,.22)}
+.jp-msg{min-height:20px;font-size:13px;color:rgba(240,244,255,.7);margin:-4px 0 10px}
+.jp-msg.err{color:#FF8A8A}
+.jp-btn{width:100%;padding:15px;border:0;border-radius:12px;background:var(--blue);color:#fff;font:700 15px var(--font-display);cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s}
+.jp-btn:hover{background:#1D55E8;box-shadow:0 10px 26px -8px rgba(37,99,255,.7);transform:translateY(-1px)}
+.jp-btn:disabled{opacity:.6;cursor:wait}
+.jp-consent{font-size:12px;color:rgba(240,244,255,.5);margin:16px 0 0;line-height:1.5}
+.jp-consent a,.jp-switch a,.jp-small a{color:#8DB4FF;text-decoration:underline;text-underline-offset:2px}
+.jp-switch{margin:22px 0 0;text-align:center;font-size:14px;color:rgba(240,244,255,.65)}
+.jp-done{text-align:left}.jp-done h2{font:800 2rem var(--font-display);margin:.4rem 0 .6rem;letter-spacing:-.8px}
+.jp-done p{color:rgba(240,244,255,.72);line-height:1.6}.jp-mail{font-size:2.6rem}.jp-small{font-size:13px}
+.jp-right{position:relative;overflow:hidden;border-radius:36px 0 0 36px;background:radial-gradient(90% 70% at 85% 0%,rgba(124,58,237,.45),transparent 60%),radial-gradient(80% 80% at 10% 100%,rgba(37,99,255,.55),transparent 60%),linear-gradient(160deg,#0E1A44,#0A1230 60%,#0B0F26);display:flex;align-items:center}
+.jp-glow{position:absolute;width:520px;height:520px;right:-140px;top:-120px;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,.35),transparent 65%);filter:blur(20px);animation:jpPulse 8s ease-in-out infinite}
+@keyframes jpPulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.15);opacity:1}}
+.jp-rin{position:relative;z-index:1;padding:clamp(32px,6vw,84px);max-width:640px}
+.jp-eyebrow{display:flex;align-items:center;gap:12px;font:700 12px var(--font-body);letter-spacing:2px;text-transform:uppercase;color:rgba(230,238,255,.8);margin-bottom:1.6rem}
+.jp-eyebrow i{width:34px;height:1px;background:rgba(230,238,255,.5)}
+.jp-right h2{font:800 clamp(2.3rem,4.6vw,3.8rem)/1.06 var(--font-display);letter-spacing:-2px;margin:0 0 1.2rem}
+.jp-lead{font-size:1.1rem;line-height:1.65;color:rgba(230,238,255,.78);max-width:520px;margin:0 0 2rem}
+.jp-card{list-style:none;margin:0 0 1.8rem;padding:8px 22px;border-radius:22px;background:rgba(8,14,34,.55);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);max-width:520px}
+.jp-card li{display:flex;gap:14px;align-items:flex-start;padding:15px 0;font-size:15px;line-height:1.45;color:#EAF0FF}
+.jp-card li+li{border-top:1px solid rgba(255,255,255,.08)}
+.jp-card li span{flex:none;width:26px;height:26px;border-radius:50%;background:rgba(37,99,255,.35);color:#9CC0FF;display:grid;place-items:center;font-size:13px;margin-top:1px}
+.jp-proof{display:flex;align-items:center;gap:14px;font-size:14px;color:rgba(230,238,255,.8)}
+.jp-avs{display:flex}.jp-avs span{margin-left:-10px;border-radius:50%;border:2px solid #0E1A44;overflow:hidden;width:34px;height:34px;background:#0E1A44}
+.jp-avs span:first-child{margin-left:0}.jp-avs img{display:block;width:34px;height:34px}
+@media(max-width:900px){.jp-wrap{grid-template-columns:1fr}.jp-right{order:2;border-radius:30px 30px 0 0}.jp-left{min-height:auto;padding-bottom:10px}.jp-form,.jp-done{margin:2rem 0 0;max-width:none}.jp-rin{padding:44px 24px 56px}.jp-seg{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.jp-glow{animation:none}}

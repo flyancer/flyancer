@@ -1,0 +1,64 @@
+/* Flyancer — Live job postings dashboard */
+.pf-nav a.on{color:#fff}
+.jb-wrap{max-width:1180px;margin:0 auto;padding:30px 24px 80px}
+.jb-crumb{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:26px}
+.jb-crumb a:hover{color:#fff}.jb-crumb b{color:#fff;font-weight:600}
+.jb-eyebrow{font:700 12px var(--font-body);letter-spacing:2px;text-transform:uppercase;color:var(--blue2);margin-bottom:10px}
+.jb-h1{font:800 clamp(2.2rem,5vw,3.3rem)/1.08 var(--font-display);letter-spacing:-1.5px;margin:0 0 12px}
+.jb-lead{max-width:640px;color:rgba(240,244,255,.68);font-size:16px;line-height:1.6;margin:0 0 26px}
+.jb-search{display:flex;align-items:center;gap:10px;padding:6px 6px 6px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);transition:border-color .2s}
+.jb-search:focus-within{border-color:var(--blue)}
+.jb-search svg{width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:2;flex:none}
+.jb-search input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:500 15px var(--font-body);padding:12px 0}
+.jb-search button{border:0;border-radius:11px;background:var(--blue);color:#fff;font:700 14px var(--font-display);padding:12px 26px;cursor:pointer}
+.jb-search button:hover{background:#1D55E8}
+.jb-chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 30px}
+.jb-chip{padding:9px 16px;border-radius:99px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);color:#fff;font:600 13.5px var(--font-body);cursor:pointer;transition:all .2s}
+.jb-chip:hover{border-color:var(--blue2)}.jb-chip.on{background:var(--blue);border-color:var(--blue)}
+.jb-layout{display:grid;grid-template-columns:270px 1fr;gap:26px;align-items:start}
+.jb-filters{position:sticky;top:90px;padding:20px;border-radius:22px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1)}
+.jb-filters>summary{list-style:none;font:800 17px var(--font-display);cursor:default;margin-bottom:6px}
+.jb-filters>summary::-webkit-details-marker{display:none}
+.jb-fgroup{padding:16px 0;border-top:1px solid rgba(255,255,255,.08);margin-top:12px}
+.jb-fgroup h3{font:700 13px var(--font-body);color:rgba(240,244,255,.85);margin:0 0 10px;text-transform:uppercase;letter-spacing:.8px}
+.jb-fgroup label{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(240,244,255,.85);padding:5px 0;cursor:pointer}
+.jb-fgroup input[type=checkbox]{width:16px;height:16px;accent-color:var(--blue)}
+.jb-fin{width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#fff;font:500 14px var(--font-body);outline:0}
+.jb-fin:focus{border-color:var(--blue)}
+.jb-colist{max-height:210px;overflow:auto;margin-top:8px;scrollbar-width:thin}
+.jb-colist em{font-style:normal;color:var(--muted);font-size:12px;margin-left:auto}
+.jb-clear{width:100%;margin-top:6px;padding:10px;border-radius:10px;background:none;border:1px solid rgba(255,255,255,.16);color:#fff;font:600 13px var(--font-body);cursor:pointer}
+.jb-clear:hover{border-color:var(--blue2)}
+.jb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:14px;color:var(--muted)}
+.jb-top select{margin-left:6px;padding:8px 12px;border-radius:10px;background:#0E1630;border:1px solid rgba(255,255,255,.14);color:#fff;font:500 13px var(--font-body)}
+.jb-list{display:flex;flex-direction:column;gap:16px}
+.jb-card{padding:22px;border-radius:22px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);transition:border-color .2s,transform .2s}
+.jb-card:hover{border-color:rgba(96,165,250,.45);transform:translateY(-2px)}
+.jb-row{display:flex;gap:16px;align-items:flex-start}
+.jb-logo{flex:none;width:54px;height:54px;border-radius:14px;background:#fff;display:grid;place-items:center;color:#0B1226;font:800 22px var(--font-display)}
+.jb-logo svg{width:28px;height:28px;fill:#0B1226}
+.jb-main{flex:1;min-width:0}
+.jb-co{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:700 16px var(--font-display)}
+.jb-badge{padding:3px 10px;border-radius:99px;font:700 11px var(--font-body);background:#fff;color:#0B1226}
+.jb-badge.v{background:rgba(34,211,165,.14);color:#4EE3BC;border:1px solid rgba(34,211,165,.3)}
+.jb-title{display:block;margin:5px 0 4px;font:700 17px var(--font-display);color:var(--blue2)}
+.jb-meta{font-size:13.5px;color:var(--muted)}
+.jb-meta i{font-style:normal;margin:0 7px;opacity:.5}
+.jb-desc{margin:12px 0 0;font-size:14px;line-height:1.6;color:rgba(240,244,255,.72)}
+.jb-act{display:flex;flex-direction:column;gap:8px;flex:none}
+.jb-btn{padding:11px 20px;border-radius:12px;border:0;background:var(--blue);color:#fff;font:700 14px var(--font-display);cursor:pointer;white-space:nowrap;text-align:center}
+.jb-btn:hover{background:#1D55E8}
+.jb-btn.g{background:none;border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:600}
+.jb-btn.g:hover{border-color:var(--blue2)}
+.jb-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;color:rgba(240,244,255,.7)}
+.jb-by{display:flex;align-items:center;gap:10px}.jb-by img{border-radius:50%;display:block}
+.jb-by strong{color:#fff;font-weight:600}
+.jb-link{background:none;border:0;color:var(--muted);font:500 12px var(--font-body);cursor:pointer;text-decoration:underline}
+.jb-link:hover{color:#fff}
+.jb-empty{padding:46px 24px;text-align:center;border-radius:22px;border:1px dashed rgba(255,255,255,.18);color:var(--muted);line-height:1.7}
+.jb-empty h3{font:800 1.3rem var(--font-display);color:#fff;margin:0 0 8px}
+.jb-empty .jb-btn{display:inline-block;margin:14px 6px 0}
+@media(max-width:860px){.jb-layout{grid-template-columns:1fr}.jb-filters{position:static}.jb-filters:not([open]) .jb-fgroup,.jb-filters:not([open]) .jb-clear{display:none}.jb-filters>summary{cursor:pointer;margin:0}.jb-row{flex-wrap:wrap}.jb-act{flex-direction:row;width:100%}.jb-act .jb-btn{flex:1}.jb-search button{padding:12px 16px}}
+.pf-nav a{white-space:nowrap}
+@media(max-width:560px){.pf-top{gap:10px}.pf-nav{gap:14px!important}.pf-nav a{font-size:13px}.logo-text{font-size:1.05rem}}
+@media(max-width:560px){.pf-top .logo-text{display:none}}
