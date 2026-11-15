@@ -10,7 +10,7 @@ if (cat !== 'all' && !window.FLY_CAT[cat]) cat = 'all';
 
 async function init() {
   const { data: { session } } = await sb.auth.getSession();
-  if (session) $('navDash').textContent = 'Dashboard';
+  if (session) { $('navDash').textContent = 'Dashboard'; $('navDash').href = 'dashboard.html'; }
 
   const { data, error } = await sb.from('services')
     .select('id,title,topic,description,price_inr,service_type,created_at,profiles(full_name,username,company,job_title,gender,avatar,is_verified,role)')
