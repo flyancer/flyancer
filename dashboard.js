@@ -10,7 +10,7 @@ $('logoutBtn').onclick = async () => { await sb.auth.signOut(); location.href = 
 async function init() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
-    $('app').innerHTML = '<div class="pf-msg"><h2>Please log in</h2><p>Use the “Free Username” button on the home page to get a magic login link.</p><br><a class="pf-btn" href="index.html">Go to Flyancer</a></div>';
+    $('app').innerHTML = '<div class="pf-msg"><h2>Please log in</h2><p>Sign in with your email and we’ll send you a magic link.</p><br><a class="pf-btn" href="join.html?mode=signin">Sign in →</a></div>';
     $('logoutBtn').style.display = 'none'; return;
   }
   const { data: p } = await sb.from('profiles').select('*').eq('id', session.user.id).maybeSingle();
