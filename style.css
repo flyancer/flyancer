@@ -1985,3 +1985,7 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 .footer{background:linear-gradient(to bottom,transparent 0,rgba(10,16,32,.78) 140px);border-top:0!important}
 .bd-check{width:.62em!important;height:.62em!important;font:800 .46em/.62em var(--font-body)!important;right:-.34em!important;top:-.34em!important;box-shadow:0 0 0 .1em rgba(34,211,165,.28),0 6px 16px rgba(34,211,165,.35)!important}
 .built{background:radial-gradient(60% 62% at 50% 52%,rgba(37,99,255,.15),transparent 100%)!important}
+
+/* nav: Sign in + Join the network */
+.nav-links .nav-signin{color:#fff;font-weight:600;margin-left:.4rem}
+.nav-links .btn-nav{white-space:nowrap}
