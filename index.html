@@ -34,6 +34,7 @@
   <meta name="ICBM" content="20.5937, 78.9629" />
 
   <!-- SCHEMA.ORG STRUCTURED DATA -->
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why would someone refer me?", "acceptedAnswer": {"@type": "Answer", "text": "Many companies pay employees a bonus when a referred hire joins, and a strong referral reflects well on the person making it. Make it easy for them to say yes."}}, {"@type": "Question", "name": "How much do referral bonuses pay?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the company and role. TCS pays ₹15,000–₹40,000 depending on how quickly the hire joins; US tech roles often fall between $1,000 and $10,000. Paid only after the hire joins. Source: TCS (2026) · Erin (2023)"}}, {"@type": "Question", "name": "Does a referral really help?", "acceptedAnswer": {"@type": "Answer", "text": "In a Lever study of 4M+ candidates, about 1 in 16 referrals was hired, against about 1 in 152 career-page applicants. A referral gets you noticed. You still earn the offer. Source: Lever study · 2015–16 data"}}, {"@type": "Question", "name": "How do I find the right insider?", "acceptedAnswer": {"@type": "Answer", "text": "Search by company or role. Every expert is verified with a work email, so you can compare titles and services, then send one focused request."}}, {"@type": "Question", "name": "Will my current employer find out?", "acceptedAnswer": {"@type": "Answer", "text": "Flyancer never contacts employers, and your request goes only to the expert you choose. Use a personal email, not your work one."}}, {"@type": "Question", "name": "Is a referral a guarantee?", "acceptedAnswer": {"@type": "Answer", "text": "No. A referral is a professional recommendation, not a promise of an interview or offer. It opens the door; your preparation gets you through."}}]}</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -195,14 +196,18 @@
       <div class="hero-visual">
         <div class="hl-wrap" id="hlWrap">
           <div class="hl-glow" aria-hidden="true"></div>
+          <div class="hq" id="hq" data-s="idle">
+            <div class="hq-b hq-qb"><span class="hq-who">Student asks</span><div class="hq-g"><div class="hq-live"><p class="hq-q"><span class="hq-qt"></span><i class="hq-caret"></i></p></div></div></div>
+            <div class="hq-b hq-ab"><span class="hq-who">Insider answers</span><div class="hq-g"><div class="hq-live"><p class="hq-a"><span class="hq-at"></span><span class="hq-think" aria-hidden="true"><i></i><i></i><i></i></span></p><p class="hq-src"></p></div></div></div>
+          </div>
           <div class="hl-stage">
-            <span class="hl-tag"><i></i>Flyancer</span>
             <div class="hl-anim" id="hlAnim" role="img" aria-label="Illustration of two professionals reviewing a growth chart"></div>
-            <span class="hl-chip hl-c1">✓ Verified insiders</span>
-            <span class="hl-chip hl-c2">↗ Referral accepted</span>
+            <span class="hq-cap" aria-hidden="true"><svg viewBox="0 0 64 48" width="100%" height="100%"><defs><linearGradient id="hqg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C3AED"/><stop offset="1" stop-color="#2563FF"/></linearGradient></defs><path d="M32 4 2 18l30 14 30-14L32 4z" fill="url(#hqg)"/><path d="M16 26v10c0 4 7 8 16 8s16-4 16-8V26L32 33 16 26z" fill="#1B2A5C"/><path d="M32 18 56 29v12" fill="none" stroke="#22D3A5" stroke-width="2.4" stroke-linecap="round"/><circle cx="56" cy="43" r="3.4" fill="#22D3A5"/></svg></span>
+            <span class="hq-case" aria-hidden="true"><svg viewBox="0 0 48 40" width="100%" height="100%"><path d="M17 11V7a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4" fill="none" stroke="#A78BFA" stroke-width="3" stroke-linecap="round"/><rect x="3" y="10" width="42" height="26" rx="5" fill="#2563FF"/><rect x="3" y="10" width="42" height="12" rx="5" fill="#4F86FF"/><rect x="20" y="19" width="8" height="7" rx="1.6" fill="#22D3A5"/></svg></span>
           </div>
           <p class="hl-line">Get referred by <b>insiders</b> at top tech companies</p>
           <p class="hl-sub">Work-email verified experts · Referrals · Mock interviews</p>
+          <div class="hq-dots" id="hqDots"></div>
         </div>
       </div>
     </div>
@@ -416,6 +421,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
   <script src="hero-lottie.js" defer></script>
+  <script src="hero-faq.js" defer></script>
   <script src="logo-arc.js"></script>
   <script src="avatar.js"></script>
   <script src="topics.js"></script>
