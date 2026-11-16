@@ -2034,3 +2034,8 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 .hq-dot:focus-visible{outline:2px solid #60A5FA;outline-offset:2px}
 @media(max-width:560px){.hq{margin-bottom:-16px}.hq-b::before{left:30%}.hq-b::after{left:calc(30% - 6px)}.hq-ab::before{left:62%}.hq-ab::after{left:calc(62% - 6px)}.hq{grid-template-columns:1fr;gap:18px}.hq-qb{width:86%}.hq-ab{width:94%;justify-self:end}.hq-cap{width:34px;height:26px}.hq-case{width:24px;height:20px}}
 @media(prefers-reduced-motion:reduce){.hq-qb,.hq-ab,.hq-cap,.hq-cap svg,.hq-case,.hq-think i,.hq-caret{animation:none!important}.hq-b{transition:none}}
+
+/* Phone browsers with forced "dark mode for web pages" (e.g. Samsung Internet) invert SVG/gradient text.
+   Hero art is drawn on <canvas> and highlight text uses solid colours so the palette stays as designed. */
+.hl-line b{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#9DB2FF!important;-webkit-text-fill-color:#9DB2FF}
+.hq-dot.on{background:#3B82F6}
