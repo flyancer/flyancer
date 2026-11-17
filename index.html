@@ -82,10 +82,11 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png" />
 
+  <link rel="stylesheet" href="story.css" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="finder.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet" />
 </head>
 <body data-finder>
 
@@ -214,33 +215,33 @@
     </div>
   </section>
 
-  <!-- VERIFICATION STRIP -->
-  <section class="verification-strip">
-    <div class="container">
-      <div class="section-eyebrow">How Verification Works</div>
-      <h2 class="section-title">Earning the blue checkmark.</h2>
-      <p class="section-sub">Four steps stand between signing up and showing up as verified — no shortcuts.</p>
-      <div class="vsteps">
-        <div class="vstep">
-          <div class="vstep-num">1</div>
-          <h4>Sign up with a work email</h4>
-          <p>Personal addresses — Gmail, Yahoo, Outlook and similar — are rejected automatically.</p>
-        </div>
-        <div class="vstep">
-          <div class="vstep-num">2</div>
-          <h4>Confirm the inbox</h4>
-          <p>A confirmation link goes to that exact address. Clicking it proves you actually control it.</p>
-        </div>
-        <div class="vstep">
-          <div class="vstep-num">3</div>
-          <h4>Domain &amp; review check</h4>
-          <p>Common company domains pass instantly. Unusual ones get a quick manual look, usually within 48 hours.</p>
-        </div>
-        <div class="vstep">
-          <div class="vstep-num">4</div>
-          <h4>Badge goes live</h4>
-          <p>Your profile shows <strong>Verified @yourcompany.com</strong>, dated — and re-checked periodically to stay honest.</p>
-        </div>
+  <!-- STORY: focus moment + expanding strip -->
+  <div class="sty">
+    <section class="st-el st-bleed st-focus sty-focus" aria-label="Why Flyancer exists"><div class="st-focus__stage"><p class="st-focus__text"><span class="st-focus__w">What</span> <span class="st-focus__w">if</span> <span class="st-focus__w">the</span> <span class="st-focus__w">people</span> <span class="st-focus__w">who</span> <span class="st-focus__w">know</span> <span class="st-focus__w">the</span> <span class="st-focus__w">industry</span> <span class="st-focus__w">could</span> <span class="st-focus__w">help</span> <span class="st-focus__w">the</span> <span class="st-focus__w">people</span> <span class="st-focus__w">trying</span> <span class="st-focus__w">to</span> <span class="st-focus__w">enter</span> <span class="st-focus__w">it?</span><span class="st-focus__frame" aria-hidden="true"><span class="st-focus__c st-focus__c--tl"></span><span class="st-focus__c st-focus__c--tr"></span><span class="st-focus__c st-focus__c--bl"></span><span class="st-focus__c st-focus__c--br"></span></span></p></div></section>
+    <section class="st-el st-bleed st-strip sty-strip" role="group" aria-label="Create, connect, grow" tabindex="0" data-expand="3" data-zoom="1.25" data-dim="0.5" data-blur="4" data-bright="0.82">
+      <div class="st-strip__panel" role="button" tabindex="0" aria-label="Profile"><span class="st-strip__vlabel" aria-hidden="true"><span class="st-strip__vlabel-in">Profile</span></span><img class="st-strip__img" src="assets/story/profile.webp" alt="Profile" loading="lazy" decoding="async"><div class="st-strip__shade"></div><div class="st-strip__scrim"></div><div class="st-strip__text"><p class="st-strip__title"><span class="st-strip__title-in">Profile</span></p><p class="st-strip__label"><span class="st-strip__label-in"><b>Create</b>your verified profile</span></p></div></div>
+      <div class="st-strip__panel" role="button" tabindex="0" aria-label="Knowledge"><span class="st-strip__vlabel" aria-hidden="true"><span class="st-strip__vlabel-in">Knowledge</span></span><img class="st-strip__img" src="assets/story/knowledge.webp" alt="Knowledge" loading="lazy" decoding="async"><div class="st-strip__shade"></div><div class="st-strip__scrim"></div><div class="st-strip__text"><p class="st-strip__title"><span class="st-strip__title-in">Knowledge</span></p><p class="st-strip__label"><span class="st-strip__label-in"><b>Connect</b>share what you know</span></p></div></div>
+      <div class="st-strip__panel" role="button" tabindex="0" aria-label="Services"><span class="st-strip__vlabel" aria-hidden="true"><span class="st-strip__vlabel-in">Services</span></span><img class="st-strip__img" src="assets/story/services.webp" alt="Services" loading="lazy" decoding="async"><div class="st-strip__shade"></div><div class="st-strip__scrim"></div><div class="st-strip__text"><p class="st-strip__title"><span class="st-strip__title-in">Services</span></p><p class="st-strip__label"><span class="st-strip__label-in"><b>Grow</b>earn from your sessions</span></p></div></div>
+    </section>
+  </div>
+
+  <!-- VERIFICATION -->
+  <section class="tv" id="verification" aria-labelledby="tvH">
+    <div class="tv-inner">
+      <div class="tv-head">
+        <div class="tv-eye">How verification works</div>
+        <h2 class="tv-h2" id="tvH">Trust isn&rsquo;t claimed. <em>It&rsquo;s verified.</em></h2>
+        <p class="tv-sub">Because professional connections deserve transparency.</p>
+      </div>
+      <div class="tv-rail">
+        <div class="tv-card"><span class="tv-badge">1</span><h3 class="tv-step">Work email</h3><p class="tv-desc">Sign up with your company email. Personal addresses &mdash; Gmail, Yahoo, Outlook and similar &mdash; are rejected automatically.</p></div>
+        <div class="tv-card"><span class="tv-badge">2</span><h3 class="tv-step">Confirm the inbox</h3><p class="tv-desc">A confirmation link goes to that exact address. Clicking it proves you actually control it.</p></div>
+        <div class="tv-card"><span class="tv-badge">3</span><h3 class="tv-step">Domain &amp; review check</h3><p class="tv-desc">Common company domains pass instantly. Unusual ones get a quick manual look, usually within 48 hours.</p></div>
+        <div class="tv-card tv-card--final"><span class="tv-badge">4</span><h3 class="tv-step">Verified badge</h3><p class="tv-desc">Your profile shows <strong>Verified @yourcompany.com</strong>, dated &mdash; and re-checked periodically to stay honest.</p></div>
+      </div>
+      <div class="tv-foot">
+        <p class="tv-statement">Real professional identities. Greater transparency. More meaningful connections.</p>
+        <p class="tv-disc">Verification confirms professional identity and company association only. It does not guarantee service quality, a referral, an interview or any employment outcome.</p>
       </div>
     </div>
   </section>
@@ -429,6 +430,7 @@
   <script src="finder.js"></script>
   <script src="roles.js"></script>
   <script src="journey.js"></script>
+  <script src="story.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
