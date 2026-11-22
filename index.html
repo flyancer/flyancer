@@ -87,8 +87,17 @@
   <link rel="stylesheet" href="finder.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet" />
+  <script>
+    /* first visit of a session only: marks the page for the short arrival intro (CSS does the rest; page text is never hidden) */
+    (function(){try{var d=document.documentElement,n=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||{};
+      if(sessionStorage.getItem('fly_arr')||location.hash||n.type==='back_forward'||n.type==='reload'||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;
+      sessionStorage.setItem('fly_arr','1');d.classList.add('arr');}catch(e){}})();
+  </script>
 </head>
 <body data-finder>
+  <div class="arrival" id="arrival" aria-hidden="true"><div class="arr-orb"><i></i></div></div>
+  <script>(function(){var a=document.getElementById('arrival');if(!a)return;function end(){document.documentElement.classList.remove('arr')}
+    a.addEventListener('click',end);document.addEventListener('keydown',end,{once:true});a.addEventListener('animationend',function(e){if(e.target===a&&e.animationName==='arrFade')end()});setTimeout(end,2600);})();</script>
 
   <!-- NAV -->
   <nav class="nav" id="nav">
