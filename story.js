@@ -168,32 +168,3 @@
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){el.classList.add('in');io.disconnect();}});},{threshold:.18});
   io.observe(el);
 })();
-
-/* "Open the door": plays assets/story/open-the-door.mp4 if present, else a built-in door animation; then the booking popup */
-(function(){
-  var st=document.getElementById('odStage'); if(!st)return;
-  var vid=document.getElementById('odVideo'), pop=document.getElementById('odPop'), closeB=document.getElementById('odClose');
-  var VIDEO_SRC='assets/story/open-the-door.mp4', hasVideo=false, timers=[], reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function later(f,ms){timers.push(setTimeout(f,ms))}
-  function clear(){timers.forEach(clearTimeout);timers=[]}
-  function showPop(){st.classList.add('pop');pop.setAttribute('aria-hidden','false')}
-  function reset(){clear();st.classList.remove('go','pop');pop.setAttribute('aria-hidden','true');if(hasVideo){try{vid.pause();vid.currentTime=0}catch(e){}}}
-  function play(){
-    reset();
-    if(reduce){st.classList.add('go');showPop();return;}
-    if(hasVideo){var p=vid.play();if(p&&p.catch)p.catch(function(){hasVideo=false;st.classList.remove('has-video');play()});return;}
-    st.classList.add('go'); later(showPop,4100);
-  }
-  vid.addEventListener('canplay',function(){hasVideo=true;st.classList.add('has-video')},{once:true});
-  vid.addEventListener('ended',showPop);
-  vid.addEventListener('error',function(){hasVideo=false;st.classList.remove('has-video')});
-  vid.src=VIDEO_SRC; vid.preload='auto';
-  if(closeB)closeB.addEventListener('click',function(){st.classList.remove('pop');pop.setAttribute('aria-hidden','true')});
-  if('IntersectionObserver' in window){
-    var on=false;
-    new IntersectionObserver(function(e){
-      var vis=e[0].isIntersecting;
-      if(vis&&!on){on=true;setTimeout(play,350)} else if(!vis&&on){on=false;reset()}
-    },{threshold:.55}).observe(st);
-  } else play();
-})();
