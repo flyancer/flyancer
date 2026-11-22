@@ -2077,3 +2077,29 @@ html.arr .arrival {
 html.arr .gw-clouds { animation: arrUp .9s .85s cubic-bezier(.2,.8,.2,1) both; }
 @keyframes arrUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { html.arr .arrival { display: none; } html.arr .gw-clouds { animation: none; } }
+
+/* ===== Floating join dock (home) + "side locked in" pop ===== */
+.dock {
+  position: fixed; left: 50%; bottom: 18px; z-index: 700; display: flex; align-items: center; gap: 12px;
+  padding: 7px 7px 7px 16px; border-radius: 999px; max-width: calc(100% - 24px);
+  background: rgba(8,14,34,.78); border: 1px solid rgba(96,165,250,.3);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: 0 14px 40px rgba(2,6,20,.55), inset 0 1px 0 rgba(255,255,255,.06);
+  transform: translateX(-50%); animation: dockIn .7s 1s cubic-bezier(.2,.8,.2,1) both; transition: opacity .35s, transform .45s cubic-bezier(.2,.8,.2,1);
+}
+html.arr .dock { animation-delay: 2.3s; }
+@keyframes dockIn { from { opacity: 0; transform: translate(-50%, 24px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.dock--off { opacity: 0; pointer-events: none; transform: translate(-50%, 24px); animation: none; }
+.dock-dot { width: 8px; height: 8px; border-radius: 50%; background: #22D3A5; box-shadow: 0 0 0 0 rgba(34,211,165,.6); animation: dockPulse 2.2s ease-out infinite; flex: none; }
+@keyframes dockPulse { 70% { box-shadow: 0 0 0 9px rgba(34,211,165,0); } 100% { box-shadow: 0 0 0 0 rgba(34,211,165,0); } }
+.dock-t { font: 500 13px/1.2 var(--font-body); color: #A9BADB; white-space: nowrap; }
+.dock-t b { color: #fff; font-weight: 600; }
+.dock-btn { background: #2563FF; color: #fff; font: 700 13.5px/1 var(--font-display); padding: 12px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap; transition: background .2s, transform .2s; }
+.dock-btn:hover { background: #3b73ff; transform: translateY(-1px); }
+@media (max-width: 560px) { .dock { bottom: 12px; gap: 8px; padding-left: 12px; } .dock-t { font-size: 12px; } .dock-t b { display: block; } .dock-btn { padding: 11px 14px; font-size: 13px; } }
+.pick-pop { position: fixed; z-index: 960; transform: translate(-50%, 0); display: flex; align-items: center; gap: 8px; padding: 9px 15px 9px 11px; border-radius: 999px; pointer-events: none;
+  background: rgba(8,14,34,.88); border: 1px solid rgba(34,211,165,.55); box-shadow: 0 10px 30px rgba(2,6,20,.55), 0 0 24px rgba(34,211,165,.25);
+  font: 600 13px/1 var(--font-display); color: #fff; white-space: nowrap; animation: pickPop 2.1s cubic-bezier(.2,.8,.2,1) forwards; }
+.pick-pop i { width: 18px; height: 18px; display: block; background: linear-gradient(135deg,#BFD6FF,#60A5FA 45%,#22D3A5); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); filter: drop-shadow(0 0 6px rgba(96,165,250,.8)); }
+@keyframes pickPop { 0% { opacity: 0; transform: translate(-50%, 12px) scale(.85); } 16% { opacity: 1; transform: translate(-50%, 0) scale(1.04); } 24% { transform: translate(-50%, 0) scale(1); } 80% { opacity: 1; transform: translate(-50%, -8px); } 100% { opacity: 0; transform: translate(-50%, -18px); } }
+@media (prefers-reduced-motion: reduce) { .dock, html.arr .dock { animation: none; } .dock-dot { animation: none; } .pick-pop { animation-duration: 1.6s; } }
