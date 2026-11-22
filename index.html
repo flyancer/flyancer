@@ -441,5 +441,25 @@
   <script src="journey.js"></script>
   <script src="story.js"></script>
   <script src="script.js"></script>
+  <!-- floating join dock + "side chosen" pop -->
+  <div class="dock" id="dock" role="complementary" aria-label="Join Flyancer"><span class="dock-dot" aria-hidden="true"></span><span class="dock-t"><b>Verified insiders</b> at top companies</span><a class="dock-btn" href="join.html">Join the network</a></div>
+  <script>
+  (function(){
+    var dock=document.getElementById('dock');
+    try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^sb-.*-auth-token$/.test(k)&&localStorage.getItem(k)){dock&&dock.remove();dock=null;break;}}}catch(e){}
+    document.querySelectorAll('[data-gw-go]').forEach(function(c){
+      c.addEventListener('click',function(e){
+        if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1)return;
+        if(dock)dock.classList.add('dock--off');
+        var exp=c.classList.contains('gw-cloud--expert'),r=c.getBoundingClientRect();
+        var p=document.createElement('div');p.className='pick-pop';p.setAttribute('aria-hidden','true');
+        p.innerHTML='<i></i><span>'+(exp?'Expert side locked in':'Student side locked in')+'</span>';
+        p.style.left=(r.left+r.width/2)+'px';p.style.top=(r.top+r.height*0.78)+'px';
+        document.body.appendChild(p);setTimeout(function(){p.remove()},2100);
+      });
+    });
+    window.addEventListener('pageshow',function(e){if(e.persisted&&dock)dock.classList.remove('dock--off')});
+  })();
+  </script>
 </body>
 </html>
