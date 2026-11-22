@@ -2039,3 +2039,7 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
    Hero art is drawn on <canvas> and highlight text uses solid colours so the palette stays as designed. */
 .hl-line b{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#9DB2FF!important;-webkit-text-fill-color:#9DB2FF}
 .hq-dot.on{background:#3B82F6}
+
+/* gateway: candidate cloud artwork is a wide shape, so give it extra room to match the expert cloud's visual size */
+.gw-cloud--cand .gw-cloud-img { inset: -7% -13%; }
+@media (max-width: 760px) { .gw-cloud--cand .gw-cloud-img { inset: -4% -5%; } }
