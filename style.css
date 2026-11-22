@@ -2043,3 +2043,37 @@ html.rk-arriving body { visibility: hidden; animation: rkUnhide 0s 8s forwards; 
 /* gateway: candidate cloud artwork is a wide shape, so give it extra room to match the expert cloud's visual size */
 .gw-cloud--cand .gw-cloud-img { inset: -7% -13%; }
 @media (max-width: 760px) { .gw-cloud--cand .gw-cloud-img { inset: -4% -5%; } }
+
+/* ===== Arrival intro (first visit per session; ~1.5s; navy mist -> burst -> gateway) ===== */
+@property --arr-r { syntax: '<percentage>'; inherits: false; initial-value: -14%; }
+.arrival { display: none; }
+html.arr .arrival {
+  display: block; position: fixed; inset: 0; z-index: 1600; overflow: hidden; cursor: pointer;
+  background:
+    radial-gradient(38% 30% at 22% 70%, rgba(37,99,255,.22), transparent 70%),
+    radial-gradient(40% 32% at 80% 30%, rgba(124,58,237,.2), transparent 70%),
+    radial-gradient(60% 60% at 50% 46%, #10246a 0%, #070f2c 55%, #060B18 100%);
+  -webkit-mask-image: radial-gradient(circle at 50% 46%, transparent var(--arr-r), #000 calc(var(--arr-r) + 16%));
+          mask-image: radial-gradient(circle at 50% 46%, transparent var(--arr-r), #000 calc(var(--arr-r) + 16%));
+  animation: arrReveal 1.5s cubic-bezier(.65,0,.25,1) forwards, arrFade 1.5s linear forwards;
+}
+@keyframes arrReveal { 0%, 40% { --arr-r: -14%; } 100% { --arr-r: 95%; } }
+@keyframes arrFade { 0%, 90% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+.arr-orb { position: absolute; left: 50%; top: 46%; width: 0; height: 0; }
+.arr-orb i {
+  position: absolute; left: -34px; top: -34px; width: 68px; height: 68px; display: block;
+  background: linear-gradient(135deg, #BFD6FF, #60A5FA 45%, #22D3A5);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  filter: drop-shadow(0 0 18px rgba(96,165,250,.9)) drop-shadow(0 0 46px rgba(34,211,165,.55));
+  transform: scale(0) rotate(-40deg); animation: arrOrb 1.5s cubic-bezier(.3,.8,.2,1) forwards;
+}
+@keyframes arrOrb {
+  0% { transform: scale(0) rotate(-40deg); opacity: 0; }
+  26% { transform: scale(1) rotate(0); opacity: 1; }
+  42% { transform: scale(1.12) rotate(8deg); opacity: 1; }
+  70% { transform: scale(7) rotate(30deg); opacity: .0; }
+  100% { transform: scale(9) rotate(40deg); opacity: 0; }
+}
+html.arr .gw-clouds { animation: arrUp .9s .85s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes arrUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { html.arr .arrival { display: none; } html.arr .gw-clouds { animation: none; } }
